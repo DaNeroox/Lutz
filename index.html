@@ -204,63 +204,67 @@ body.light .dice-btn .shadow{background:radial-gradient(rgba(0,0,0,.45),transpar
     <div class="portrait-big portrait"></div>
     <div class="ribbon"><div class="band"><div class="big">Lutz</div><div class="small">ärger dich nicht</div></div></div>
     <div class="card">
-      <h3>Aussehen</h3>
+      <h3 data-i18n="lang_title">Sprache</h3>
+      <div class="seg text" id="segLang"></div>
+    </div>
+    <div class="card">
+      <h3 data-i18n="look">Aussehen</h3>
       <div class="seg text" id="segTheme">
-        <button data-v="dark">🌙 Dunkel</button>
-        <button data-v="light">☀️ Hell</button>
+        <button data-v="dark" data-i18n="dark">🌙 Dunkel</button>
+        <button data-v="light" data-i18n="light">☀️ Hell</button>
       </div>
     </div>
     <div class="card">
-      <h3>Wo wird gespielt?</h3>
+      <h3 data-i18n="where">Wo wird gespielt?</h3>
       <div class="seg text" id="segMode">
-        <button data-m="local">📱 Ein Handy</button>
-        <button data-m="online">📱📱 Mehrere Handys</button>
+        <button data-m="local" data-i18n="one_phone">📱 Ein Handy</button>
+        <button data-m="online" data-i18n="multi_phone">📱📱 Mehrere Handys</button>
       </div>
     </div>
 
     <div class="card">
-      <h3>Figuren bewegen</h3>
+      <h3 data-i18n="move_title">Figuren bewegen</h3>
       <div class="seg text" id="segMove">
-        <button data-v="auto">🚶 Laufen automatisch</button>
-        <button data-v="manual">✋ Selbst ziehen</button>
+        <button data-v="auto" data-i18n="move_auto">🚶 Laufen automatisch</button>
+        <button data-v="manual" data-i18n="move_manual">✋ Selbst ziehen</button>
       </div>
       <div class="hint" id="moveHint"></div>
     </div>
     <div class="card">
-      <h3>Welche Figur ziehen?</h3>
+      <h3 data-i18n="rule_title">Welche Figur ziehen?</h3>
       <div class="seg text" id="segRule">
-        <button data-v="lutz">⭐ Lutz-Regel</button>
-        <button data-v="free">🙌 Frei</button>
-        <button data-v="classic">📜 Klassisch</button>
+        <button data-v="lutz" data-i18n="r_lutz">⭐ Lutz-Regel</button>
+        <button data-v="free" data-i18n="r_free">🙌 Frei</button>
+        <button data-v="classic" data-i18n="r_classic">📜 Klassisch</button>
       </div>
       <div class="hint" id="ruleHint"></div>
     </div>
     <div id="localBox" class="inner" style="gap:14px">
-      <div class="card"><h3>Wie viele Spieler?</h3><div class="seg" id="segHumans"></div></div>
-      <div class="card"><h3>Computergegner</h3><div class="seg" id="segCpu"></div><div class="hint" id="cpuHint"></div></div>
-      <div class="card"><h3>Spielerauswahl <span style="font-weight:400;color:#8fb196">– Farbe antippen zum Wechseln</span></h3><div id="playerRows"></div></div>
-      <button class="btn-main" id="startBtn">Spiel starten 🎲</button>
+      <div class="card"><h3 data-i18n="how_many">Wie viele Spieler?</h3><div class="seg" id="segHumans"></div></div>
+      <div class="card"><h3 data-i18n="cpu_title">Computergegner</h3><div class="seg" id="segCpu"></div><div class="hint" id="cpuHint"></div></div>
+      <div class="card"><h3><span data-i18n="players_title">Spielerauswahl</span> <span style="font-weight:400;color:#8fb196" data-i18n="players_sub">– Farbe antippen zum Wechseln</span></h3><div id="playerRows"></div></div>
+      <button class="btn-main" id="startBtn" data-i18n="start">Spiel starten 🎲</button>
     </div>
 
     <div id="onlineBox" class="inner hidden" style="gap:14px">
       <div class="card">
-        <h3>Dein Name</h3>
-        <input class="inp" id="onName" maxlength="14" placeholder="Name">
+        <h3 data-i18n="your_name">Dein Name</h3>
+        <input class="inp" id="onName" maxlength="14" placeholder="Name" data-i18n-ph="name_ph">
       </div>
       <div class="card">
-        <h3>Neues Spiel</h3>
-        <button class="btn2 prim" id="hostBtn" style="width:100%">Spiel erstellen</button>
-        <div class="or">oder</div>
-        <h3>Einem Spiel beitreten</h3>
+        <h3 data-i18n="new_game">Neues Spiel</h3>
+        <button class="btn2 prim" id="hostBtn" style="width:100%" data-i18n="create">Spiel erstellen</button>
+        <div class="or"><span data-i18n="or">oder</span></div>
+        <h3 data-i18n="join_title">Einem Spiel beitreten</h3>
         <div style="display:flex;gap:8px">
           <input class="inp code-in" id="codeIn" maxlength="4" placeholder="CODE" autocomplete="off" autocapitalize="characters">
-          <button class="btn2 prim" id="joinBtn" style="flex:none;width:110px">Beitreten</button>
+          <button class="btn2 prim" id="joinBtn" style="flex:none;width:110px" data-i18n="join">Beitreten</button>
         </div>
         <div class="err" id="onErr"></div>
-        <div class="hint">Bis zu 4 Handys, alle brauchen Internet. <b>Wichtig:</b> Alle müssen dasselbe benutzen – entweder alle die HTML-Datei oder alle die Claude-Seite. Der Ersteller lässt das Spiel offen, bis alle drin sind.</div>
+        <div class="hint" data-i18n-html="online_hint"></div>
       </div>
     </div>
-    <div class="hint" style="text-align:center;margin-top:4px">Version <span class="appver"></span> – bei mehreren Handys müssen alle dieselbe Version haben.</div>
+    <div class="hint" style="text-align:center;margin-top:4px" data-i18n-html="version_note"></div>
   </div>
 </div>
 
@@ -269,17 +273,17 @@ body.light .dice-btn .shadow{background:radial-gradient(rgba(0,0,0,.45),transpar
   <div class="inner">
     <div class="ribbon" style="margin-top:6px"><div class="band"><div class="big" style="font-size:30px">Lutz</div><div class="small" style="font-size:16px">ärger dich nicht</div></div></div>
     <div class="card" style="text-align:center">
-      <h3 style="text-align:center">Spiel-Code</h3>
+      <h3 style="text-align:center" data-i18n="game_code">Spiel-Code</h3>
       <div class="code" id="lobbyCode">----</div>
       <div class="hint" id="lobbyInfo"></div>
     </div>
     <div class="card">
-      <h3 id="seatTitle">Farbe wählen</h3>
+      <h3 id="seatTitle" data-i18n="pick_color">Farbe wählen</h3>
       <div id="seatList"></div>
       <div class="hint" id="seatHint"></div>
     </div>
-    <button class="btn-main hidden" id="lobbyStart">Spiel starten 🎲</button>
-    <button class="btn2" id="lobbyLeave" style="width:100%;flex:none">Verlassen</button>
+    <button class="btn-main hidden" id="lobbyStart" data-i18n="start">Spiel starten 🎲</button>
+    <button class="btn2" id="lobbyLeave" style="width:100%;flex:none" data-i18n="leave">Verlassen</button>
   </div>
 </div>
 
@@ -306,20 +310,12 @@ body.light .dice-btn .shadow{background:radial-gradient(rgba(0,0,0,.45),transpar
 </div>
 
 <!-- ============ OVERLAYS ============ -->
-<div class="overlay hidden" id="menuOv"><div class="modal"><h2>Menü</h2><div class="menu-list" id="menuList"></div></div></div>
+<div class="overlay hidden" id="menuOv"><div class="modal"><h2 data-i18n="menu">Menü</h2><div class="menu-list" id="menuList"></div></div></div>
 <div class="overlay hidden" id="rulesOv">
   <div class="modal">
-    <h2>Spielregeln</h2>
-    <ul>
-      <li>Mit einer <b>6</b> kommt eine Figur aus dem Haus aufs Startfeld (A).</li>
-      <li>Sind keine Figuren im Spiel, hast du <b>3 Versuche</b> für eine 6.</li>
-      <li>Nach einer 6 darfst du <b>nochmal würfeln</b>.</li>
-      <li id="ruleLine"></li>
-      <li>Landest du auf einer fremden Figur, wird sie <b>geschlagen</b> und muss zurück ins Haus.</li>
-      <li>Im Ziel darfst du eigene Figuren nicht überspringen.</li>
-      <li>Wer zuerst alle 4 Figuren im Ziel hat, gewinnt. Und: Ärger dich nicht!</li>
-    </ul>
-    <div class="row"><button class="btn2 prim" id="rulesClose">Alles klar</button></div>
+    <h2 data-i18n="rules_title">Spielregeln</h2>
+    <ul data-i18n-html="rules_list"></ul>
+    <div class="row"><button class="btn2 prim" id="rulesClose" data-i18n="ok_rules">Alles klar</button></div>
   </div>
 </div>
 <div class="overlay hidden" id="winOv">
@@ -337,7 +333,7 @@ body.light .dice-btn .shadow{background:radial-gradient(rgba(0,0,0,.45),transpar
 <div class="overlay hidden" id="lutzOv">
   <div class="modal" style="background:linear-gradient(180deg,#2a1414,#120a0a);border-color:#e3262a">
     <div class="portrait-huge portrait"></div>
-    <h2 id="lutzSays" style="margin-top:16px;line-height:1.25"></h2><p style="text-align:center;color:#c9a9a9;font-size:13px;margin:0">Tippen zum Schließen</p>
+    <h2 id="lutzSays" style="margin-top:16px;line-height:1.25"></h2><p style="text-align:center;color:#c9a9a9;font-size:13px;margin:0" data-i18n="tap_close">Tippen zum Schließen</p>
   </div>
 </div>
 <div id="toast"></div>
@@ -350,6 +346,196 @@ const FACES={"1": "/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJC
 document.querySelectorAll('.appver').forEach(e=>e.textContent=APP_VERSION);
 document.querySelectorAll('.portrait').forEach(e=>e.style.backgroundImage=`url(${PORTRAIT})`);
 for(let v=1;v<=6;v++) document.querySelector('.f'+v).style.backgroundImage=`url(data:image/jpeg;base64,${FACES[v]})`;
+
+/* ======================= Sprachen / Talen / Languages ======================= */
+const I18N={
+de:{
+  lang_title:'Sprache', look:'Aussehen', dark:'🌙 Dunkel', light:'☀️ Hell',
+  where:'Wo wird gespielt?', one_phone:'📱 Ein Handy', multi_phone:'📱📱 Mehrere Handys',
+  move_title:'Figuren bewegen', move_auto:'🚶 Laufen automatisch', move_manual:'✋ Selbst ziehen',
+  move_hint_manual:'Du ziehst deine Figur mit dem Finger selbst auf das Zielfeld (oder Figur antippen, dann Zielfeld antippen).',
+  move_hint_auto:'Figur antippen – sie läuft von selbst Feld für Feld.',
+  rule_title:'Welche Figur ziehen?',
+  rule_online_note:' (Bei mehreren Handys gilt die Einstellung des Spiel-Erstellers.)',
+  how_many:'Wie viele Spieler?', cpu_title:'Computergegner',
+  cpu_hint1:'Allein spielst du gegen mindestens einen Computer.', cpu_hint4:'Alle vier Plätze sind mit Menschen besetzt.', cpu_hintx:'Freie Farben können vom Computer gespielt werden.',
+  players_title:'Spielerauswahl', players_sub:'– Farbe antippen zum Wechseln',
+  start:'Spiel starten 🎲', name_ph:'Name', your_name:'Dein Name', new_game:'Neues Spiel', create:'Spiel erstellen', or:'oder',
+  join_title:'Einem Spiel beitreten', join:'Beitreten',
+  online_hint:'Bis zu 4 Handys, alle brauchen Internet. <b>Wichtig:</b> Alle müssen dasselbe benutzen – entweder alle den Link / die HTML-Datei oder alle die Claude-Seite. Der Ersteller lässt das Spiel offen, bis alle drin sind.',
+  version_note:'Version {v} – bei mehreren Handys müssen alle dieselbe Version haben.',
+  game_code:'Spiel-Code', pick_color:'Farbe wählen', leave:'Verlassen', menu:'Menü', rules_title:'Spielregeln',
+  rules_list:'<li>Mit einer <b>6</b> kommt eine Figur aus dem Haus aufs Startfeld (A).</li><li>Sind keine Figuren im Spiel, hast du <b>3 Versuche</b> für eine 6.</li><li>Nach einer 6 darfst du <b>nochmal würfeln</b>.</li><li id="ruleLine"></li><li>Landest du auf einer fremden Figur, wird sie <b>geschlagen</b> und muss zurück ins Haus.</li><li>Im Ziel darfst du eigene Figuren nicht überspringen.</li><li>Wer zuerst alle 4 Figuren im Ziel hat, gewinnt. Und: Ärger dich nicht!</li>',
+  ok_rules:'Alles klar', tap_close:'Tippen zum Schließen',
+  col_rot:'Rot', col_gelb:'Gelb', col_gruen:'Grün', col_blau:'Blau',
+  r_lutz:'⭐ Lutz-Regel', r_free:'🙌 Frei', r_classic:'📜 Klassisch',
+  rh_lutz:'1) Rauskommen ist Pflicht: Bei einer 6 muss eine Figur aus dem Haus raus. 2) Das Startfeld muss verlassen werden – außer du hast keine Figur mehr im Haus. 3) Schlagpflicht: Kannst du jemanden schlagen, musst du es tun.',
+  rh_free:'Du entscheidest immer selbst, welche deiner Figuren du ziehst – auch bei einer 6 musst du nicht rauskommen.',
+  rh_classic:'Klassische Pflicht: Bei einer 6 muss eine Figur raus, und das Startfeld muss zuerst frei gemacht werden.',
+  rl_lutz:'<b>Lutz-Regel:</b> Rauskommen ist Pflicht (bei einer 6 muss eine Figur raus). Das Startfeld muss verlassen werden, außer du hast keine Figur mehr im Haus. Und: Kannst du jemanden schlagen, musst du es tun (Schlagpflicht).',
+  rl_free:'<b>Frei:</b> Du entscheidest immer selbst, welche Figur du ziehst – auch bei einer 6.',
+  rl_classic:'<b>Klassisch:</b> Bei einer 6 musst du rauskommen, und das Startfeld muss frei gemacht werden.',
+  m_begins:'{n} beginnt!', m_cpu_rolls:'Computer würfelt …', m_three:'3 Versuche für eine 6',
+  m_tries1:'Eine {v} – noch 1 Versuch', m_triesN:'Eine {v} – noch {k} Versuche', m_nomove:'Eine {v} – kein Zug möglich', m_rolled:'Eine {v}!',
+  m_drag_hint:'Zieh die Figur auf das leuchtende Feld', m_hit:'{a} schlägt {b}! 💥', m_done:'{n} ist fertig! 🏁', m_six:'Sechs! Nochmal würfeln 🎲',
+  m_rule:'Regel: {R}', m_gone:'{n} ist weg – der Computer übernimmt', m_back:'{n} ist wieder da!', m_plays:'{n} spielt jetzt {C}',
+  st_done:'🏆 fertig', st_take:'👉 übernehmen', m_req:'Anfrage gesendet …',
+  h_over:'Spiel vorbei', h_roll:'👉 Tippe auf den Würfel', h_drag:'✋ Zieh deine Figur auf ein leuchtendes Feld', h_tap:'👉 Tippe auf eine leuchtende Figur', h_wait:'Warte auf {n} …',
+  you:'(du)',
+  mi_continue:'Weiterspielen', mi_move:'Figuren: {x} (ändern)', mi_look:'Aussehen: {x} (ändern)', mi_lang:'Sprache: {x} (ändern)', mi_rule:'Regel: {x} (ändern)',
+  t_manual:'✋ Du ziehst jetzt selbst', t_auto:'🚶 Figuren laufen automatisch',
+  mi_new:'Neues Spiel', mi_lobby:'Zurück zur Lobby', mi_end:'Spiel beenden', mi_leave:'Spiel verlassen',
+  wins:'gewinnt! 🏆', win_text1:'Lutz sagt: Ärger dich nicht – die anderen spielen um die Plätze!', win_text2:'Lutz sagt: Ärger dich nicht – nächste Runde!',
+  b_watch:'Weiter zuschauen', b_rematch:'Revanche', b_tolobby:'Zur Lobby', b_close:'Schließen',
+  connecting:'Verbinde …', e_nonet:'Keine Internetverbindung. Öffne die Datei direkt im Browser (Chrome, Samsung Internet oder Safari über den Link), nicht in einer Vorschau – und prüfe das Internet.',
+  e_blocked:'Spiel gefunden, aber die Verbindung klappt nicht. Wechselt ins WLAN (oder alle auf mobile Daten) und versucht es nochmal.',
+  e_taken:'Code schon vergeben – bitte nochmal tippen.',
+  e_notfound:'Kein Spiel mit diesem Code gefunden. Prüfe den Code und ob der Gastgeber die Lobby offen hat.',
+  e_network:'Verbindung fehlgeschlagen. Öffne das Spiel direkt im Browser – in der Vorschau von Claude, WhatsApp oder dem Datei-Manager ist das Internet gesperrt. Sonst: Internet prüfen und nochmal versuchen.',
+  e_code4:'Bitte den 4-stelligen Code eingeben.',
+  e_claudecode:'Dieser Code ist von der Claude-Seite. Öffne zum Mitspielen auch die Claude-Seite – oder der Ersteller macht das Spiel neu über den Link / die HTML-Datei.',
+  e_htmlcode:'Dieser Code ist vom Link / der HTML-Datei. Öffne zum Mitspielen auch den Link – oder der Ersteller macht das Spiel neu auf der Claude-Seite.',
+  e_badcode:'Dieser Code passt nicht. Codes fangen mit H, M oder Q an.',
+  searching:'Suche Spiel {c} …', notfound_lobby:'Kein Spiel mit Code {c} gefunden. Prüfe den Code oder warte, bis der Gastgeber es erstellt hat.',
+  lobby_host:'Sag deinen Freunden diesen Code. Sie öffnen dasselbe und tippen auf „Mehrere Handys → Beitreten“. ⚠️ Lass diese Seite offen, bis alle drin sind!',
+  lobby_connected:'Verbunden! Wähle eine Farbe und warte, bis der Gastgeber startet.', lobby_search:'Suche Spiel …',
+  free_seat:'{C} – frei', seat_min:'Mindestens 2 Plätze müssen besetzt sein (Mitspieler oder Computer).', seat_n:'{n} Plätze besetzt – los geht\'s!', seat_client:'Tippe auf eine freie Farbe. Nochmal tippen = Platz freigeben.',
+  t_otherver:'Ein Handy hat eine andere Version – bitte allen dieselbe Version geben',
+  conn_lost:'Verbindung weg', host_left:'Der Gastgeber hat das Spiel verlassen.', to_start:'Zum Start',
+  other_ver:'Andere Version', other_ver_text:'Der Ersteller hat eine andere Version des Spiels ({x}). Du hast Version {v}. Alle müssen dieselbe Version benutzen – Seite neu laden oder die neue Datei schicken.', older:'ältere Version'
+},
+nl:{
+  lang_title:'Taal', look:'Weergave', dark:'🌙 Donker', light:'☀️ Licht',
+  where:'Waar speel je?', one_phone:'📱 Eén telefoon', multi_phone:'📱📱 Meerdere telefoons',
+  move_title:'Pionnen verzetten', move_auto:'🚶 Automatisch lopen', move_manual:'✋ Zelf slepen',
+  move_hint_manual:'Je sleept je pion zelf met je vinger naar het doelvak (of tik de pion aan en daarna het doelvak).',
+  move_hint_auto:'Tik een pion aan – hij loopt vanzelf vakje voor vakje.',
+  rule_title:'Welke pion zetten?',
+  rule_online_note:' (Bij meerdere telefoons geldt de instelling van wie het spel maakt.)',
+  how_many:'Hoeveel spelers?', cpu_title:'Computertegenstanders',
+  cpu_hint1:'Alleen speel je tegen minstens één computer.', cpu_hint4:'Alle vier de plaatsen zijn door mensen bezet.', cpu_hintx:'Vrije kleuren kunnen door de computer gespeeld worden.',
+  players_title:'Spelers', players_sub:'– tik op de kleur om te wisselen',
+  start:'Spel starten 🎲', name_ph:'Naam', your_name:'Je naam', new_game:'Nieuw spel', create:'Spel maken', or:'of',
+  join_title:'Meedoen met een spel', join:'Meedoen',
+  online_hint:'Tot 4 telefoons, iedereen heeft internet nodig. <b>Belangrijk:</b> iedereen gebruikt hetzelfde – allemaal de link / het HTML-bestand of allemaal de Claude-pagina. Wie het spel maakt, laat het open tot iedereen erin zit.',
+  version_note:'Versie {v} – bij meerdere telefoons moet iedereen dezelfde versie hebben.',
+  game_code:'Spelcode', pick_color:'Kies een kleur', leave:'Verlaten', menu:'Menu', rules_title:'Spelregels',
+  rules_list:'<li>Met een <b>6</b> komt een pion uit het huis op het startvak (A).</li><li>Heb je geen pionnen in het spel, dan heb je <b>3 pogingen</b> voor een 6.</li><li>Na een 6 mag je <b>nog een keer gooien</b>.</li><li id="ruleLine"></li><li>Kom je op een pion van een ander, dan wordt die <b>geslagen</b> en moet terug naar huis.</li><li>In het doel mag je niet over je eigen pionnen springen.</li><li>Wie als eerste alle 4 pionnen in het doel heeft, wint. En: erger je niet!</li>',
+  ok_rules:'Begrepen', tap_close:'Tik om te sluiten',
+  col_rot:'Rood', col_gelb:'Geel', col_gruen:'Groen', col_blau:'Blauw',
+  r_lutz:'⭐ Lutz-regel', r_free:'🙌 Vrij', r_classic:'📜 Klassiek',
+  rh_lutz:'1) Uitkomen is verplicht: met een 6 moet een pion uit het huis. 2) Het startvak moet vrijgemaakt worden – behalve als je geen pion meer in huis hebt. 3) Slaanplicht: kun je iemand slaan, dan moet je dat doen.',
+  rh_free:'Je kiest altijd zelf welke pion je zet – ook met een 6 hoef je niet uit te komen.',
+  rh_classic:'Klassieke plicht: met een 6 moet een pion uit het huis, en het startvak moet eerst vrijgemaakt worden.',
+  rl_lutz:'<b>Lutz-regel:</b> Uitkomen is verplicht (met een 6 moet een pion eruit). Het startvak moet vrijgemaakt worden, behalve als je geen pion meer in huis hebt. En: kun je iemand slaan, dan moet je dat doen (slaanplicht).',
+  rl_free:'<b>Vrij:</b> Je kiest altijd zelf welke pion je zet – ook met een 6.',
+  rl_classic:'<b>Klassiek:</b> Met een 6 moet je uitkomen, en het startvak moet vrijgemaakt worden.',
+  m_begins:'{n} begint!', m_cpu_rolls:'Computer gooit …', m_three:'3 pogingen voor een 6',
+  m_tries1:'Een {v} – nog 1 poging', m_triesN:'Een {v} – nog {k} pogingen', m_nomove:'Een {v} – geen zet mogelijk', m_rolled:'Een {v}!',
+  m_drag_hint:'Sleep de pion naar het oplichtende vak', m_hit:'{a} slaat {b}! 💥', m_done:'{n} is klaar! 🏁', m_six:'Zes! Nog een keer gooien 🎲',
+  m_rule:'Regel: {R}', m_gone:'{n} is weg – de computer neemt over', m_back:'{n} is er weer!', m_plays:'{n} speelt nu {C}',
+  st_done:'🏆 klaar', st_take:'👉 overnemen', m_req:'Verzoek verstuurd …',
+  h_over:'Spel afgelopen', h_roll:'👉 Tik op de dobbelsteen', h_drag:'✋ Sleep je pion naar een oplichtend vak', h_tap:'👉 Tik op een oplichtende pion', h_wait:'Wachten op {n} …',
+  you:'(jij)',
+  mi_continue:'Verder spelen', mi_move:'Pionnen: {x} (wijzigen)', mi_look:'Weergave: {x} (wijzigen)', mi_lang:'Taal: {x} (wijzigen)', mi_rule:'Regel: {x} (wijzigen)',
+  t_manual:'✋ Je sleept nu zelf', t_auto:'🚶 Pionnen lopen automatisch',
+  mi_new:'Nieuw spel', mi_lobby:'Terug naar de lobby', mi_end:'Spel beëindigen', mi_leave:'Spel verlaten',
+  wins:'wint! 🏆', win_text1:'Lutz zegt: erger je niet – de anderen spelen om de plaatsen!', win_text2:'Lutz zegt: erger je niet – volgende ronde!',
+  b_watch:'Verder kijken', b_rematch:'Revanche', b_tolobby:'Naar de lobby', b_close:'Sluiten',
+  connecting:'Verbinden …', e_nonet:'Geen internetverbinding. Open het spel rechtstreeks in de browser (Chrome, Samsung Internet of Safari via de link), niet in een voorbeeldweergave – en controleer het internet.',
+  e_blocked:'Spel gevonden, maar de verbinding lukt niet. Ga op wifi (of iedereen op mobiele data) en probeer het opnieuw.',
+  e_taken:'Code al in gebruik – tik nog een keer.',
+  e_notfound:'Geen spel met deze code gevonden. Controleer de code en of de maker de lobby open heeft.',
+  e_network:'Verbinding mislukt. Open het spel rechtstreeks in de browser – in het voorbeeld van Claude, WhatsApp of bestandsbeheer is internet geblokkeerd. Anders: internet controleren en opnieuw proberen.',
+  e_code4:'Voer de code van 4 tekens in.',
+  e_claudecode:'Deze code is van de Claude-pagina. Open om mee te spelen ook de Claude-pagina – of de maker start het spel opnieuw via de link.',
+  e_htmlcode:'Deze code is van de link / het HTML-bestand. Open om mee te spelen ook de link – of de maker start het spel opnieuw op de Claude-pagina.',
+  e_badcode:'Deze code klopt niet. Codes beginnen met H, M of Q.',
+  searching:'Spel {c} zoeken …', notfound_lobby:'Geen spel met code {c} gevonden. Controleer de code of wacht tot de maker het spel heeft gemaakt.',
+  lobby_host:'Geef je vrienden deze code. Zij openen hetzelfde en tikken op „Meerdere telefoons → Meedoen“. ⚠️ Laat deze pagina open tot iedereen erin zit!',
+  lobby_connected:'Verbonden! Kies een kleur en wacht tot de maker het spel start.', lobby_search:'Spel zoeken …',
+  free_seat:'{C} – vrij', seat_min:'Minstens 2 plaatsen moeten bezet zijn (spelers of computer).', seat_n:'{n} plaatsen bezet – we kunnen beginnen!', seat_client:'Tik op een vrije kleur. Nog een keer tikken = plaats vrijgeven.',
+  t_otherver:'Een telefoon heeft een andere versie – geef iedereen dezelfde versie',
+  conn_lost:'Verbinding weg', host_left:'De maker heeft het spel verlaten.', to_start:'Naar het begin',
+  other_ver:'Andere versie', other_ver_text:'De maker heeft een andere versie van het spel ({x}). Jij hebt versie {v}. Iedereen moet dezelfde versie gebruiken – pagina opnieuw laden of het nieuwe bestand sturen.', older:'oudere versie'
+},
+en:{
+  lang_title:'Language', look:'Appearance', dark:'🌙 Dark', light:'☀️ Light',
+  where:'Where do you play?', one_phone:'📱 One phone', multi_phone:'📱📱 Several phones',
+  move_title:'Moving pieces', move_auto:'🚶 Walk automatically', move_manual:'✋ Drag yourself',
+  move_hint_manual:'Drag your piece with your finger to the target field (or tap the piece, then the target field).',
+  move_hint_auto:'Tap a piece – it walks by itself, field by field.',
+  rule_title:'Which piece to move?',
+  rule_online_note:' (With several phones, the game creator\'s setting applies.)',
+  how_many:'How many players?', cpu_title:'Computer opponents',
+  cpu_hint1:'Playing alone, you play against at least one computer.', cpu_hint4:'All four seats are taken by people.', cpu_hintx:'Free colours can be played by the computer.',
+  players_title:'Players', players_sub:'– tap the colour to change it',
+  start:'Start game 🎲', name_ph:'Name', your_name:'Your name', new_game:'New game', create:'Create game', or:'or',
+  join_title:'Join a game', join:'Join',
+  online_hint:'Up to 4 phones, everyone needs internet. <b>Important:</b> everyone uses the same thing – all the link / HTML file or all the Claude page. The creator keeps the game open until everyone has joined.',
+  version_note:'Version {v} – with several phones everyone needs the same version.',
+  game_code:'Game code', pick_color:'Pick a colour', leave:'Leave', menu:'Menu', rules_title:'Rules',
+  rules_list:'<li>With a <b>6</b> a piece leaves the house onto the start field (A).</li><li>With no pieces in play you get <b>3 tries</b> for a 6.</li><li>After a 6 you <b>roll again</b>.</li><li id="ruleLine"></li><li>Land on someone else\'s piece and it is <b>knocked out</b> and goes back home.</li><li>In the goal you may not jump over your own pieces.</li><li>The first with all 4 pieces in the goal wins. And: don\'t get angry!</li>',
+  ok_rules:'Got it', tap_close:'Tap to close',
+  col_rot:'Red', col_gelb:'Yellow', col_gruen:'Green', col_blau:'Blue',
+  r_lutz:'⭐ Lutz rule', r_free:'🙌 Free', r_classic:'📜 Classic',
+  rh_lutz:'1) Coming out is mandatory: with a 6 a piece must leave the house. 2) The start field must be cleared – unless you have no pieces left in the house. 3) Must capture: if you can knock someone out, you have to.',
+  rh_free:'You always choose which of your pieces to move – even with a 6 you don\'t have to come out.',
+  rh_classic:'Classic: with a 6 a piece must come out, and the start field must be cleared first.',
+  rl_lutz:'<b>Lutz rule:</b> Coming out is mandatory (with a 6 a piece must come out). The start field must be cleared unless you have no pieces left in the house. And: if you can knock someone out, you must (must capture).',
+  rl_free:'<b>Free:</b> You always choose which piece to move – even with a 6.',
+  rl_classic:'<b>Classic:</b> With a 6 you must come out, and the start field must be cleared.',
+  m_begins:'{n} starts!', m_cpu_rolls:'Computer is rolling …', m_three:'3 tries for a 6',
+  m_tries1:'A {v} – 1 try left', m_triesN:'A {v} – {k} tries left', m_nomove:'A {v} – no move possible', m_rolled:'A {v}!',
+  m_drag_hint:'Drag the piece onto the glowing field', m_hit:'{a} knocks out {b}! 💥', m_done:'{n} is finished! 🏁', m_six:'Six! Roll again 🎲',
+  m_rule:'Rule: {R}', m_gone:'{n} left – the computer takes over', m_back:'{n} is back!', m_plays:'{n} now plays {C}',
+  st_done:'🏆 done', st_take:'👉 take over', m_req:'Request sent …',
+  h_over:'Game over', h_roll:'👉 Tap the dice', h_drag:'✋ Drag your piece onto a glowing field', h_tap:'👉 Tap a glowing piece', h_wait:'Waiting for {n} …',
+  you:'(you)',
+  mi_continue:'Continue', mi_move:'Pieces: {x} (change)', mi_look:'Appearance: {x} (change)', mi_lang:'Language: {x} (change)', mi_rule:'Rule: {x} (change)',
+  t_manual:'✋ You drag pieces yourself now', t_auto:'🚶 Pieces walk automatically',
+  mi_new:'New game', mi_lobby:'Back to lobby', mi_end:'End game', mi_leave:'Leave game',
+  wins:'wins! 🏆', win_text1:'Lutz says: don\'t get angry – the others play for the places!', win_text2:'Lutz says: don\'t get angry – next round!',
+  b_watch:'Keep watching', b_rematch:'Rematch', b_tolobby:'To lobby', b_close:'Close',
+  connecting:'Connecting …', e_nonet:'No internet connection. Open the game directly in the browser (Chrome, Samsung Internet or Safari via the link), not in a preview – and check the internet.',
+  e_blocked:'Game found, but the connection doesn\'t work. Switch to Wi-Fi (or everyone on mobile data) and try again.',
+  e_taken:'Code already taken – please tap again.',
+  e_notfound:'No game with this code found. Check the code and whether the host has the lobby open.',
+  e_network:'Connection failed. Open the game directly in the browser – in the preview of Claude, WhatsApp or the file manager internet is blocked. Otherwise: check the internet and try again.',
+  e_code4:'Please enter the 4-character code.',
+  e_claudecode:'This code is from the Claude page. Open the Claude page to join – or the creator restarts the game via the link.',
+  e_htmlcode:'This code is from the link / HTML file. Open the link to join – or the creator restarts the game on the Claude page.',
+  e_badcode:'This code doesn\'t fit. Codes start with H, M or Q.',
+  searching:'Looking for game {c} …', notfound_lobby:'No game with code {c} found. Check the code or wait until the host has created it.',
+  lobby_host:'Give your friends this code. They open the same game and tap „Several phones → Join“. ⚠️ Keep this page open until everyone has joined!',
+  lobby_connected:'Connected! Pick a colour and wait for the host to start.', lobby_search:'Looking for game …',
+  free_seat:'{C} – free', seat_min:'At least 2 seats must be taken (players or computer).', seat_n:'{n} seats taken – let\'s go!', seat_client:'Tap a free colour. Tap again = give up the seat.',
+  t_otherver:'A phone has a different version – everyone needs the same version',
+  conn_lost:'Connection lost', host_left:'The host has left the game.', to_start:'Back to start',
+  other_ver:'Different version', other_ver_text:'The host has a different version of the game ({x}). You have version {v}. Everyone must use the same version – reload the page or send the new file.', older:'older version'
+}};
+const LANGS=[['de','🇩🇪 Deutsch'],['nl','🇳🇱 Nederlands'],['en','🇬🇧 English']];
+function tr(lang,key,p){
+  const d=I18N[lang]||I18N.de; let s=d[key]; if(s===undefined) s=I18N.de[key]; if(s===undefined) return '';
+  p=p||{};
+  return s.replace(/\{(\w+)\}/g,(m,k)=>{
+    if(k==='C') return tr(lang,'col_'+p.col)||'';
+    if(k==='R') return tr(lang,'r_'+p.r)||'';
+    const v=p[k]; return v===undefined||v===null?'':String(v).slice(0,30);
+  });
+}
+const L=(key,p)=>tr(LANG(),key,p);
+function LANG(){ return (typeof setup!=='undefined'&&setup&&I18N[setup.lang])?setup.lang:'de'; }
+function detectLang(){ try{ const l=(navigator.languages&&navigator.languages[0]||navigator.language||'de').toLowerCase();
+  if(l.startsWith('de')) return 'de'; if(l.startsWith('nl')) return 'nl'; return 'en'; }catch(e){ return 'de'; } }
+const colName=c=>L('col_'+c);
+function applyLang(){
+  document.documentElement.lang=LANG();
+  document.querySelectorAll('[data-i18n]').forEach(e=>{ e.textContent=L(e.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-html]').forEach(e=>{ e.innerHTML=L(e.dataset.i18nHtml,{v:APP_VERSION}); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(e=>{ e.placeholder=L(e.dataset.i18nPh); });
+  document.querySelectorAll('#segLang button').forEach(b=>b.classList.toggle('on',b.dataset.v===LANG()));
+}
 
 /* ======================= Konstanten ======================= */
 const ORDER=['rot','gelb','gruen','blau'];
@@ -412,13 +598,14 @@ let ROOM=null, myPeer=null, CODE='', LOBBY=null;
 const roomP=(async()=>{ try{ if(!window.claude||!window.claude.use) { await sleep(1500); if(!window.claude||!window.claude.use) return null; } return await window.claude.use('room'); }catch(e){ return null; } })();
 
 /* ======================= Setup ======================= */
-let setup={theme:'dark',rule:'lutz',ruleV:2,moveMode:'auto',mode:'local',humans:1,cpus:1,onlineName:'',players:[{name:'Lutz',color:'rot'},{name:'Spieler 2',color:'gelb'},{name:'Spieler 3',color:'gruen'},{name:'Spieler 4',color:'blau'}]};
+let setup={lang:detectLang(),theme:'dark',rule:'lutz',ruleV:2,moveMode:'auto',mode:'local',humans:1,cpus:1,onlineName:'',players:[{name:'Lutz',color:'rot'},{name:'Spieler 2',color:'gelb'},{name:'Spieler 3',color:'gruen'},{name:'Spieler 4',color:'blau'}]};
 try{const s=JSON.parse(localStorage.getItem('lutz_setup')||'null'); if(s&&s.players&&s.players.length===4){ setup=Object.assign(setup,s); if(setup.ruleV!==2){ setup.rule='lutz'; setup.ruleV=2; } } }catch(e){}
 function saveSetup(){try{localStorage.setItem('lutz_setup',JSON.stringify(setup));}catch(e){}}
 
 document.querySelectorAll('#segMode button').forEach(b=>b.onclick=()=>{setup.mode=b.dataset.m; renderSetup();});
 document.querySelectorAll('#segMove button').forEach(b=>b.onclick=()=>{setup.moveMode=b.dataset.v; saveSetup(); renderSetup();});
 const manual=()=>setup.moveMode==='manual';
+(function(){ const sl=$('segLang'); LANGS.forEach(([v,lab])=>{ const b=document.createElement('button'); b.dataset.v=v; b.textContent=lab; b.onclick=()=>{ setup.lang=v; saveSetup(); applyLang(); renderSetup(); updRuleLine(); try{ if(G) refresh(); }catch(e){} try{ if(LOBBY&&MODE!=='local'&&!$('lobby').classList.contains('hidden')) renderLobby(); }catch(e){} }; sl.appendChild(b); }); })();
 const isLight=()=>setup.theme==='light';
 function applyTheme(){
   document.body.classList.toggle('light',isLight());
@@ -431,19 +618,17 @@ function applyTheme(){
 function nameCol(c){ return isLight()?(c==='gelb'?'#a77c00':COL[c].fill):(c==='gelb'?'#ffe05a':COL[c].light); }
 document.querySelectorAll('#segTheme button').forEach(b=>b.onclick=()=>{setup.theme=b.dataset.v; saveSetup(); applyTheme();});
 document.querySelectorAll('#segRule button').forEach(b=>b.onclick=()=>{setup.rule=b.dataset.v; saveSetup(); renderSetup();});
-const RULE_TXT={
-  lutz:{name:'⭐ Lutz-Regel',hint:'1) Rauskommen ist Pflicht: Bei einer 6 muss eine Figur aus dem Haus raus. 2) Das Startfeld muss verlassen werden – außer du hast keine Figur mehr im Haus. 3) Schlagpflicht: Kannst du jemanden schlagen, musst du es tun.',line:'<b>Lutz-Regel:</b> Rauskommen ist Pflicht (bei einer 6 muss eine Figur raus). Das Startfeld muss verlassen werden, außer du hast keine Figur mehr im Haus. Und: Kannst du jemanden schlagen, musst du es tun (Schlagpflicht).'},
-  free:{name:'🙌 Frei',hint:'Du entscheidest immer selbst, welche deiner Figuren du ziehst – auch bei einer 6 musst du nicht rauskommen.',line:'<b>Frei:</b> Du entscheidest immer selbst, welche Figur du ziehst – auch bei einer 6.'},
-  classic:{name:'📜 Klassisch',hint:'Klassische Pflicht: Bei einer 6 muss eine Figur raus, und das Startfeld muss zuerst frei gemacht werden.',line:'<b>Klassisch:</b> Bei einer 6 musst du rauskommen, und das Startfeld muss frei gemacht werden.'}};
-const ruleNow=()=>RULE_TXT[setup.rule]?setup.rule:'lutz';
+const RULE_KEYS=['lutz','free','classic'];
+const RULE_TXT=new Proxy({},{get:(o,r)=>RULE_KEYS.includes(r)?{name:L('r_'+r),hint:L('rh_'+r),line:L('rl_'+r)}:undefined});
+const ruleNow=()=>RULE_KEYS.includes(setup.rule)?setup.rule:'lutz';
 const freeChoice=()=>ruleNow()==='free';
 function renderSetup(){
   document.querySelectorAll('#segMode button').forEach(b=>b.classList.toggle('on',b.dataset.m===setup.mode));
   document.querySelectorAll('#segMove button').forEach(b=>b.classList.toggle('on',b.dataset.v===setup.moveMode));
-  $('moveHint').textContent=manual()?'Du ziehst deine Figur mit dem Finger selbst auf das Zielfeld (oder Figur antippen, dann Zielfeld antippen).':'Figur antippen – sie läuft von selbst Feld für Feld.';
+  $('moveHint').textContent=manual()?L('move_hint_manual'):L('move_hint_auto');
   document.querySelectorAll('#segRule button').forEach(b=>b.classList.toggle('on',b.dataset.v===ruleNow()));
   $('ruleHint').textContent=RULE_TXT[ruleNow()].hint;
-  if(setup.mode==='online') $('ruleHint').textContent+=' (Bei mehreren Handys gilt die Einstellung des Spiel-Erstellers.)';
+  if(setup.mode==='online') $('ruleHint').textContent+=L('rule_online_note');
   $('localBox').classList.toggle('hidden',setup.mode!=='local');
   $('onlineBox').classList.toggle('hidden',setup.mode!=='online');
   $('onName').value=setup.onlineName||setup.players[0].name||'';
@@ -452,26 +637,26 @@ function renderSetup(){
   const sc=$('segCpu'); sc.innerHTML='';
   const minC=setup.humans===1?1:0,maxC=4-setup.humans;
   for(let i=0;i<=3;i++){const b=document.createElement('button');b.textContent=i;if(i===setup.cpus)b.className='on';b.disabled=i<minC||i>maxC;b.onclick=()=>{setup.cpus=i;renderSetup();};sc.appendChild(b);}
-  $('cpuHint').textContent=setup.humans===1?'Allein spielst du gegen mindestens einen Computer.':(setup.humans===4?'Alle vier Plätze sind mit Menschen besetzt.':'Freie Farben können vom Computer gespielt werden.');
+  $('cpuHint').textContent=setup.humans===1?L('cpu_hint1'):(setup.humans===4?L('cpu_hint4'):L('cpu_hintx'));
   const pr=$('playerRows'); pr.innerHTML='';
   for(let i=0;i<setup.humans;i++){
     const p=setup.players[i]; const row=document.createElement('div'); row.className='prow';
     const c=document.createElement('button'); c.className='pcolor'; c.style.background=COL[p.color].fill; c.dataset.col=p.color;
     c.onclick=()=>{const used=setup.players.slice(0,setup.humans).map(q=>q.color);let idx=ORDER.indexOf(p.color);
       for(let k=1;k<=4;k++){const n=ORDER[(idx+k)%4];if(!used.includes(n)){p.color=n;break;}} renderSetup();};
-    const inp=document.createElement('input'); inp.className='inp'; inp.value=p.name; inp.maxLength=14; inp.placeholder='Name'; inp.oninput=()=>{p.name=inp.value;};
-    const tag=document.createElement('span'); tag.className='tag'; tag.textContent=COL[p.color].name;
+    const inp=document.createElement('input'); inp.className='inp'; inp.value=p.name; inp.maxLength=14; inp.placeholder=L('name_ph'); inp.oninput=()=>{p.name=inp.value;};
+    const tag=document.createElement('span'); tag.className='tag'; tag.textContent=colName(p.color);
     row.append(c,inp,tag); pr.appendChild(row);
   }
   const used=setup.players.slice(0,setup.humans).map(q=>q.color);
   ORDER.filter(c=>!used.includes(c)).slice(0,setup.cpus).forEach((col,i)=>{const row=document.createElement('div');row.className='prow';
-    row.innerHTML=`<div class="pcolor" data-col="${col}" style="background:${COL[col].fill};opacity:.85"></div><div style="flex:1;font-size:17px;color:#cfe3d3">🤖 Computer ${i+1}</div><span class="tag">${COL[col].name}</span>`;pr.appendChild(row);});
+    row.innerHTML=`<div class="pcolor" data-col="${col}" style="background:${COL[col].fill};opacity:.85"></div><div style="flex:1;font-size:17px;color:#cfe3d3">🤖 Computer ${i+1}</div><span class="tag">${colName(col)}</span>`;pr.appendChild(row);});
 }
 function fixCpus(){
   const used=[];for(let i=0;i<setup.humans;i++){const p=setup.players[i];if(used.includes(p.color))p.color=ORDER.find(c=>!used.includes(c));used.push(p.color);}
   const minC=setup.humans===1?1:0,maxC=4-setup.humans; setup.cpus=Math.max(minC,Math.min(maxC,setup.cpus));
 }
-fixCpus(); renderSetup(); applyTheme();
+applyLang(); fixCpus(); renderSetup(); applyTheme();
 $('onName').oninput=()=>{setup.onlineName=$('onName').value;};
 
 $('startBtn').onclick=()=>{
@@ -639,11 +824,12 @@ function newGame(list){
      phase:'idle',ranks:[],moves:[],firstWin:false,paused:false,token:++TOKEN,msg:'',ev:[],evId:0};
   buildPieces();
   G.cur=Math.floor(Math.random()*G.players.length);
-  refresh(); say(`${cp().name} beginnt!`);
+  refresh(); say('m_begins',{n:cp().name});
   later(startTurn,700);
 }
 function logEv(e){ if(MODE!=='host'||!G)return; e.id=++G.evId; G.ev.push(e); if(G.ev.length>14)G.ev.shift(); publish(); }
-function say(m){ toast(m); logEv({k:'t',m}); }
+function say(key,p){ p=p||{}; toast(L(key,p)); logEv({k:'t',m:tr('de',key,p),tk:key,tp:p}); }
+function setMsg(key,p){ G.msgK=key||null; G.msgP=p||{}; G.msg=key?tr('de',key,p):''; }
 function later(fn,ms){ const t=G.token; setTimeout(()=>{ if(G&&G.token===t&&!G.paused) fn(); else if(G&&G.token===t) G.resume=fn; },ms); }
 
 function ownAtRel(pl,rel,except=-1){return pl.pieces.some((r,i)=>i!==except&&r===rel);}
@@ -698,7 +884,7 @@ function cpuPick(pl,moves){
 function startTurn(){
   if(G.paused)return; const pl=cp(); if(pl.done){nextPlayer();return;}
   G.tries=needsThree(pl)?3:1; G.phase='roll'; G.moves=[];
-  G.msg=pl.cpu?'Computer würfelt …':(G.tries===3?'3 Versuche für eine 6':'');
+  setMsg(pl.cpu?'m_cpu_rolls':(G.tries===3?'m_three':null));
   refresh();
   if(pl.cpu) later(rollDice,750);
 }
@@ -713,13 +899,13 @@ function afterRoll(v){
   if(v===6)sfx.six();
   if(!moves.length){
     G.tries--;
-    if(G.tries>0){G.phase='roll';G.msg=`Eine ${v} – noch ${G.tries} Versuch${G.tries>1?'e':''}`;refresh();if(pl.cpu)later(rollDice,650);}
-    else{G.phase='wait';G.msg=`Eine ${v} – kein Zug möglich`;refresh();later(nextPlayer,1000);}
+    if(G.tries>0){G.phase='roll';setMsg(G.tries>1?'m_triesN':'m_tries1',{v,k:G.tries});refresh();if(pl.cpu)later(rollDice,650);}
+    else{G.phase='wait';setMsg('m_nomove',{v});refresh();later(nextPlayer,1000);}
     return;
   }
-  if(pl.cpu){G.phase='wait';G.msg=`Eine ${v}!`;refresh();later(()=>doMove(cpuPick(pl,moves)),650);return;}
+  if(pl.cpu){G.phase='wait';setMsg('m_rolled',{v});refresh();later(()=>doMove(cpuPick(pl,moves)),650);return;}
   // Mensch zieht seine Figur selbst – auch wenn nur ein Zug möglich ist
-  G.phase='move'; G.msg=`Eine ${v}!`; refresh();
+  G.phase='move'; setMsg('m_rolled',{v}); refresh();
 }
 function onPieceTap(pi,i){
   if(!G||G.phase!=='move'||pi!==G.cur||!controlledHere(cp()))return;
@@ -756,7 +942,7 @@ function onPieceDown(e,g,pi,i){
     let best=null,bd=7;
     for(const m of G.moves){ if(m.i!==i)continue; const [x,y]=coordOf(pl.color,m.to,m.i); const dd=Math.hypot(p.x-x,p.y-(y+1)); if(dd<bd){bd=dd;best=m;} }
     if(best) commitManual(best);
-    else { placePiece(pl,i,true); toast('Zieh die Figur auf das leuchtende Feld'); sortPieces(); }
+    else { placePiece(pl,i,true); toast(L('m_drag_hint')); sortPieces(); }
   };
   g.addEventListener('pointermove',move); g.addEventListener('pointerup',up); g.addEventListener('pointercancel',up);
 }
@@ -791,7 +977,7 @@ async function doMove(m,jump){
   logEv({k:'m',p:G.cur,i:m.i,f:m.from,t:m.to,j:jump?1:0});
   const ok=await fxMove(pl,m.i,m.from,m.to,()=>G&&G.token===t,jump); if(!ok)return;
   const v=victimAt(pl,m.to);
-  if(v){ fxHit(v.q,v.i); logEv({k:'h',p:G.players.indexOf(v.q),i:v.i}); say(`${pl.name} schlägt ${v.q.name}! 💥`); await sleep(500); if(!G||G.token!==t)return; }
+  if(v){ fxHit(v.q,v.i); logEv({k:'h',p:G.players.indexOf(v.q),i:v.i}); say('m_hit',{a:pl.name,b:v.q.name}); await sleep(500); if(!G||G.token!==t)return; }
   sortPieces(); afterMove();
 }
 function afterMove(){
@@ -804,9 +990,9 @@ function afterMove(){
       G.phase='over'; logEv({k:'e'}); refresh(); showEnd(); return;
     }
     if(!G.firstWin){ G.firstWin=true; logEv({k:'w',p:G.players.indexOf(pl)}); showFirstWin(pl); return; }
-    say(`${pl.name} ist fertig! 🏁`);
+    say('m_done',{n:pl.name});
   }
-  if(G.dice===6&&!pl.done){ say('Sechs! Nochmal würfeln 🎲'); later(startTurn,550); }
+  if(G.dice===6&&!pl.done){ say('m_six'); later(startTurn,550); }
   else later(nextPlayer,350);
 }
 function nextPlayer(){
@@ -825,10 +1011,10 @@ function renderChips(){
     const d=document.createElement('div'); d.className='chip'+(i===G.cur&&G.phase!=='over'?' active':'')+(p.done?' done':'');
     if(i===G.cur&&G.phase!=='over'){d.style.borderColor=COL[p.color].fill;d.style.boxShadow=`0 0 14px ${COL[p.color].fill}88`;}
     const mine=(MODE==='client'&&p.pid===myPeer)||(MODE==='host'&&!p.pid&&!p.cpu);
-    let st=p.done?'🏆 fertig':`🏠${home} · 🏁${goal}`;
+    let st=p.done?L('st_done'):`🏠${home} · 🏁${goal}`;
     const canTake=spectator&&p.left&&!p.done;
-    if(canTake){d.classList.add('take');st='👉 übernehmen';d.onclick=()=>{ROOM&&ROOM.presence({want:p.color}).catch(()=>{});toast('Anfrage gesendet …');};}
-    d.innerHTML=`<span class="dot" data-col="${p.color}" style="background:${COL[p.color].fill}"></span><div class="col"><span class="nm">${p.cpu?'🤖 ':''}${esc(p.name)}${mine&&MODE!=='local'?' (du)':''}</span><span class="st">${st}</span></div>`;
+    if(canTake){d.classList.add('take');st=L('st_take');d.onclick=()=>{ROOM&&ROOM.presence({want:p.color}).catch(()=>{});toast(L('m_req'));};}
+    d.innerHTML=`<span class="dot" data-col="${p.color}" style="background:${COL[p.color].fill}"></span><div class="col"><span class="nm">${p.cpu?'🤖 ':''}${esc(p.name)}${mine&&MODE!=='local'?' '+L('you'):''}</span><span class="st">${st}</span></div>`;
     c.appendChild(d);
   });
 }
@@ -837,11 +1023,12 @@ function renderStatus(){
   $('who').style.color=nameCol(pl.color);
   let hint='';
   const mine=controlledHere(pl);
-  if(G.phase==='over') hint='Spiel vorbei';
-  else if(G.phase==='roll'&&mine) hint='<span class="hl">👉 Tippe auf den Würfel</span>';
-  else if(G.phase==='move'&&mine) hint=manual()?'<span class="hl">✋ Zieh deine Figur auf ein leuchtendes Feld</span>':'<span class="hl">👉 Tippe auf eine leuchtende Figur</span>';
-  else if(!pl.cpu&&!mine&&MODE!=='local'&&(G.phase==='roll'||G.phase==='move')) hint=`Warte auf ${esc(pl.name)} …`;
-  $('msg').innerHTML=(G.msg?esc(G.msg)+'<br>':'')+hint;
+  if(G.phase==='over') hint=L('h_over');
+  else if(G.phase==='roll'&&mine) hint='<span class="hl">'+esc(L('h_roll'))+'</span>';
+  else if(G.phase==='move'&&mine) hint='<span class="hl">'+esc(manual()?L('h_drag'):L('h_tap'))+'</span>';
+  else if(!pl.cpu&&!mine&&MODE!=='local'&&(G.phase==='roll'||G.phase==='move')) hint=esc(L('h_wait',{n:pl.name}));
+  const mtxt=G.msgK?L(G.msgK,G.msgP):G.msg;
+  $('msg').innerHTML=(mtxt?esc(mtxt)+'<br>':'')+hint;
 }
 function refresh(){
   if(!G)return;
@@ -880,17 +1067,18 @@ $('menuBtn').onclick=()=>{
   if(!G)return; pause(true);
   const l=$('menuList'); l.innerHTML='';
   const close=()=>{$('menuOv').classList.add('hidden');pause(false);};
-  l.append(menuItem('Weiterspielen',close,true),
-    menuItem(manual()?'Figuren: ✋ Selbst ziehen (ändern)':'Figuren: 🚶 Automatisch (ändern)',()=>{setup.moveMode=manual()?'auto':'manual';saveSetup();renderSetup();refresh();toast(manual()?'✋ Du ziehst jetzt selbst':'🚶 Figuren laufen automatisch');close();}),
-    menuItem(isLight()?'Aussehen: ☀️ Hell (ändern)':'Aussehen: 🌙 Dunkel (ändern)',()=>{setup.theme=isLight()?'dark':'light';saveSetup();applyTheme();close();}),
-    menuItem('Spielregeln',()=>{updRuleLine();$('menuOv').classList.add('hidden');$('rulesOv').classList.remove('hidden');}));
-  if(MODE!=='client') l.append(menuItem('Regel: '+RULE_TXT[ruleNow()].name+' (ändern)',()=>{const o=['lutz','free','classic'];setup.rule=o[(o.indexOf(ruleNow())+1)%3];saveSetup();renderSetup();updRuleLine();say('Regel: '+RULE_TXT[ruleNow()].name);close();}));
-  if(MODE==='local') l.append(menuItem('Neues Spiel',()=>{$('menuOv').classList.add('hidden');toSetup();}));
-  if(MODE==='host') l.append(menuItem('Zurück zur Lobby',()=>{$('menuOv').classList.add('hidden');hostBackToLobby();}), menuItem('Spiel beenden',()=>{$('menuOv').classList.add('hidden');leaveOnline();}));
-  if(MODE==='client') l.append(menuItem('Spiel verlassen',()=>{$('menuOv').classList.add('hidden');leaveOnline();}));
+  l.append(menuItem(L('mi_continue'),close,true),
+    menuItem(L('mi_move',{x:L(manual()?'move_manual':'move_auto')}),()=>{setup.moveMode=manual()?'auto':'manual';saveSetup();renderSetup();refresh();toast(manual()?L('t_manual'):L('t_auto'));close();}),
+    menuItem(L('mi_lang',{x:(LANGS.find(x=>x[0]===LANG())||['',''])[1]}),()=>{const o=LANGS.map(x=>x[0]);setup.lang=o[(o.indexOf(LANG())+1)%o.length];saveSetup();applyLang();renderSetup();updRuleLine();refresh();close();}),
+    menuItem(L('mi_look',{x:L(isLight()?'light':'dark')}),()=>{setup.theme=isLight()?'dark':'light';saveSetup();applyTheme();close();}),
+    menuItem(L('rules_title'),()=>{updRuleLine();$('menuOv').classList.add('hidden');$('rulesOv').classList.remove('hidden');}));
+  if(MODE!=='client') l.append(menuItem(L('mi_rule',{x:L('r_'+ruleNow())}),()=>{const o=['lutz','free','classic'];setup.rule=o[(o.indexOf(ruleNow())+1)%3];saveSetup();renderSetup();updRuleLine();say('m_rule',{r:ruleNow()});close();}));
+  if(MODE==='local') l.append(menuItem(L('mi_new'),()=>{$('menuOv').classList.add('hidden');toSetup();}));
+  if(MODE==='host') l.append(menuItem(L('mi_lobby'),()=>{$('menuOv').classList.add('hidden');hostBackToLobby();}), menuItem(L('mi_end'),()=>{$('menuOv').classList.add('hidden');leaveOnline();}));
+  if(MODE==='client') l.append(menuItem(L('mi_leave'),()=>{$('menuOv').classList.add('hidden');leaveOnline();}));
   $('menuOv').classList.remove('hidden');
 };
-function updRuleLine(){ $('ruleLine').innerHTML=RULE_TXT[ruleNow()].line; }
+function updRuleLine(){ const e=$('ruleLine'); if(e) e.innerHTML=L('rl_'+ruleNow()); }
 updRuleLine();
 $('rulesClose').onclick=()=>{$('rulesOv').classList.add('hidden');pause(false);};
 function toSetup(){ if(G){G.token=++TOKEN;G.paused=true;} G=null; $('winOv').classList.add('hidden'); showScreen('setup'); renderSetup(); stopConfetti(); }
@@ -901,28 +1089,28 @@ updSoundBtn();
 function showFirstWin(pl){
   if(MODE!=='client') G.paused=true;
   confetti();
-  $('winTitle').innerHTML=`<span style="color:${nameCol(pl.color)}">${esc(pl.name)}</span> gewinnt! 🏆`;
-  $('winText').textContent='Lutz sagt: Ärger dich nicht – die anderen spielen um die Plätze!';
+  $('winTitle').innerHTML=`<span style="color:${nameCol(pl.color)}">${esc(pl.name)}</span> ${esc(L('wins'))}`;
+  $('winText').textContent=L('win_text1');
   $('rankList').innerHTML=''; $('winBtns').innerHTML='';
-  if(MODE==='client'){ $('winBtns').append(menuItem('Weiter zuschauen',()=>{$('winOv').classList.add('hidden');stopConfetti();},true)); }
+  if(MODE==='client'){ $('winBtns').append(menuItem(L('b_watch'),()=>{$('winOv').classList.add('hidden');stopConfetti();},true)); }
   else{
-    if(MODE==='local') $('winBtns').append(menuItem('Neues Spiel',toSetup));
-    $('winBtns').append(menuItem('Weiterspielen',()=>{$('winOv').classList.add('hidden');stopConfetti();G.paused=false;G.resume=null;later(nextPlayer,300);},true));
+    if(MODE==='local') $('winBtns').append(menuItem(L('mi_new'),toSetup));
+    $('winBtns').append(menuItem(L('mi_continue'),()=>{$('winOv').classList.add('hidden');stopConfetti();G.paused=false;G.resume=null;later(nextPlayer,300);},true));
   }
   $('winOv').classList.remove('hidden');
 }
 function showEnd(){
   confetti(); renderChips();
   const w=G.ranks[0]; if(!w)return;
-  $('winTitle').innerHTML=`<span style="color:${nameCol(w.color)}">${esc(w.name)}</span> gewinnt! 🏆`;
-  $('winText').textContent='Lutz sagt: Ärger dich nicht – nächste Runde!';
+  $('winTitle').innerHTML=`<span style="color:${nameCol(w.color)}">${esc(w.name)}</span> ${esc(L('wins'))}`;
+  $('winText').textContent=L('win_text2');
   const medals=['🥇','🥈','🥉','4.'];
   $('rankList').innerHTML=G.ranks.map((p,i)=>`<div class="rank"><b>${medals[i]}</b><span data-col="${p.color}" style="width:16px;height:16px;border-radius:50%;background:${COL[p.color].fill};border:2px solid #fff"></span>${p.cpu?'🤖 ':''}${esc(p.name)}</div>`).join('');
   $('winBtns').innerHTML='';
   const again=()=>{stopConfetti();$('winOv').classList.add('hidden');const list=G.players.map(p=>({color:p.color,name:p.name,cpu:p.cpu,pid:p.pid||null}));G.token=++TOKEN;newGame(list);};
-  if(MODE==='local') $('winBtns').append(menuItem('Revanche',again),menuItem('Neues Spiel',toSetup,true));
-  else if(MODE==='host') $('winBtns').append(menuItem('Zur Lobby',()=>{$('winOv').classList.add('hidden');stopConfetti();hostBackToLobby();}),menuItem('Revanche',again,true));
-  else $('winBtns').append(menuItem('Schließen',()=>{$('winOv').classList.add('hidden');stopConfetti();},true));
+  if(MODE==='local') $('winBtns').append(menuItem(L('b_rematch'),again),menuItem(L('mi_new'),toSetup,true));
+  else if(MODE==='host') $('winBtns').append(menuItem(L('b_tolobby'),()=>{$('winOv').classList.add('hidden');stopConfetti();hostBackToLobby();}),menuItem(L('b_rematch'),again,true));
+  else $('winBtns').append(menuItem(L('b_close'),()=>{$('winOv').classList.add('hidden');stopConfetti();},true));
   $('winOv').classList.remove('hidden');
 }
 function info(title,text,btns){ $('infoTitle').textContent=title; $('infoText').textContent=text; $('infoBtns').innerHTML=''; btns.forEach(b=>$('infoBtns').append(b)); $('infoOv').classList.remove('hidden'); }
@@ -1017,14 +1205,14 @@ function onlineName(){ const n=cleanName($('onName').value); setup.onlineName=n;
 function setErr(t){ $('onErr').textContent=t||''; }
 let NET='';  // 'claude' oder 'peer'
 async function getRoom(){
-  setErr('Verbinde …');
+  setErr(L('connecting'));
   const r=await roomP;
   if(r){ NET='claude'; setErr(''); return r; }
   const ok=await loadMqtt();
-  if(!ok){ setErr('Keine Internetverbindung. Öffne die Datei direkt im Browser (Chrome oder Samsung Internet), nicht in einer Vorschau – und prüfe das Internet.'); return null; }
+  if(!ok){ setErr(L('e_nonet')); return null; }
   NET='peer'; setErr(''); return 'peer';
 }
-const NET_ERR={blocked:'Spiel gefunden, aber die Verbindung klappt nicht. Wechselt ins WLAN (oder alle auf mobile Daten) und versucht es nochmal.',taken:'Code schon vergeben – bitte nochmal tippen.',notfound:'Kein Spiel mit diesem Code gefunden. Prüfe den Code und ob der Gastgeber die Lobby offen hat.',network:'Verbindung fehlgeschlagen. Öffne die Datei direkt im Browser (Chrome oder Samsung Internet) – in der Vorschau von Claude, WhatsApp oder dem Datei-Manager ist das Internet gesperrt. Sonst: Internet prüfen und nochmal versuchen.'};
+const NET_ERR=new Proxy({},{get:(o,k)=>['blocked','taken','notfound','network'].includes(k)?L('e_'+k):undefined});
 function updMyPeer(peers){ const me=(peers||ROOM.peers()).find(p=>p.sameTab); if(me) myPeer=me.peer; }
 
 $('hostBtn').onclick=async()=>{
@@ -1050,19 +1238,19 @@ $('hostBtn').onclick=async()=>{
 $('joinBtn').onclick=async()=>{
   if($('joinBtn').disabled)return; $('joinBtn').disabled=true; setTimeout(()=>$('joinBtn').disabled=false,3000);
   ac(); const name=onlineName(); const code=$('codeIn').value.trim().toUpperCase();
-  if(!/^[A-Z0-9]{4}$/.test(code)){ setErr('Bitte den 4-stelligen Code eingeben.'); return; }
+  if(!/^[A-Z0-9]{4}$/.test(code)){ setErr(L('e_code4')); return; }
   const r=await getRoom(); if(!r)return;
-  if(r==='peer'&&!BROKERS[code[0]]&&code[0]==='C'){ setErr('Dieser Code ist von der Claude-Seite. Öffne zum Mitspielen auch die Claude-Seite – oder der Ersteller macht das Spiel neu in der HTML-Datei.'); return; }
-  if(r!=='peer'&&BROKERS[code[0]]){ setErr('Dieser Code ist aus der HTML-Datei. Öffne zum Mitspielen auch die HTML-Datei – oder der Ersteller macht das Spiel neu auf der Claude-Seite.'); return; }
-  setErr('Suche Spiel '+code+' …');
-  if(r==='peer'&&!BROKERS[code[0]]){ setErr('Dieser Code passt nicht. Codes aus der HTML-Datei fangen mit H, M oder Q an.'); return; }
+  if(r==='peer'&&!BROKERS[code[0]]&&code[0]==='C'){ setErr(L('e_claudecode')); return; }
+  if(r!=='peer'&&BROKERS[code[0]]){ setErr(L('e_htmlcode')); return; }
+  setErr(L('searching',{c:code}));
+  if(r==='peer'&&!BROKERS[code[0]]){ setErr(L('e_badcode')); return; }
   try{ ROOM= r==='peer' ? await makeMqttRoom(code,'client') : await r.join('lutz-'+code.toLowerCase()); }
   catch(e){ setErr(NET_ERR[e&&e.message]||NET_ERR.network); return; }
   setErr('');
-  CODE=code; MODE='client'; G=null; LOBBY=null; hostSeen=false; lastHostPres=null; actSeq=0;
+  CODE=code; MODE='client'; G=null; LOBBY=null; delete $('lobbyInfo').dataset.nf; hostSeen=false; lastHostPres=null; actSeq=0;
   ROOM.presence({r:'c',v:APP_VERSION,n:name,want:null,act:{s:0,a:''}}).catch(()=>{});
   ROOM.onPeers(clientPeers); showScreen('lobby'); renderLobby();
-  clearTimeout(joinTimer); joinTimer=setTimeout(()=>{ if(!hostSeen&&MODE==='client') $('lobbyInfo').textContent=`Kein Spiel mit Code ${CODE} gefunden. Prüfe den Code oder warte, bis der Gastgeber es erstellt hat.`; },6000);
+  clearTimeout(joinTimer); joinTimer=setTimeout(()=>{ if(!hostSeen&&MODE==='client') $('lobbyInfo').textContent=L('notfound_lobby',{c:CODE}); $('lobbyInfo').dataset.nf='1'; },6000);
 };
 $('codeIn').oninput=()=>{ $('codeIn').value=$('codeIn').value.toUpperCase().replace(/[^A-Z0-9]/g,''); };
 
@@ -1076,9 +1264,9 @@ $('lobbyLeave').onclick=leaveOnline;
 function renderLobby(){
   $('lobbyCode').textContent=CODE;
   const list=$('seatList'); list.innerHTML='';
-  if(MODE==='host') $('lobbyInfo').textContent=(NET==='peer'?'Mit der HTML-Datei: ':'Auf der Claude-Seite: ')+'Sag deinen Freunden diesen Code. Sie öffnen dasselbe und tippen auf „Mehrere Handys → Beitreten“. ⚠️ Lass diese Seite offen, bis alle drin sind!';
-  else if(hostSeen) $('lobbyInfo').textContent='Verbunden! Wähle eine Farbe und warte, bis der Gastgeber startet.';
-  else if(!$('lobbyInfo').textContent.startsWith('Kein')) $('lobbyInfo').textContent='Suche Spiel …';
+  if(MODE==='host') $('lobbyInfo').textContent=L('lobby_host');
+  else if(hostSeen) $('lobbyInfo').textContent=L('lobby_connected');
+  else if($('lobbyInfo').dataset.nf!=='1') $('lobbyInfo').textContent=L('lobby_search');
   if(!LOBBY){ $('lobbyStart').classList.add('hidden'); return; }
   LOBBY.seats.forEach((s,k)=>{
     const c=ORDER[k];
@@ -1086,7 +1274,7 @@ function renderLobby(){
     const row=document.createElement('div'); row.className='seat'+(isMe?' me':'');
     const dot=document.createElement('div'); dot.className='pcolor'; dot.style.background=COL[c].fill; dot.dataset.col=c;
     const nm=document.createElement('div'); nm.className='nm'+(s.t==='-'?' free':'');
-    nm.textContent=s.t==='-'?`${COL[c].name} – frei`:s.t==='c'?'🤖 Computer':cleanName(s.n)+(isMe?' (du)':'');
+    nm.textContent=s.t==='-'?L('free_seat',{col:c}):s.t==='c'?'🤖 Computer':cleanName(s.n)+(isMe?' '+L('you'):'');
     row.append(dot,nm);
     if(MODE==='host'&&(s.t==='-'||s.t==='c')){
       const b=document.createElement('button'); b.className='mini'; b.textContent=s.t==='c'?'✕ Computer':'+ 🤖';
@@ -1100,7 +1288,7 @@ function renderLobby(){
     list.append(row);
   });
   const filled=LOBBY.seats.filter(s=>s.t!=='-').length;
-  $('seatHint').textContent=MODE==='host'?(filled<2?'Mindestens 2 Plätze müssen besetzt sein (Mitspieler oder Computer).':`${filled} Plätze besetzt – los geht's!`):'Tippe auf eine freie Farbe. Nochmal tippen = Platz freigeben.';
+  $('seatHint').textContent=MODE==='host'?(filled<2?L('seat_min'):L('seat_n',{n:filled})):L('seat_client');
   $('lobbyStart').classList.toggle('hidden',MODE!=='host');
   $('lobbyStart').disabled=filled<2;
 }
@@ -1117,7 +1305,7 @@ function hostBackToLobby(){ if(G){G.token=++TOKEN;} G=null; stopConfetti(); show
 /* ---- Gastgeber ---- */
 let SEQ={}, pubQueued=false, warnedVer={};
 function snap(){
-  return {g:G.gid,cur:G.cur,ph:G.phase,dv:G.dice,msg:G.msg,
+  return {g:G.gid,cur:G.cur,ph:G.phase,dv:G.dice,msg:G.msg,mk:G.msgK||null,mp:G.msgP||{},
     pl:G.players.map(p=>({c:p.color,n:p.name,cpu:p.cpu?1:0,pid:p.pid||null,pc:p.pieces.slice(),d:p.done?1:0,l:p.left?1:0})),
     mv:G.phase==='move'?G.moves.map(m=>[m.i,m.to]):[], rk:G.ranks.map(p=>G.players.indexOf(p))};
 }
@@ -1134,13 +1322,13 @@ function hostPeers(ch){
   for(const p of ch.left){
     if(LOBBY) LOBBY.seats.forEach(s=>{ if(s.pid===p.peer){ s.t='-'; s.n=''; s.pid=null; changed=true; } });
     if(G) G.players.forEach(pl=>{ if(pl.pid===p.peer){ pl.oldPid=p.peer; pl.pid=null; pl.cpu=true; pl.left=true; changed=true;
-      say(`${pl.name} ist weg – der Computer übernimmt`);
+      say('m_gone',{n:pl.name});
       if(cp()===pl){ if(G.phase==='roll') later(rollDice,700); else if(G.phase==='move') later(()=>doMove(cpuPick(pl,G.moves)),700); } } });
   }
   for(const p of ch.peers){
     if(p.sameTab||p.kind!=='viewer')continue;
     const pr=p.presence||{}; if(pr.r!=='c')continue;
-    if(pr.v!==APP_VERSION){ if(!warnedVer[p.peer]){ warnedVer[p.peer]=1; toast('Ein Handy hat eine andere Version – bitte allen die neue Datei schicken'); } continue; }
+    if(pr.v!==APP_VERSION){ if(!warnedVer[p.peer]){ warnedVer[p.peer]=1; toast(L('t_otherver')); } continue; }
     const name=cleanName(pr.n);
     if(!G){ // Lobby
       const mine=LOBBY.seats.findIndex(s=>s.pid===p.peer);
@@ -1153,11 +1341,11 @@ function hostPeers(ch){
       }
     } else {
       const back=G.players.find(pl=>pl.left&&pl.cpu&&!pl.done&&pl.oldPid===p.peer);
-      if(back){ back.cpu=false; back.left=false; back.pid=p.peer; back.oldPid=null; changed=true; say(`${back.name} ist wieder da!`); }
+      if(back){ back.cpu=false; back.left=false; back.pid=p.peer; back.oldPid=null; changed=true; say('m_back',{n:back.name}); }
       const want=G.players.find(pl=>pl.color===pr.want);
       if(want&&want.left&&want.cpu&&!want.done&&!G.players.some(pl=>pl.pid===p.peer)){
         want.cpu=false; want.left=false; want.pid=p.peer; want.name=name; changed=true;
-        say(`${name} spielt jetzt ${COL[want.color].name}`);
+        say('m_plays',{n:name,col:want.color});
       }
     }
     const a=pr.act;
@@ -1186,13 +1374,13 @@ function clientPeers(ch){
   if(!host){
     if(hostSeen){ clearTimeout(goneTimer); goneTimer=setTimeout(()=>{ if(MODE!=='client')return;
       const still=ROOM&&ROOM.peers().find(p=>!p.sameTab&&p.presence&&p.presence.r==='h');
-      if(!still) info('Verbindung weg','Der Gastgeber hat das Spiel verlassen.',[menuItem('Zum Start',leaveOnline,true)]); },3500); }
+      if(!still) info(L('conn_lost'),L('host_left'),[menuItem(L('to_start'),leaveOnline,true)]); },3500); }
     return;
   }
   clearTimeout(goneTimer); $('infoOv').classList.add('hidden');
   if(!hostSeen){ hostSeen=true; renderLobby(); }
   const pr=host.presence; if(pr===lastHostPres)return; lastHostPres=pr;
-  if(pr.v!==APP_VERSION){ info('Andere Version','Der Ersteller hat eine andere Version des Spiels'+(pr.v?' (Version '+String(pr.v).slice(0,4)+')':' (ältere Version)')+'. Du hast Version '+APP_VERSION+'. Alle müssen dieselbe Datei benutzen – schickt sie nochmal an alle.',[menuItem('Zum Start',leaveOnline,true)]); return; }
+  if(pr.v!==APP_VERSION){ info(L('other_ver'),L('other_ver_text',{x:pr.v?'Version '+String(pr.v).slice(0,4):L('older'),v:APP_VERSION}),[menuItem(L('to_start'),leaveOnline,true)]); return; }
   if(pr.lb&&Array.isArray(pr.lb.seats)&&pr.lb.seats.length===4) LOBBY=pr.lb;
   if(!pr.st){
     if(G){ G=null; evQ=[]; showScreen('lobby'); $('winOv').classList.add('hidden'); stopConfetti(); }
@@ -1234,7 +1422,7 @@ async function playEv(e,fast){
     case 'm': if(G.opt&&G.opt.p===e.p&&G.opt.i===e.i&&G.opt.t===e.t){ G.opt=null; break; }   // schon selbst gezogen
       if(pl&&pl.els[e.i]&&Number.isInteger(e.f)&&Number.isInteger(e.t)){ G.phase='anim'; refresh(); await fxMove(pl,e.i,clampRel(e.f),clampRel(e.t),null,e.j===1||fast,110); sortPieces(); } break;
     case 'h': if(pl&&pl.els[e.i]){ fxHit(pl,e.i); if(!fast) await sleep(250); } break;
-    case 't': if(typeof e.m==='string') toast(e.m.slice(0,60)); break;
+    case 't': if(typeof e.tk==='string'&&I18N.de[e.tk]) toast(L(e.tk,(e.tp&&typeof e.tp==='object')?e.tp:{})); else if(typeof e.m==='string') toast(e.m.slice(0,60)); break;
     case 'w': if(pl){ pl.done=true; showFirstWin(pl); } break;
     case 'e': needEnd=true; break;
   }
@@ -1248,7 +1436,7 @@ function applySnap(st,first){
   sortPieces();
   G.cur=Number.isInteger(st.cur)&&G.players[st.cur]?st.cur:0;
   G.phase=typeof st.ph==='string'?st.ph:'idle';
-  G.dice=st.dv; G.msg=typeof st.msg==='string'?st.msg.slice(0,60):'';
+  G.dice=st.dv; G.msg=typeof st.msg==='string'?st.msg.slice(0,60):''; G.msgK=(typeof st.mk==='string'&&I18N.de[st.mk])?st.mk:null; G.msgP=(st.mp&&typeof st.mp==='object')?st.mp:{};
   G.moves=Array.isArray(st.mv)?st.mv.filter(m=>Array.isArray(m)).map(([i,to])=>({i,to:clampRel(to)})):[];
   G.ranks=Array.isArray(st.rk)?st.rk.map(i=>G.players[i]).filter(Boolean):[];
   // eigene Aktion ist unterwegs – nicht zurückspringen
