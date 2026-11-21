@@ -48,6 +48,7 @@ button{font-family:inherit;cursor:pointer}
 .seg button{flex:1;height:52px;border-radius:14px;border:2px solid rgba(255,255,255,.15);background:rgba(0,0,0,.25);
   color:#fff;font-size:22px;font-weight:700;transition:.15s}
 .seg.text button{font-size:16px;height:56px}
+#segLang{display:grid;grid-template-columns:1fr 1fr}
 .seg button.on{border-color:var(--neon);background:rgba(57,255,20,.15);box-shadow:0 0 14px rgba(57,255,20,.35)}
 .seg button:disabled{opacity:.25}
 .prow{display:flex;align-items:center;gap:10px;margin-top:10px}
@@ -514,7 +515,14 @@ en:{
   conn_lost:'Connection lost', host_left:'The host has left the game.', to_start:'Back to start',
   other_ver:'Different version', other_ver_text:'The host has a different version of the game ({x}). You have version {v}. Everyone must use the same version – reload the page or send the new file.', older:'older version'
 }};
-const LANGS=[['de','🇩🇪 Deutsch'],['nl','🇳🇱 Nederlands'],['en','🇬🇧 English']];
+// Vlaams (Belgisch-Nederlands): Nederlands met Vlaamse woorden
+I18N.vl=(()=>{ const o={};
+  for(const k in I18N.nl){ o[k]=I18N.nl[k].replace(/telefoons/g,"gsm's").replace(/telefoon/g,'gsm'); }
+  Object.assign(o,{ ok_rules:'Oké, begrepen!', h_wait:'Even wachten op {n} …', m_six:'Zes! Allez, nog een keer gooien 🎲',
+    win_text1:'Lutz zegt: erger u niet – de anderen spelen voort voor de plaatsen!', win_text2:'Lutz zegt: erger u niet – volgende ronde!',
+    m_hit:'{a} smijt {b} eruit! 💥', mi_continue:'Voortspelen', b_watch:'Voort kijken', e_blocked:'Spel gevonden, maar de verbinding lukt niet. Zet iedereen op wifi (of allemaal op mobiele data) en probeer opnieuw.' });
+  return o; })();
+const LANGS=[['de','🇩🇪 Deutsch'],['nl','🇳🇱 Nederlands'],['vl','🇧🇪 Vlaams'],['en','🇬🇧 English']];
 function tr(lang,key,p){
   const d=I18N[lang]||I18N.de; let s=d[key]; if(s===undefined) s=I18N.de[key]; if(s===undefined) return '';
   p=p||{};
@@ -527,7 +535,7 @@ function tr(lang,key,p){
 const L=(key,p)=>tr(LANG(),key,p);
 function LANG(){ return (typeof setup!=='undefined'&&setup&&I18N[setup.lang])?setup.lang:'de'; }
 function detectLang(){ try{ const l=(navigator.languages&&navigator.languages[0]||navigator.language||'de').toLowerCase();
-  if(l.startsWith('de')) return 'de'; if(l.startsWith('nl')) return 'nl'; return 'en'; }catch(e){ return 'de'; } }
+  if(l.startsWith('de')) return 'de'; if(l.startsWith('nl-be')) return 'vl'; if(l.startsWith('nl')) return 'nl'; return 'en'; }catch(e){ return 'de'; } }
 const colName=c=>L('col_'+c);
 function applyLang(){
   document.documentElement.lang=LANG();
