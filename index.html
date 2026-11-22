@@ -267,7 +267,7 @@ body.light .dice-btn .shadow{background:radial-gradient(rgba(0,0,0,.45),transpar
         <div class="hint" data-i18n-html="online_hint"></div>
       </div>
     </div>
-    <div class="hint" style="text-align:center;margin-top:4px" data-i18n-html="version_note"></div>
+    <div class="hint" id="verNote" style="text-align:center;margin-top:4px;padding:10px 0" data-i18n-html="version_note"></div>
   </div>
 </div>
 
@@ -345,7 +345,7 @@ body.light .dice-btn .shadow{background:radial-gradient(rgba(0,0,0,.45),transpar
 
 <script>
 const APP_VERSION=16;
-const BUILD='2026-11-22-1735';
+const BUILD='2026-11-22-1745';
 /* ---- Statistik (GoatCounter, nur auf der GitHub-Seite) ---- */
 const gcQueue=[]; let gcReady=false;
 function gcEvent(name){ try{ if(gcReady&&window.goatcounter&&window.goatcounter.count) window.goatcounter.count({path:name,title:name,event:true}); else if(gcQueue.length<20) gcQueue.push(name); }catch(e){} }
@@ -1531,6 +1531,14 @@ function applySnap(st,first){
   refresh();
   if(first&&needEnd){ needEnd=false; showEnd(); }
 }
+
+/* ---- Geheim: 5x auf die Version tippen = Statistik ---- */
+(function(){ let n=0,tm=null;
+  $('verNote').addEventListener('click',()=>{ n++; clearTimeout(tm); tm=setTimeout(()=>n=0,2500);
+    if(n>=5){ n=0; buzz(30);
+      const a=document.createElement('a'); a.href='https://neroox.goatcounter.com/'; a.target='_blank'; a.rel='noopener';
+      document.body.appendChild(a); a.click(); a.remove(); } });
+})();
 
 /* ======================= Update-Erkennung (GitHub-Link) ======================= */
 let newBuild=null;
