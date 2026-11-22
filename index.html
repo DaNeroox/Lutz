@@ -242,6 +242,15 @@ body.light .dice-btn .shadow{background:radial-gradient(rgba(0,0,0,.45),transpar
       </div>
       <div class="hint" id="ruleHint"></div>
     </div>
+    <div class="card">
+      <h3 data-i18n="ai_title">Computer-Stärke</h3>
+      <div class="seg text" id="segAi">
+        <button data-v="easy" data-i18n="ai_easy">😌 Gemütlich</button>
+        <button data-v="normal" data-i18n="ai_normal">🙂 Normal</button>
+        <button data-v="hard" data-i18n="ai_hard">😈 Gnadenlos</button>
+      </div>
+      <div class="hint" id="aiHint"></div>
+    </div>
     <div id="localBox" class="inner" style="gap:14px">
       <div class="card"><h3 data-i18n="how_many">Wie viele Spieler?</h3><div class="seg" id="segHumans"></div></div>
       <div class="card"><h3 data-i18n="cpu_title">Computergegner</h3><div class="seg" id="segCpu"></div><div class="hint" id="cpuHint"></div></div>
@@ -345,7 +354,7 @@ body.light .dice-btn .shadow{background:radial-gradient(rgba(0,0,0,.45),transpar
 
 <script>
 const APP_VERSION=16;
-const BUILD='2026-11-22-1750';
+const BUILD='2026-11-22-1900';
 /* ---- Statistik (GoatCounter, nur auf der GitHub-Seite) ---- */
 const gcQueue=[]; let gcReady=false;
 function gcEvent(name){ try{ if(gcReady&&window.goatcounter&&window.goatcounter.count) window.goatcounter.count({path:name,title:name,event:true}); else if(gcQueue.length<20) gcQueue.push(name); }catch(e){} }
@@ -417,6 +426,7 @@ de:{
   free_seat:'{C} – frei', seat_min:'Mindestens 2 Plätze müssen besetzt sein (Mitspieler oder Computer).', seat_n:'{n} Plätze besetzt – los geht\'s!', seat_client:'Tippe auf eine freie Farbe. Nochmal tippen = Platz freigeben.',
   t_otherver:'Ein Handy hat eine andere Version – bitte allen dieselbe Version geben',
   conn_lost:'Verbindung weg', host_left:'Der Gastgeber hat das Spiel verlassen.', to_start:'Zum Start',
+  ai_title:'Computer-Stärke', ai_easy:'😌 Gemütlich', ai_normal:'🙂 Normal', ai_hard:'😈 Gnadenlos', aih_easy:'Der Computer spielt locker und macht Fehler – gut für Kinder und Anfänger.', aih_normal:'Der Computer spielt solide, aber nicht perfekt.', aih_hard:'Der Computer rechnet jeden Zug durch, meidet Gefahren und bringt seine Figuren zielstrebig ins Ziel.', mi_ai:'Computer: {x} (ändern)', m_ai:'Computer: {A}',
   upd:'🔄 Neue Version da – hier tippen zum Aktualisieren',
   other_ver:'Andere Version', other_ver_text:'Der Ersteller hat eine andere Version des Spiels ({x}). Du hast Version {v}. Alle müssen dieselbe Version benutzen – Seite neu laden oder die neue Datei schicken.', older:'ältere Version'
 },
@@ -473,6 +483,7 @@ nl:{
   free_seat:'{C} – vrij', seat_min:'Minstens 2 plaatsen moeten bezet zijn (spelers of computer).', seat_n:'{n} plaatsen bezet – we kunnen beginnen!', seat_client:'Tik op een vrije kleur. Nog een keer tikken = plaats vrijgeven.',
   t_otherver:'Een telefoon heeft een andere versie – geef iedereen dezelfde versie',
   conn_lost:'Verbinding weg', host_left:'De maker heeft het spel verlaten.', to_start:'Naar het begin',
+  ai_title:'Sterkte van de computer', ai_easy:'😌 Rustig', ai_normal:'🙂 Normaal', ai_hard:'😈 Genadeloos', aih_easy:'De computer speelt ontspannen en maakt fouten – goed voor kinderen en beginners.', aih_normal:'De computer speelt degelijk, maar niet perfect.', aih_hard:'De computer berekent elke zet, vermijdt gevaar en brengt zijn pionnen doelgericht naar huis.', mi_ai:'Computer: {x} (wijzigen)', m_ai:'Computer: {A}',
   upd:'🔄 Nieuwe versie – tik hier om te vernieuwen',
   other_ver:'Andere versie', other_ver_text:'De maker heeft een andere versie van het spel ({x}). Jij hebt versie {v}. Iedereen moet dezelfde versie gebruiken – pagina opnieuw laden of het nieuwe bestand sturen.', older:'oudere versie'
 },
@@ -529,6 +540,7 @@ en:{
   free_seat:'{C} – free', seat_min:'At least 2 seats must be taken (players or computer).', seat_n:'{n} seats taken – let\'s go!', seat_client:'Tap a free colour. Tap again = give up the seat.',
   t_otherver:'A phone has a different version – everyone needs the same version',
   conn_lost:'Connection lost', host_left:'The host has left the game.', to_start:'Back to start',
+  ai_title:'Computer strength', ai_easy:'😌 Relaxed', ai_normal:'🙂 Normal', ai_hard:'😈 Ruthless', aih_easy:'The computer plays casually and makes mistakes – good for kids and beginners.', aih_normal:'The computer plays solidly, but not perfectly.', aih_hard:'The computer calculates every move, avoids danger and drives its pieces home.', mi_ai:'Computer: {x} (change)', m_ai:'Computer: {A}',
   upd:'🔄 New version available – tap here to update',
   other_ver:'Different version', other_ver_text:'The host has a different version of the game ({x}). You have version {v}. Everyone must use the same version – reload the page or send the new file.', older:'older version'
 }};
@@ -592,6 +604,7 @@ I18N.tr={
   free_seat:'{C} – boş', seat_min:'En az 2 yer dolu olmalı (oyuncu veya bilgisayar).', seat_n:'{n} yer dolu – haydi başlayalım!', seat_client:'Boş bir renge dokun. Tekrar dokunmak = yeri bırakmak.',
   t_otherver:'Bir telefonda farklı bir sürüm var – herkes aynı sürümü kullanmalı',
   conn_lost:'Bağlantı koptu', host_left:'Oyunu kuran oyundan ayrıldı.', to_start:'Başa dön',
+  ai_title:'Bilgisayar seviyesi', ai_easy:'😌 Rahat', ai_normal:'🙂 Normal', ai_hard:'😈 Acımasız', aih_easy:'Bilgisayar rahat oynar ve hata yapar – çocuklar ve yeni başlayanlar için iyi.', aih_normal:'Bilgisayar sağlam oynar ama kusursuz değil.', aih_hard:'Bilgisayar her hamleyi hesaplar, tehlikeden kaçınır ve taşlarını kararlılıkla hedefe götürür.', mi_ai:'Bilgisayar: {x} (değiştir)', m_ai:'Bilgisayar: {A}',
   upd:'🔄 Yeni sürüm var – güncellemek için buraya dokun',
   other_ver:'Farklı sürüm', other_ver_text:'Oyunu kuranda oyunun farklı bir sürümü var ({x}). Sende sürüm {v} var. Herkes aynı sürümü kullanmalı – sayfayı yenileyin ya da yeni dosyayı gönderin.', older:'eski sürüm'
 };
@@ -602,6 +615,7 @@ function tr(lang,key,p){
   return s.replace(/\{(\w+)\}/g,(m,k)=>{
     if(k==='C') return tr(lang,'col_'+p.col)||'';
     if(k==='R') return tr(lang,'r_'+p.r)||'';
+    if(k==='A') return tr(lang,'ai_'+p.a)||'';
     const v=p[k]; return v===undefined||v===null?'':String(v).slice(0,30);
   });
 }
@@ -679,7 +693,7 @@ let ROOM=null, myPeer=null, CODE='', LOBBY=null;
 const roomP=(async()=>{ try{ if(!window.claude||!window.claude.use) { await sleep(1500); if(!window.claude||!window.claude.use) return null; } return await window.claude.use('room'); }catch(e){ return null; } })();
 
 /* ======================= Setup ======================= */
-let setup={lang:detectLang(),theme:'dark',rule:'lutz',ruleV:2,moveMode:'auto',mode:'local',humans:1,cpus:1,onlineName:'',players:[{name:'Lutz',color:'rot'},{name:'Spieler 2',color:'gelb'},{name:'Spieler 3',color:'gruen'},{name:'Spieler 4',color:'blau'}]};
+let setup={ai:'normal',lang:detectLang(),theme:'dark',rule:'lutz',ruleV:2,moveMode:'auto',mode:'local',humans:1,cpus:1,onlineName:'',players:[{name:'Lutz',color:'rot'},{name:'Spieler 2',color:'gelb'},{name:'Spieler 3',color:'gruen'},{name:'Spieler 4',color:'blau'}]};
 try{const s=JSON.parse(localStorage.getItem('lutz_setup')||'null'); if(s&&s.players&&s.players.length===4){ setup=Object.assign(setup,s); if(setup.ruleV!==2){ setup.rule='lutz'; setup.ruleV=2; } } }catch(e){}
 function saveSetup(){try{localStorage.setItem('lutz_setup',JSON.stringify(setup));}catch(e){}}
 
@@ -698,6 +712,8 @@ function applyTheme(){
 }
 function nameCol(c){ return isLight()?(c==='gelb'?'#a77c00':COL[c].fill):(c==='gelb'?'#ffe05a':COL[c].light); }
 document.querySelectorAll('#segTheme button').forEach(b=>b.onclick=()=>{setup.theme=b.dataset.v; saveSetup(); applyTheme();});
+const aiNow=()=>['easy','normal','hard'].includes(setup.ai)?setup.ai:'normal';
+document.querySelectorAll('#segAi button').forEach(b=>b.onclick=()=>{setup.ai=b.dataset.v; saveSetup(); renderSetup();});
 document.querySelectorAll('#segRule button').forEach(b=>b.onclick=()=>{setup.rule=b.dataset.v; saveSetup(); renderSetup();});
 const RULE_KEYS=['lutz','free','classic'];
 const RULE_TXT=new Proxy({},{get:(o,r)=>RULE_KEYS.includes(r)?{name:L('r_'+r),hint:L('rh_'+r),line:L('rl_'+r)}:undefined});
@@ -707,6 +723,8 @@ function renderSetup(){
   document.querySelectorAll('#segMode button').forEach(b=>b.classList.toggle('on',b.dataset.m===setup.mode));
   document.querySelectorAll('#segMove button').forEach(b=>b.classList.toggle('on',b.dataset.v===setup.moveMode));
   $('moveHint').textContent=manual()?L('move_hint_manual'):L('move_hint_auto');
+  document.querySelectorAll('#segAi button').forEach(b=>b.classList.toggle('on',b.dataset.v===aiNow()));
+  $('aiHint').textContent=L('aih_'+aiNow())+(setup.mode==='online'?L('rule_online_note'):'');
   document.querySelectorAll('#segRule button').forEach(b=>b.classList.toggle('on',b.dataset.v===ruleNow()));
   $('ruleHint').textContent=RULE_TXT[ruleNow()].hint;
   if(setup.mode==='online') $('ruleHint').textContent+=L('rule_online_note');
@@ -952,7 +970,17 @@ function threatened(pl,abs){
     for(const r of q.pieces){if(r<0||r>=40)continue;const dist=(abs-absOf(q,r)+40)%40;if(dist>=1&&dist<=6&&r+dist<=39)return true;}}
   return false;
 }
-function cpuPick(pl,moves){
+function cpuPick(pl,moves,level){
+  level=level||aiNow();
+  if(moves.length===1) return moves[0];
+  if(level==='easy'){
+    // locker: meistens zufällig, schlägt nur manchmal
+    if(Math.random()<0.6) return moves[Math.floor(Math.random()*moves.length)];
+    const caps=moves.filter(m=>m.to<40&&victimAt(pl,m.to));
+    if(caps.length&&Math.random()<0.5) return caps[0];
+    return moves[Math.floor(Math.random()*moves.length)];
+  }
+  if(level==='hard') return hardPick(pl,moves);
   let best=null,bs=-1e9;
   for(const m of moves){
     let s=m.to*0.4; const v=victimAt(pl,m.to); if(v)s+=100+Math.max(0,v.q.pieces[v.i])*1.2;
@@ -960,6 +988,52 @@ function cpuPick(pl,moves){
     if(m.from>=0&&m.from<40&&threatened(pl,absOf(pl,m.from)))s+=25;
     if(m.to<40&&threatened(pl,absOf(pl,m.to)))s-=30;
     s+=Math.random()*3; if(s>bs){bs=s;best=m;}
+  }
+  return best;
+}
+// Wahrscheinlichkeit, mit Augenzahl d (1..12 inkl. 6+x) genau eine Distanz zu treffen
+const HIT_P=[0,1/6,1/6,1/6,1/6,1/6,1/6,1/36,1/36,1/36,1/36,1/36,1/36];
+// Gefahr für ein Feld (0..1+): wie wahrscheinlich wird eine Figur dort nächste Runde geschlagen
+function riskAt(pl,abs,ignoreIdx){
+  let r=0;
+  for(const q of G.players){ if(q===pl||q.done)continue;
+    if(abs===COL[q.color].start&&q.pieces.includes(-1)) r+=0.45;
+    for(const rel of q.pieces){ if(rel<0||rel>=40)continue;
+      const dist=(abs-absOf(q,rel)+40)%40;
+      if(dist>=1&&dist<=12&&rel+dist<=39) r+=HIT_P[dist]; } }
+  return r;
+}
+let HARD_W={lam:0.8,risk:2.2,exit:6,lead:0,conv:0,base:8,goal:52,lin:0.45,goalIn:30};
+// Wert einer Figur: weiter gelaufen = wertvoller, im Ziel am meisten
+const pVal=r=>r<0?0:(r>=40?HARD_W.goal+(r-40)*2:HARD_W.base+r+r*r*HARD_W.conv);
+function hitProb(pl,abs,board){
+  let p=0;
+  for(const q of G.players){ if(q===pl||q.done)continue;
+    const pcs=board.get(q)||q.pieces;
+    if(abs===COL[q.color].start&&pcs.includes(-1)) p+=1/6+ (1/6)*(5/6)*0.5;
+    for(const rel of pcs){ if(rel<0||rel>=40)continue; const dist=(abs-absOf(q,rel)+40)%40;
+      if(dist>=1&&dist<=12&&rel+dist<=39) p+=HIT_P[dist]; } }
+  return Math.min(0.95,p);
+}
+function evalBoard(pl,board){
+  const mine=board.get(pl); let v=0;
+  for(const r of mine){ v+=pVal(r); if(r>=0&&r<40) v-=hitProb(pl,absOf(pl,r),board)*pVal(r)*HARD_W.risk; }
+  // Gegner: ihr Fortschritt zählt gegen mich, der Führende besonders
+  let opp=0,top=0;
+  for(const q of G.players){ if(q===pl)continue; const pcs=board.get(q); let w=0; for(const r of pcs) w+=pVal(r); opp+=w; top=Math.max(top,w); }
+  return v-HARD_W.lam*opp-HARD_W.lead*top;
+}
+function hardPick(pl,moves){
+  let best=null,bs=-1e9;
+  for(const m of moves){
+    const board=new Map(G.players.map(q=>[q,q.pieces.slice()]));
+    board.get(pl)[m.i]=m.to;
+    const v=victimAt(pl,m.to); if(v) board.get(v.q)[v.i]=-1;
+    let s=evalBoard(pl,board);
+    if(m.from===-1) s+=HARD_W.exit;      // mehr Figuren im Spiel = mehr Möglichkeiten
+    s+=m.to*HARD_W.lin; if(m.to>=40&&m.from<40) s+=HARD_W.goalIn;
+    s+=Math.random()*0.01;
+    if(s>bs){bs=s;best=m;}
   }
   return best;
 }
@@ -1154,6 +1228,7 @@ $('menuBtn').onclick=()=>{
     menuItem(L('mi_lang',{x:(LANGS.find(x=>x[0]===LANG())||['',''])[1]}),()=>{const o=LANGS.map(x=>x[0]);setup.lang=o[(o.indexOf(LANG())+1)%o.length];saveSetup();applyLang();renderSetup();updRuleLine();refresh();close();}),
     menuItem(L('mi_look',{x:L(isLight()?'light':'dark')}),()=>{setup.theme=isLight()?'dark':'light';saveSetup();applyTheme();close();}),
     menuItem(L('rules_title'),()=>{updRuleLine();$('menuOv').classList.add('hidden');$('rulesOv').classList.remove('hidden');}));
+  if(MODE!=='client') l.append(menuItem(L('mi_ai',{x:L('ai_'+aiNow())}),()=>{const o=['easy','normal','hard'];setup.ai=o[(o.indexOf(aiNow())+1)%3];saveSetup();renderSetup();say('m_ai',{a:aiNow()});close();}));
   if(MODE!=='client') l.append(menuItem(L('mi_rule',{x:L('r_'+ruleNow())}),()=>{const o=['lutz','free','classic'];setup.rule=o[(o.indexOf(ruleNow())+1)%3];saveSetup();renderSetup();updRuleLine();say('m_rule',{r:ruleNow()});close();}));
   if(MODE==='local') l.append(menuItem(L('mi_new'),()=>{$('menuOv').classList.add('hidden');toSetup();}));
   if(MODE==='host') l.append(menuItem(L('mi_lobby'),()=>{$('menuOv').classList.add('hidden');hostBackToLobby();}), menuItem(L('mi_end'),()=>{$('menuOv').classList.add('hidden');leaveOnline();}));
