@@ -345,7 +345,7 @@ body.light .dice-btn .shadow{background:radial-gradient(rgba(0,0,0,.45),transpar
 
 <script>
 const APP_VERSION=16;
-const BUILD='2026-11-22-1745';
+const BUILD='2026-11-22-1750';
 /* ---- Statistik (GoatCounter, nur auf der GitHub-Seite) ---- */
 const gcQueue=[]; let gcReady=false;
 function gcEvent(name){ try{ if(gcReady&&window.goatcounter&&window.goatcounter.count) window.goatcounter.count({path:name,title:name,event:true}); else if(gcQueue.length<20) gcQueue.push(name); }catch(e){} }
@@ -1547,10 +1547,14 @@ async function checkUpdate(){
   try{
     const r=await fetch(location.pathname+'?u='+Date.now(),{cache:'no-store'}); if(!r.ok) return;
     const m=(await r.text()).match(/const BUILD='([^']+)'/);
-    if(m&&m[1]!==BUILD){ newBuild=m[1]; const b=$('updBar'); b.textContent=L('upd'); b.classList.remove('hidden'); }
+    // nur wenn online wirklich eine NEUERE Version liegt (nicht eine alte aus dem Zwischenspeicher)
+    if(!m||!(m[1]>BUILD)) return;
+    let tried=null; try{ tried=JSON.parse(sessionStorage.getItem('lutz_upd')||'null'); }catch(e){}
+    if(tried&&tried.b===m[1]&&Date.now()-tried.t<10*60*1000) return;   // gerade erst versucht – Server ist noch nicht so weit
+    newBuild=m[1]; const b=$('updBar'); b.textContent=L('upd'); b.classList.remove('hidden');
   }catch(e){}
 }
-$('updBar').onclick=()=>{ location.replace(location.pathname+'?v='+encodeURIComponent(newBuild||Date.now())); };
+$('updBar').onclick=()=>{ try{ sessionStorage.setItem('lutz_upd',JSON.stringify({b:newBuild,t:Date.now()})); }catch(e){} location.replace(location.pathname+'?v='+encodeURIComponent(newBuild||Date.now())); };
 setTimeout(checkUpdate,2000); setInterval(checkUpdate,3*60*1000);
 document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') checkUpdate(); });
 
