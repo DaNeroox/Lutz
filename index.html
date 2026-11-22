@@ -354,7 +354,7 @@ body.light .dice-btn .shadow{background:radial-gradient(rgba(0,0,0,.45),transpar
 
 <script>
 const APP_VERSION=16;
-const BUILD='2026-11-22-1900';
+const BUILD='2026-11-22-1925';
 /* ---- Statistik (GoatCounter, nur auf der GitHub-Seite) ---- */
 const gcQueue=[]; let gcReady=false;
 function gcEvent(name){ try{ if(gcReady&&window.goatcounter&&window.goatcounter.count) window.goatcounter.count({path:name,title:name,event:true}); else if(gcQueue.length<20) gcQueue.push(name); }catch(e){} }
@@ -393,10 +393,10 @@ de:{
   ok_rules:'Alles klar', tap_close:'Tippen zum Schließen',
   col_rot:'Rot', col_gelb:'Gelb', col_gruen:'Grün', col_blau:'Blau',
   r_lutz:'⭐ Lutz-Regel', r_free:'🙌 Frei', r_classic:'📜 Klassisch',
-  rh_lutz:'1) Rauskommen ist Pflicht: Bei einer 6 muss eine Figur aus dem Haus raus. 2) Das Startfeld muss verlassen werden – außer du hast keine Figur mehr im Haus. 3) Schlagpflicht: Kannst du jemanden schlagen, musst du es tun.',
+  rh_lutz:'1) Rauskommen ist Pflicht: Bei einer 6 muss eine Figur aus dem Haus raus. 2) Das Startfeld muss verlassen werden – außer du hast keine Figur mehr im Haus. 3) Schlagpflicht: Kannst du jemanden schlagen, musst du es tun. 4) Ist eine 6 zu hoch (z. B. kurz vor dem Ziel), darfst du nochmal würfeln.',
   rh_free:'Du entscheidest immer selbst, welche deiner Figuren du ziehst – auch bei einer 6 musst du nicht rauskommen.',
   rh_classic:'Klassische Pflicht: Bei einer 6 muss eine Figur raus, und das Startfeld muss zuerst frei gemacht werden.',
-  rl_lutz:'<b>Lutz-Regel:</b> Rauskommen ist Pflicht (bei einer 6 muss eine Figur raus). Das Startfeld muss verlassen werden, außer du hast keine Figur mehr im Haus. Und: Kannst du jemanden schlagen, musst du es tun (Schlagpflicht).',
+  rl_lutz:'<b>Lutz-Regel:</b> Rauskommen ist Pflicht (bei einer 6 muss eine Figur raus). Das Startfeld muss verlassen werden, außer du hast keine Figur mehr im Haus. Und: Kannst du jemanden schlagen, musst du es tun (Schlagpflicht). Ist eine 6 zu hoch, darfst du nochmal würfeln.',
   rl_free:'<b>Frei:</b> Du entscheidest immer selbst, welche Figur du ziehst – auch bei einer 6.',
   rl_classic:'<b>Klassisch:</b> Bei einer 6 musst du rauskommen, und das Startfeld muss frei gemacht werden.',
   m_begins:'{n} beginnt!', m_cpu_rolls:'Computer würfelt …', m_three:'3 Versuche für eine 6',
@@ -427,6 +427,7 @@ de:{
   t_otherver:'Ein Handy hat eine andere Version – bitte allen dieselbe Version geben',
   conn_lost:'Verbindung weg', host_left:'Der Gastgeber hat das Spiel verlassen.', to_start:'Zum Start',
   ai_title:'Computer-Stärke', ai_easy:'😌 Gemütlich', ai_normal:'🙂 Normal', ai_hard:'😈 Gnadenlos', aih_easy:'Der Computer spielt locker und macht Fehler – gut für Kinder und Anfänger.', aih_normal:'Der Computer spielt solide, aber nicht perfekt.', aih_hard:'Der Computer rechnet jeden Zug durch, meidet Gefahren und bringt seine Figuren zielstrebig ins Ziel.', mi_ai:'Computer: {x} (ändern)', m_ai:'Computer: {A}',
+  m_six_high:'Eine 6 – zu hoch, aber du darfst nochmal würfeln 🎲',
   upd:'🔄 Neue Version da – hier tippen zum Aktualisieren',
   other_ver:'Andere Version', other_ver_text:'Der Ersteller hat eine andere Version des Spiels ({x}). Du hast Version {v}. Alle müssen dieselbe Version benutzen – Seite neu laden oder die neue Datei schicken.', older:'ältere Version'
 },
@@ -450,10 +451,10 @@ nl:{
   ok_rules:'Begrepen', tap_close:'Tik om te sluiten',
   col_rot:'Rood', col_gelb:'Geel', col_gruen:'Groen', col_blau:'Blauw',
   r_lutz:'⭐ Lutz-regel', r_free:'🙌 Vrij', r_classic:'📜 Klassiek',
-  rh_lutz:'1) Uitkomen is verplicht: met een 6 moet een pion uit het huis. 2) Het startvak moet vrijgemaakt worden – behalve als je geen pion meer in huis hebt. 3) Slaanplicht: kun je iemand slaan, dan moet je dat doen.',
+  rh_lutz:'1) Uitkomen is verplicht: met een 6 moet een pion uit het huis. 2) Het startvak moet vrijgemaakt worden – behalve als je geen pion meer in huis hebt. 3) Slaanplicht: kun je iemand slaan, dan moet je dat doen. 4) Is een 6 te hoog (bv. vlak voor het doel), dan mag je nog een keer gooien.',
   rh_free:'Je kiest altijd zelf welke pion je zet – ook met een 6 hoef je niet uit te komen.',
   rh_classic:'Klassieke plicht: met een 6 moet een pion uit het huis, en het startvak moet eerst vrijgemaakt worden.',
-  rl_lutz:'<b>Lutz-regel:</b> Uitkomen is verplicht (met een 6 moet een pion eruit). Het startvak moet vrijgemaakt worden, behalve als je geen pion meer in huis hebt. En: kun je iemand slaan, dan moet je dat doen (slaanplicht).',
+  rl_lutz:'<b>Lutz-regel:</b> Uitkomen is verplicht (met een 6 moet een pion eruit). Het startvak moet vrijgemaakt worden, behalve als je geen pion meer in huis hebt. En: kun je iemand slaan, dan moet je dat doen (slaanplicht). Is een 6 te hoog, dan mag je nog een keer gooien.',
   rl_free:'<b>Vrij:</b> Je kiest altijd zelf welke pion je zet – ook met een 6.',
   rl_classic:'<b>Klassiek:</b> Met een 6 moet je uitkomen, en het startvak moet vrijgemaakt worden.',
   m_begins:'{n} begint!', m_cpu_rolls:'Computer gooit …', m_three:'3 pogingen voor een 6',
@@ -484,6 +485,7 @@ nl:{
   t_otherver:'Een telefoon heeft een andere versie – geef iedereen dezelfde versie',
   conn_lost:'Verbinding weg', host_left:'De maker heeft het spel verlaten.', to_start:'Naar het begin',
   ai_title:'Sterkte van de computer', ai_easy:'😌 Rustig', ai_normal:'🙂 Normaal', ai_hard:'😈 Genadeloos', aih_easy:'De computer speelt ontspannen en maakt fouten – goed voor kinderen en beginners.', aih_normal:'De computer speelt degelijk, maar niet perfect.', aih_hard:'De computer berekent elke zet, vermijdt gevaar en brengt zijn pionnen doelgericht naar huis.', mi_ai:'Computer: {x} (wijzigen)', m_ai:'Computer: {A}',
+  m_six_high:'Een 6 – te hoog, maar je mag nog een keer gooien 🎲',
   upd:'🔄 Nieuwe versie – tik hier om te vernieuwen',
   other_ver:'Andere versie', other_ver_text:'De maker heeft een andere versie van het spel ({x}). Jij hebt versie {v}. Iedereen moet dezelfde versie gebruiken – pagina opnieuw laden of het nieuwe bestand sturen.', older:'oudere versie'
 },
@@ -507,10 +509,10 @@ en:{
   ok_rules:'Got it', tap_close:'Tap to close',
   col_rot:'Red', col_gelb:'Yellow', col_gruen:'Green', col_blau:'Blue',
   r_lutz:'⭐ Lutz rule', r_free:'🙌 Free', r_classic:'📜 Classic',
-  rh_lutz:'1) Coming out is mandatory: with a 6 a piece must leave the house. 2) The start field must be cleared – unless you have no pieces left in the house. 3) Must capture: if you can knock someone out, you have to.',
+  rh_lutz:'1) Coming out is mandatory: with a 6 a piece must leave the house. 2) The start field must be cleared – unless you have no pieces left in the house. 3) Must capture: if you can knock someone out, you have to. 4) If a 6 is too high (e.g. just before the goal), you may roll again.',
   rh_free:'You always choose which of your pieces to move – even with a 6 you don\'t have to come out.',
   rh_classic:'Classic: with a 6 a piece must come out, and the start field must be cleared first.',
-  rl_lutz:'<b>Lutz rule:</b> Coming out is mandatory (with a 6 a piece must come out). The start field must be cleared unless you have no pieces left in the house. And: if you can knock someone out, you must (must capture).',
+  rl_lutz:'<b>Lutz rule:</b> Coming out is mandatory (with a 6 a piece must come out). The start field must be cleared unless you have no pieces left in the house. And: if you can knock someone out, you must (must capture). If a 6 is too high, you may roll again.',
   rl_free:'<b>Free:</b> You always choose which piece to move – even with a 6.',
   rl_classic:'<b>Classic:</b> With a 6 you must come out, and the start field must be cleared.',
   m_begins:'{n} starts!', m_cpu_rolls:'Computer is rolling …', m_three:'3 tries for a 6',
@@ -541,6 +543,7 @@ en:{
   t_otherver:'A phone has a different version – everyone needs the same version',
   conn_lost:'Connection lost', host_left:'The host has left the game.', to_start:'Back to start',
   ai_title:'Computer strength', ai_easy:'😌 Relaxed', ai_normal:'🙂 Normal', ai_hard:'😈 Ruthless', aih_easy:'The computer plays casually and makes mistakes – good for kids and beginners.', aih_normal:'The computer plays solidly, but not perfectly.', aih_hard:'The computer calculates every move, avoids danger and drives its pieces home.', mi_ai:'Computer: {x} (change)', m_ai:'Computer: {A}',
+  m_six_high:'A 6 – too high, but you may roll again 🎲',
   upd:'🔄 New version available – tap here to update',
   other_ver:'Different version', other_ver_text:'The host has a different version of the game ({x}). You have version {v}. Everyone must use the same version – reload the page or send the new file.', older:'older version'
 }};
@@ -571,10 +574,10 @@ I18N.tr={
   ok_rules:'Anladım', tap_close:'Kapatmak için dokun',
   col_rot:'Kırmızı', col_gelb:'Sarı', col_gruen:'Yeşil', col_blau:'Mavi',
   r_lutz:'⭐ Lutz kuralı', r_free:'🙌 Serbest', r_classic:'📜 Klasik',
-  rh_lutz:'1) Çıkmak zorunlu: 6 atınca evden bir taş çıkmalı. 2) Başlangıç karesi boşaltılmalı – evde taşın kalmadıysa hariç. 3) Kırma zorunluluğu: Birinin taşını kırabiliyorsan kırmak zorundasın.',
+  rh_lutz:'1) Çıkmak zorunlu: 6 atınca evden bir taş çıkmalı. 2) Başlangıç karesi boşaltılmalı – evde taşın kalmadıysa hariç. 3) Kırma zorunluluğu: Birinin taşını kırabiliyorsan kırmak zorundasın. 4) 6 fazla gelirse (ör. hedefin hemen önünde) tekrar atabilirsin.',
   rh_free:'Hangi taşı oynayacağına her zaman sen karar verirsin – 6 atsan bile çıkmak zorunda değilsin.',
   rh_classic:'Klasik: 6 atınca bir taş çıkmalı ve önce başlangıç karesi boşaltılmalı.',
-  rl_lutz:'<b>Lutz kuralı:</b> Çıkmak zorunlu (6 atınca bir taş çıkmalı). Evde taşın kalmadıysa hariç, başlangıç karesi boşaltılmalı. Ve: Birinin taşını kırabiliyorsan kırmak zorundasın.',
+  rl_lutz:'<b>Lutz kuralı:</b> Çıkmak zorunlu (6 atınca bir taş çıkmalı). Evde taşın kalmadıysa hariç, başlangıç karesi boşaltılmalı. Ve: Birinin taşını kırabiliyorsan kırmak zorundasın. 6 fazla gelirse tekrar atabilirsin.',
   rl_free:'<b>Serbest:</b> Hangi taşı oynayacağına her zaman sen karar verirsin – 6 atsan bile.',
   rl_classic:'<b>Klasik:</b> 6 atınca çıkmak zorundasın ve başlangıç karesi boşaltılmalı.',
   m_begins:'Oyuna {n} başlıyor!', m_cpu_rolls:'Bilgisayar zar atıyor …', m_three:'6 için 3 hakkın var',
@@ -605,6 +608,7 @@ I18N.tr={
   t_otherver:'Bir telefonda farklı bir sürüm var – herkes aynı sürümü kullanmalı',
   conn_lost:'Bağlantı koptu', host_left:'Oyunu kuran oyundan ayrıldı.', to_start:'Başa dön',
   ai_title:'Bilgisayar seviyesi', ai_easy:'😌 Rahat', ai_normal:'🙂 Normal', ai_hard:'😈 Acımasız', aih_easy:'Bilgisayar rahat oynar ve hata yapar – çocuklar ve yeni başlayanlar için iyi.', aih_normal:'Bilgisayar sağlam oynar ama kusursuz değil.', aih_hard:'Bilgisayar her hamleyi hesaplar, tehlikeden kaçınır ve taşlarını kararlılıkla hedefe götürür.', mi_ai:'Bilgisayar: {x} (değiştir)', m_ai:'Bilgisayar: {A}',
+  m_six_high:'6 geldi – fazla, ama tekrar atabilirsin 🎲',
   upd:'🔄 Yeni sürüm var – güncellemek için buraya dokun',
   other_ver:'Farklı sürüm', other_ver_text:'Oyunu kuranda oyunun farklı bir sürümü var ({x}). Sende sürüm {v} var. Herkes aynı sürümü kullanmalı – sayfayı yenileyin ya da yeni dosyayı gönderin.', older:'eski sürüm'
 };
@@ -1054,6 +1058,8 @@ function afterRoll(v){
   const pl=cp(); const moves=legalMoves(pl,v); G.moves=moves;
   if(v===6)sfx.six();
   if(!moves.length){
+    // Lutz-Regel: Ist die 6 zu hoch (z. B. kurz vor dem Ziel), darf man nochmal würfeln
+    if(v===6&&ruleNow()==='lutz'){ G.phase='roll'; setMsg('m_six_high',{}); refresh(); if(pl.cpu) later(rollDice,700); return; }
     G.tries--;
     if(G.tries>0){G.phase='roll';setMsg(G.tries>1?'m_triesN':'m_tries1',{v,k:G.tries});refresh();if(pl.cpu)later(rollDice,650);}
     else{G.phase='wait';setMsg('m_nomove',{v});refresh();later(nextPlayer,1000);}
