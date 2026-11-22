@@ -149,6 +149,7 @@ button{font-family:inherit;cursor:pointer}
 .modal ul{padding-left:20px;margin:6px 0 14px}
 .modal .row{display:flex;gap:10px;margin-top:14px}
 .menu-list{display:flex;flex-direction:column;gap:10px;margin-top:8px}
+.menu-list>.btn2{flex:none;min-height:50px;height:auto;padding:8px 12px}
 .rank{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:12px;background:rgba(255,255,255,.06);margin:6px 0;font-size:17px}
 .rank b{width:28px}
 .portrait-win{width:110px;height:110px;border-radius:50%;margin:0 auto;border:5px solid #e3262a;box-shadow:0 0 0 3px #fff,0 0 30px rgba(57,255,20,.4);background:center/cover no-repeat}
@@ -354,7 +355,7 @@ body.light .dice-btn .shadow{background:radial-gradient(rgba(0,0,0,.45),transpar
 
 <script>
 const APP_VERSION=16;
-const BUILD='2026-11-22-1925';
+const BUILD='2026-11-22-1930';
 /* ---- Statistik (GoatCounter, nur auf der GitHub-Seite) ---- */
 const gcQueue=[]; let gcReady=false;
 function gcEvent(name){ try{ if(gcReady&&window.goatcounter&&window.goatcounter.count) window.goatcounter.count({path:name,title:name,event:true}); else if(gcQueue.length<20) gcQueue.push(name); }catch(e){} }
@@ -1234,7 +1235,18 @@ $('menuBtn').onclick=()=>{
     menuItem(L('mi_lang',{x:(LANGS.find(x=>x[0]===LANG())||['',''])[1]}),()=>{const o=LANGS.map(x=>x[0]);setup.lang=o[(o.indexOf(LANG())+1)%o.length];saveSetup();applyLang();renderSetup();updRuleLine();refresh();close();}),
     menuItem(L('mi_look',{x:L(isLight()?'light':'dark')}),()=>{setup.theme=isLight()?'dark':'light';saveSetup();applyTheme();close();}),
     menuItem(L('rules_title'),()=>{updRuleLine();$('menuOv').classList.add('hidden');$('rulesOv').classList.remove('hidden');}));
-  if(MODE!=='client') l.append(menuItem(L('mi_ai',{x:L('ai_'+aiNow())}),()=>{const o=['easy','normal','hard'];setup.ai=o[(o.indexOf(aiNow())+1)%3];saveSetup();renderSetup();say('m_ai',{a:aiNow()});close();}));
+  if(MODE!=='client'){
+    // Computer-Stärke direkt im Menü wählen
+    const box=document.createElement('div'); box.style.cssText='text-align:left;margin:2px 0 4px';
+    const lab=document.createElement('div'); lab.textContent=L('ai_title'); lab.style.cssText='font-weight:600;margin:6px 2px 8px;opacity:.85';
+    const seg=document.createElement('div'); seg.className='seg text';
+    ['easy','normal','hard'].forEach(v=>{ const b=document.createElement('button'); b.textContent=L('ai_'+v); b.dataset.v=v;
+      if(v===aiNow()) b.className='on';
+      b.onclick=()=>{ setup.ai=v; saveSetup(); renderSetup(); seg.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x.dataset.v===v)); hint.textContent=L('aih_'+v); say('m_ai',{a:v}); };
+      seg.appendChild(b); });
+    const hint=document.createElement('div'); hint.className='hint'; hint.style.textAlign='left'; hint.textContent=L('aih_'+aiNow());
+    box.append(lab,seg,hint); l.insertBefore(box,l.children[1]||null);
+  }
   if(MODE!=='client') l.append(menuItem(L('mi_rule',{x:L('r_'+ruleNow())}),()=>{const o=['lutz','free','classic'];setup.rule=o[(o.indexOf(ruleNow())+1)%3];saveSetup();renderSetup();updRuleLine();say('m_rule',{r:ruleNow()});close();}));
   if(MODE==='local') l.append(menuItem(L('mi_new'),()=>{$('menuOv').classList.add('hidden');toSetup();}));
   if(MODE==='host') l.append(menuItem(L('mi_lobby'),()=>{$('menuOv').classList.add('hidden');hostBackToLobby();}), menuItem(L('mi_end'),()=>{$('menuOv').classList.add('hidden');leaveOnline();}));
