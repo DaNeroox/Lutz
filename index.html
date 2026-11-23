@@ -199,6 +199,15 @@ body.light .dice-btn .shadow{background:radial-gradient(rgba(0,0,0,.45),transpar
 #codeHist button{border:2px solid rgba(57,255,20,.45);background:rgba(57,255,20,.1);color:inherit;border-radius:12px;padding:8px 12px;font:600 16px 'Fredoka',sans-serif;letter-spacing:2px}
 #codeHist button small{letter-spacing:0;font-weight:400;opacity:.75;margin-left:6px;font-size:12px}
 body.light #codeHist button{background:#eaffdf;border-color:#25b30a}
+#fbText::placeholder{color:#8fa596}
+.fbItem{border-radius:14px;padding:10px 12px;margin:8px 0;background:rgba(255,255,255,.06);border:1.5px solid transparent}
+.fbItem.new{border-color:var(--neon)}
+.fbItem .de{font-size:16px;font-weight:600;margin:4px 0}
+.fbItem .orig{font-size:13px;opacity:.75;font-style:italic;margin-bottom:4px}
+.fbItem .meta{font-size:12px;opacity:.7;line-height:1.4}
+.fbItem .acts{display:flex;gap:8px;margin-top:8px}
+.fbItem .acts button{flex:1;height:36px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.2);color:inherit;font:500 14px 'Fredoka',sans-serif}
+body.light .fbItem{background:rgba(0,0,0,.05)}
 #toast{position:fixed;left:50%;top:22%;transform:translate(-50%,-10px) scale(.9);opacity:0;z-index:15;max-width:92vw;text-align:center;
   padding:10px 18px;border-radius:14px;background:rgba(6,20,10,.9);border:1.5px solid var(--neon);font-size:18px;font-weight:700;pointer-events:none;transition:.25s;box-shadow:0 0 22px rgba(57,255,20,.4)}
 #toast.show{opacity:1;transform:translate(-50%,0) scale(1)}
@@ -283,6 +292,7 @@ body.light #codeHist button{background:#eaffdf;border-color:#25b30a}
         <div class="hint" data-i18n-html="online_hint"></div>
       </div>
     </div>
+    <button class="btn2" id="fbSetupBtn" style="width:100%;flex:none;margin-top:4px" data-i18n="fb_btn">🐞 Fehler melden</button>
     <div class="hint" id="verNote" style="text-align:center;margin-top:4px;padding:10px 0" data-i18n-html="version_note"></div>
   </div>
 </div>
@@ -349,6 +359,23 @@ body.light #codeHist button{background:#eaffdf;border-color:#25b30a}
 <div class="overlay hidden" id="infoOv">
   <div class="modal"><h2 id="infoTitle"></h2><p id="infoText" style="text-align:center"></p><div class="row" id="infoBtns"></div></div>
 </div>
+<div class="overlay hidden" id="fbOv">
+  <div class="modal">
+    <h2 data-i18n="fb_title">Fehler melden</h2>
+    <textarea id="fbText" maxlength="600" rows="5" class="inp" style="height:auto;padding:10px 12px;resize:none;font-size:16px;line-height:1.35"></textarea>
+    <div class="err" id="fbErr" style="text-align:left"></div>
+    <div class="row"><button class="btn2" id="fbCancel" data-i18n="fb_cancel">Abbrechen</button><button class="btn2 prim" id="fbSend" data-i18n="fb_send">Senden</button></div>
+  </div>
+</div>
+<div class="overlay hidden" id="admOv">
+  <div class="modal" style="max-width:520px">
+    <h2>🔒 Admin</h2>
+    <div class="row" style="margin-top:4px"><button class="btn2" id="admStats">📊 Statistik</button><button class="btn2 prim" id="admReload">📬 Meldungen laden</button></div>
+    <div class="hint" id="admInfo" style="text-align:left;margin-top:10px"></div>
+    <div id="admList" style="text-align:left;margin-top:8px"></div>
+    <div class="row"><button class="btn2" id="admClose">Schließen</button></div>
+  </div>
+</div>
 <div class="overlay hidden" id="lutzOv">
   <div class="modal" style="background:linear-gradient(180deg,#2a1414,#120a0a);border-color:#e3262a">
     <div class="portrait-huge portrait"></div>
@@ -361,7 +388,7 @@ body.light #codeHist button{background:#eaffdf;border-color:#25b30a}
 
 <script>
 const APP_VERSION=16;
-const BUILD='2026-11-23-1640';
+const BUILD='2026-11-23-1720';
 /* ---- Statistik (GoatCounter, nur auf der GitHub-Seite) ---- */
 const gcQueue=[]; let gcReady=false;
 function gcEvent(name){ try{ if(gcReady&&window.goatcounter&&window.goatcounter.count) window.goatcounter.count({path:name,title:name,event:true}); else if(gcQueue.length<20) gcQueue.push(name); }catch(e){} }
@@ -438,6 +465,7 @@ de:{
   host_old:'🔄 Ein Mitspieler hat eine neuere Version – bitte hier tippen zum Aktualisieren', host_old_c:'⚠️ Der Ersteller hat eine ältere Version – er sollte aktualisieren (neue Regeln fehlen sonst)',
   resuming:'Verbinde wieder mit Spiel {c} …',
   hist_title:'Zuletzt benutzt – antippen zum Beitreten:', ago_now:'gerade eben', ago_min:'vor {n} Min.', ago_h:'vor {n} Std.',
+  fb_btn:'🐞 Fehler melden', fb_title:'Fehler melden', fb_ph:'Was ist passiert? Zum Beispiel: „Nach der 6 konnte ich nicht nochmal würfeln.“', fb_send:'Senden', fb_cancel:'Abbrechen', fb_sending:'Wird gesendet …', fb_thanks:'Danke! Deine Meldung ist angekommen ✅', fb_fail:'Senden hat nicht geklappt – bitte Internet prüfen und nochmal versuchen.', fb_empty:'Bitte kurz beschreiben, was passiert ist.',
   upd:'🔄 Neue Version da – hier tippen zum Aktualisieren',
   other_ver:'Andere Version', other_ver_text:'Der Ersteller hat eine andere Version des Spiels ({x}). Du hast Version {v}. Alle müssen dieselbe Version benutzen – Seite neu laden oder die neue Datei schicken.', older:'ältere Version'
 },
@@ -499,6 +527,7 @@ nl:{
   host_old:'🔄 Een medespeler heeft een nieuwere versie – tik hier om te vernieuwen', host_old_c:'⚠️ De maker heeft een oudere versie – die moet vernieuwen (anders ontbreken nieuwe regels)',
   resuming:'Opnieuw verbinden met spel {c} …',
   hist_title:'Laatst gebruikt – tik om mee te doen:', ago_now:'zojuist', ago_min:'{n} min. geleden', ago_h:'{n} uur geleden',
+  fb_btn:'🐞 Fout melden', fb_title:'Fout melden', fb_ph:'Wat is er gebeurd? Bijvoorbeeld: „Na de 6 kon ik niet nog een keer gooien.“', fb_send:'Versturen', fb_cancel:'Annuleren', fb_sending:'Wordt verstuurd …', fb_thanks:'Bedankt! Je melding is aangekomen ✅', fb_fail:'Versturen is mislukt – controleer het internet en probeer opnieuw.', fb_empty:'Beschrijf kort wat er gebeurd is.',
   upd:'🔄 Nieuwe versie – tik hier om te vernieuwen',
   other_ver:'Andere versie', other_ver_text:'De maker heeft een andere versie van het spel ({x}). Jij hebt versie {v}. Iedereen moet dezelfde versie gebruiken – pagina opnieuw laden of het nieuwe bestand sturen.', older:'oudere versie'
 },
@@ -560,6 +589,7 @@ en:{
   host_old:'🔄 A player has a newer version – tap here to update', host_old_c:'⚠️ The host has an older version – they should update (new rules are missing otherwise)',
   resuming:'Reconnecting to game {c} …',
   hist_title:'Recently used – tap to join:', ago_now:'just now', ago_min:'{n} min ago', ago_h:'{n} h ago',
+  fb_btn:'🐞 Report a bug', fb_title:'Report a bug', fb_ph:'What happened? For example: “After the 6 I couldn\'t roll again.”', fb_send:'Send', fb_cancel:'Cancel', fb_sending:'Sending …', fb_thanks:'Thanks! Your report has arrived ✅', fb_fail:'Sending failed – please check the internet and try again.', fb_empty:'Please briefly describe what happened.',
   upd:'🔄 New version available – tap here to update',
   other_ver:'Different version', other_ver_text:'The host has a different version of the game ({x}). You have version {v}. Everyone must use the same version – reload the page or send the new file.', older:'older version'
 }};
@@ -628,6 +658,7 @@ I18N.tr={
   host_old:'🔄 Bir oyuncuda daha yeni sürüm var – güncellemek için buraya dokun', host_old_c:'⚠️ Oyunu kuranda eski sürüm var – güncellemeli (yoksa yeni kurallar eksik)',
   resuming:'{c} oyununa yeniden bağlanılıyor …',
   hist_title:'Son kullanılan – katılmak için dokun:', ago_now:'az önce', ago_min:'{n} dk önce', ago_h:'{n} sa önce',
+  fb_btn:'🐞 Hata bildir', fb_title:'Hata bildir', fb_ph:'Ne oldu? Örneğin: „6 attıktan sonra tekrar atamadım.“', fb_send:'Gönder', fb_cancel:'İptal', fb_sending:'Gönderiliyor …', fb_thanks:'Teşekkürler! Bildirimin ulaştı ✅', fb_fail:'Gönderilemedi – lütfen interneti kontrol edip tekrar dene.', fb_empty:'Lütfen ne olduğunu kısaca yaz.',
   upd:'🔄 Yeni sürüm var – güncellemek için buraya dokun',
   other_ver:'Farklı sürüm', other_ver_text:'Oyunu kuranda oyunun farklı bir sürümü var ({x}). Sende sürüm {v} var. Herkes aynı sürümü kullanmalı – sayfayı yenileyin ya da yeni dosyayı gönderin.', older:'eski sürüm'
 };
@@ -1250,7 +1281,7 @@ $('menuBtn').onclick=()=>{
   if(!G)return; pause(true);
   const l=$('menuList'); l.innerHTML='';
   const close=()=>{$('menuOv').classList.add('hidden');pause(false);};
-  l.append(menuItem(L('mi_continue'),close,true),
+  l.append(menuItem(L('mi_continue'),close,true), menuItem(L('fb_btn'),()=>{ $('menuOv').classList.add('hidden'); openFeedback(); }),
     menuItem(L('mi_move',{x:L(manual()?'move_manual':'move_auto')}),()=>{setup.moveMode=manual()?'auto':'manual';saveSetup();renderSetup();refresh();toast(manual()?L('t_manual'):L('t_auto'));close();}),
     menuItem(L('mi_lang',{x:(LANGS.find(x=>x[0]===LANG())||['',''])[1]}),()=>{const o=LANGS.map(x=>x[0]);setup.lang=o[(o.indexOf(LANG())+1)%o.length];saveSetup();applyLang();renderSetup();updRuleLine();refresh();close();}),
     menuItem(L('mi_look',{x:L(isLight()?'light':'dark')}),()=>{setup.theme=isLight()?'dark':'light';saveSetup();applyTheme();close();}),
@@ -1712,10 +1743,91 @@ function applySnap(st,first){
 /* ---- Geheim: 5x auf die Version tippen = Statistik ---- */
 (function(){ let n=0,tm=null;
   $('verNote').addEventListener('click',()=>{ n++; clearTimeout(tm); tm=setTimeout(()=>n=0,2500);
-    if(n>=5){ n=0; buzz(30);
-      const a=document.createElement('a'); a.href='https://neroox.goatcounter.com/'; a.target='_blank'; a.rel='noopener';
-      document.body.appendChild(a); a.click(); a.remove(); } });
+    if(n>=5){ n=0; buzz(30); openAdmin(); } });
 })();
+
+/* ======================= Fehler melden + Admin ======================= */
+const FB_TOPIC='lutz-aerger-dich-nicht/v2/meldungen-q7x4k2/';
+const FB_BROKERS=['M','H'];
+function fbRandom(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+function deviceInfo(){ const u=navigator.userAgent||''; let d=/iPad/.test(u)||(/Macintosh/.test(u)&&'ontouchend' in document)?'iPad':/iPhone/.test(u)?'iPhone':/Android/.test(u)?(/Mobile/.test(u)?'Android-Handy':'Android-Tablet'):'Computer';
+  const b=/SamsungBrowser/.test(u)?'Samsung Internet':/CriOS|Chrome/.test(u)?'Chrome':/FxiOS|Firefox/.test(u)?'Firefox':/Safari/.test(u)?'Safari':'?';
+  return d+' · '+b+' · '+window.innerWidth+'×'+window.innerHeight; }
+function gameContext(){
+  const parts=[MODE==='local'?'1 Gerät':(MODE==='host'?'Ersteller':'Mitspieler')+(CODE?' '+CODE:''),'Regel: '+ruleNow(),'KI: '+aiNow()];
+  try{ if(G){ parts.push('Phase: '+G.phase,'Würfel: '+G.dice,'dran: '+(cp()?cp().name:'?')); parts.push('Stand: '+G.players.map(p=>p.color+'['+p.pieces.join(',')+']'+(p.cpu?'🤖':'')).join(' ')); } }catch(e){}
+  return parts.join(' · ');
+}
+async function translateToGerman(text,lang){
+  const src=({vl:'nl',nl:'nl',en:'en',tr:'tr'})[lang]; if(!src) return null;
+  try{ const ctl=new AbortController(); const tm=setTimeout(()=>ctl.abort(),7000);
+    const r=await fetch('https://api.mymemory.translated.net/get?q='+encodeURIComponent(text.slice(0,480))+'&langpair='+src+'|de',{signal:ctl.signal}); clearTimeout(tm);
+    const j=await r.json(); const tx=j&&j.responseData&&j.responseData.translatedText;
+    if(j&&j.responseStatus==200&&tx&&!/MYMEMORY WARNING|QUERY LENGTH LIMIT/i.test(tx)) return tx; }catch(e){}
+  return null;
+}
+function mqttOnce(letter){ return new Promise((res,rej)=>{ let cl; try{ cl=window.mqtt.connect(BROKERS[letter],{clientId:'lutzfb_'+fbRandom(),clean:true,connectTimeout:8000,reconnectPeriod:0}); }catch(e){ rej(e); return; }
+  const t=setTimeout(()=>{ try{cl.end(true);}catch(_){} rej(new Error('timeout')); },9000);
+  cl.once('connect',()=>{ clearTimeout(t); res(cl); }); cl.on('error',()=>{}); }); }
+function openFeedback(){ $('fbText').value=''; $('fbText').placeholder=L('fb_ph'); $('fbErr').textContent=''; $('fbSend').disabled=false; $('fbOv').classList.remove('hidden'); setTimeout(()=>$('fbText').focus(),100); }
+$('fbSetupBtn').onclick=openFeedback;
+$('fbCancel').onclick=()=>$('fbOv').classList.add('hidden');
+$('fbSend').onclick=async()=>{
+  const text=$('fbText').value.trim(); if(text.length<3){ $('fbErr').textContent=L('fb_empty'); return; }
+  $('fbSend').disabled=true; $('fbErr').textContent=L('fb_sending');
+  const lang=LANG(); const de= lang==='de'?text:await translateToGerman(text,lang);
+  const msg={id:fbRandom(),t:Date.now(),name:onlineName(),lang,orig:text.slice(0,600),de:de||'',ver:APP_VERSION+' / '+BUILD,dev:deviceInfo(),ctx:gameContext()};
+  let ok=0;
+  if(await loadMqtt()){
+    await Promise.all(FB_BROKERS.map(async l=>{ try{ const cl=await mqttOnce(l);
+      await new Promise(r=>cl.publish(FB_TOPIC+msg.id,JSON.stringify(msg),{retain:true,qos:1},()=>r())); ok++; setTimeout(()=>{ try{cl.end();}catch(e){} },300); }catch(e){} }));
+  }
+  // Sicherheitskopie in deiner Statistik (GoatCounter)
+  try{ if(gcReady&&window.goatcounter) window.goatcounter.count({path:'meldung-'+msg.id,title:('['+lang+'] '+(de||text)).slice(0,250),event:true}); }catch(e){}
+  if(ok){ $('fbOv').classList.add('hidden'); toast(L('fb_thanks')); gcEvent('meldung-gesendet'); }
+  else { $('fbErr').textContent=L('fb_fail'); $('fbSend').disabled=false; }
+};
+/* ---- Admin-Ansicht ---- */
+function fbStore(){ try{ return JSON.parse(localStorage.getItem('lutz_fb')||'{}')||{}; }catch(e){ return {}; } }
+function fbSave(o){ try{ localStorage.setItem('lutz_fb',JSON.stringify(o)); }catch(e){} }
+function openAdmin(){ $('admOv').classList.remove('hidden'); renderAdmin(); loadReports(); }
+$('admClose').onclick=()=>$('admOv').classList.add('hidden');
+$('admStats').onclick=()=>{ const a=document.createElement('a'); a.href='https://neroox.goatcounter.com/'; a.target='_blank'; a.rel='noopener'; document.body.appendChild(a); a.click(); a.remove(); };
+$('admReload').onclick=()=>loadReports();
+const LANG_NAME={de:'🇩🇪 Deutsch',nl:'🇳🇱 Niederländisch',vl:'🇧🇪 Flämisch',en:'🇬🇧 Englisch',tr:'🇹🇷 Türkisch'};
+async function loadReports(){
+  $('admInfo').textContent='Lade Meldungen …';
+  if(!await loadMqtt()){ $('admInfo').textContent='Keine Internetverbindung.'; return; }
+  const store=fbStore(); let got=0, conns=0;
+  await Promise.all(FB_BROKERS.map(async l=>{ try{ const cl=await mqttOnce(l); conns++;
+    cl.on('message',(topic,payload)=>{ const id=topic.slice(FB_TOPIC.length); const txt=payload?payload.toString():''; if(!txt||!id||id.includes('/'))return;
+      try{ const m=JSON.parse(txt); if(!m||!m.id||m.id!==id)return; if(!store[id]){ store[id]=Object.assign(m,{seen:false}); got++; } }catch(e){} });
+    cl.subscribe(FB_TOPIC+'+',{qos:1}); await sleep(3500); try{cl.end(true);}catch(e){} }catch(e){} }));
+  // fehlende Übersetzungen nachholen
+  for(const m of Object.values(store)){ if(!m.de&&m.lang&&m.lang!=='de'){ const d=await translateToGerman(m.orig,m.lang); if(d) m.de=d; } }
+  fbSave(store);
+  $('admInfo').textContent=conns?(got?`${got} neue Meldung(en) geladen.`:'Keine neuen Meldungen.'):'Server nicht erreichbar – zeige gespeicherte Meldungen.';
+  renderAdmin();
+}
+function renderAdmin(){
+  const store=fbStore(); const list=Object.values(store).sort((a,b)=>b.t-a.t); const box=$('admList'); box.innerHTML='';
+  const unseen=list.filter(m=>!m.seen).length; $('admReload').textContent='📬 Meldungen laden'+(unseen?` (${unseen} neu)`:'');
+  if(!list.length){ box.innerHTML='<div class="hint">Noch keine Meldungen.</div>'; return; }
+  list.forEach(m=>{
+    const d=document.createElement('div'); d.className='fbItem'+(m.seen?'':' new');
+    const when=new Date(m.t).toLocaleString('de-DE',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
+    const head=document.createElement('div'); head.className='meta'; head.textContent=`${m.seen?'':'🆕 '}${when} · ${m.name||'?'} · ${LANG_NAME[m.lang]||m.lang||''}`;
+    const de=document.createElement('div'); de.className='de'; de.textContent=m.de||m.orig;
+    d.append(head,de);
+    if(m.lang!=='de'){ const o=document.createElement('div'); o.className='orig'; o.textContent='Original: '+m.orig; d.append(o); if(!m.de){ const w=document.createElement('div'); w.className='meta'; w.textContent='(Übersetzung gerade nicht möglich – später nochmal laden)'; d.append(w); } }
+    const meta=document.createElement('div'); meta.className='meta'; meta.textContent=`📱 ${m.dev||'?'}\n🎮 ${m.ctx||''}\n🏷 Version ${m.ver||'?'}`; meta.style.whiteSpace='pre-line'; d.append(meta);
+    const acts=document.createElement('div'); acts.className='acts';
+    const b1=document.createElement('button'); b1.textContent=m.seen?'↩︎ ungelesen':'✓ gelesen'; b1.onclick=()=>{ const s=fbStore(); if(s[m.id]){ s[m.id].seen=!s[m.id].seen; fbSave(s); renderAdmin(); } };
+    const b2=document.createElement('button'); b2.textContent='🗑 löschen'; b2.onclick=async()=>{ const s=fbStore(); delete s[m.id]; fbSave(s); renderAdmin();
+      if(await loadMqtt()) FB_BROKERS.forEach(async l=>{ try{ const cl=await mqttOnce(l); cl.publish(FB_TOPIC+m.id,'',{retain:true,qos:1},()=>{ try{cl.end();}catch(e){} }); }catch(e){} }); };
+    acts.append(b1,b2); d.append(acts); box.append(d);
+  });
+}
 
 /* ======================= Update-Erkennung (GitHub-Link) ======================= */
 let newBuild=null;
