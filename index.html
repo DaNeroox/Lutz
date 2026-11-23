@@ -194,6 +194,11 @@ body.light #toast{background:rgba(255,255,255,.96);color:#1d2a20;border-color:#2
 body.light .board-wrap{box-shadow:0 8px 20px rgba(80,50,10,.3)}
 body.light .dice-btn .shadow{background:radial-gradient(rgba(0,0,0,.45),transparent 70%)}
 #updBar{position:fixed;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:40;border:none;border-radius:14px;padding:12px 18px;font:700 16px 'Fredoka',sans-serif;color:#06210a;background:linear-gradient(180deg,#7dff63,#2fd60f);box-shadow:0 0 20px rgba(57,255,20,.5);max-width:92vw}
+#codeHist .hl-title{font-size:13px;color:#9fb9a5;margin:4px 0 8px}
+#codeHist .chips2{display:flex;flex-wrap:wrap;gap:8px}
+#codeHist button{border:2px solid rgba(57,255,20,.45);background:rgba(57,255,20,.1);color:inherit;border-radius:12px;padding:8px 12px;font:600 16px 'Fredoka',sans-serif;letter-spacing:2px}
+#codeHist button small{letter-spacing:0;font-weight:400;opacity:.75;margin-left:6px;font-size:12px}
+body.light #codeHist button{background:#eaffdf;border-color:#25b30a}
 #toast{position:fixed;left:50%;top:22%;transform:translate(-50%,-10px) scale(.9);opacity:0;z-index:15;max-width:92vw;text-align:center;
   padding:10px 18px;border-radius:14px;background:rgba(6,20,10,.9);border:1.5px solid var(--neon);font-size:18px;font-weight:700;pointer-events:none;transition:.25s;box-shadow:0 0 22px rgba(57,255,20,.4)}
 #toast.show{opacity:1;transform:translate(-50%,0) scale(1)}
@@ -274,6 +279,7 @@ body.light .dice-btn .shadow{background:radial-gradient(rgba(0,0,0,.45),transpar
           <button class="btn2 prim" id="joinBtn" style="flex:none;width:110px" data-i18n="join">Beitreten</button>
         </div>
         <div class="err" id="onErr"></div>
+        <div id="codeHist"></div>
         <div class="hint" data-i18n-html="online_hint"></div>
       </div>
     </div>
@@ -355,7 +361,7 @@ body.light .dice-btn .shadow{background:radial-gradient(rgba(0,0,0,.45),transpar
 
 <script>
 const APP_VERSION=16;
-const BUILD='2026-11-23-1600';
+const BUILD='2026-11-23-1640';
 /* ---- Statistik (GoatCounter, nur auf der GitHub-Seite) ---- */
 const gcQueue=[]; let gcReady=false;
 function gcEvent(name){ try{ if(gcReady&&window.goatcounter&&window.goatcounter.count) window.goatcounter.count({path:name,title:name,event:true}); else if(gcQueue.length<20) gcQueue.push(name); }catch(e){} }
@@ -431,6 +437,7 @@ de:{
   m_six_high:'Eine 6 – zu hoch, aber du darfst nochmal würfeln 🎲',
   host_old:'🔄 Ein Mitspieler hat eine neuere Version – bitte hier tippen zum Aktualisieren', host_old_c:'⚠️ Der Ersteller hat eine ältere Version – er sollte aktualisieren (neue Regeln fehlen sonst)',
   resuming:'Verbinde wieder mit Spiel {c} …',
+  hist_title:'Zuletzt benutzt – antippen zum Beitreten:', ago_now:'gerade eben', ago_min:'vor {n} Min.', ago_h:'vor {n} Std.',
   upd:'🔄 Neue Version da – hier tippen zum Aktualisieren',
   other_ver:'Andere Version', other_ver_text:'Der Ersteller hat eine andere Version des Spiels ({x}). Du hast Version {v}. Alle müssen dieselbe Version benutzen – Seite neu laden oder die neue Datei schicken.', older:'ältere Version'
 },
@@ -491,6 +498,7 @@ nl:{
   m_six_high:'Een 6 – te hoog, maar je mag nog een keer gooien 🎲',
   host_old:'🔄 Een medespeler heeft een nieuwere versie – tik hier om te vernieuwen', host_old_c:'⚠️ De maker heeft een oudere versie – die moet vernieuwen (anders ontbreken nieuwe regels)',
   resuming:'Opnieuw verbinden met spel {c} …',
+  hist_title:'Laatst gebruikt – tik om mee te doen:', ago_now:'zojuist', ago_min:'{n} min. geleden', ago_h:'{n} uur geleden',
   upd:'🔄 Nieuwe versie – tik hier om te vernieuwen',
   other_ver:'Andere versie', other_ver_text:'De maker heeft een andere versie van het spel ({x}). Jij hebt versie {v}. Iedereen moet dezelfde versie gebruiken – pagina opnieuw laden of het nieuwe bestand sturen.', older:'oudere versie'
 },
@@ -551,6 +559,7 @@ en:{
   m_six_high:'A 6 – too high, but you may roll again 🎲',
   host_old:'🔄 A player has a newer version – tap here to update', host_old_c:'⚠️ The host has an older version – they should update (new rules are missing otherwise)',
   resuming:'Reconnecting to game {c} …',
+  hist_title:'Recently used – tap to join:', ago_now:'just now', ago_min:'{n} min ago', ago_h:'{n} h ago',
   upd:'🔄 New version available – tap here to update',
   other_ver:'Different version', other_ver_text:'The host has a different version of the game ({x}). You have version {v}. Everyone must use the same version – reload the page or send the new file.', older:'older version'
 }};
@@ -618,6 +627,7 @@ I18N.tr={
   m_six_high:'6 geldi – fazla, ama tekrar atabilirsin 🎲',
   host_old:'🔄 Bir oyuncuda daha yeni sürüm var – güncellemek için buraya dokun', host_old_c:'⚠️ Oyunu kuranda eski sürüm var – güncellemeli (yoksa yeni kurallar eksik)',
   resuming:'{c} oyununa yeniden bağlanılıyor …',
+  hist_title:'Son kullanılan – katılmak için dokun:', ago_now:'az önce', ago_min:'{n} dk önce', ago_h:'{n} sa önce',
   upd:'🔄 Yeni sürüm var – güncellemek için buraya dokun',
   other_ver:'Farklı sürüm', other_ver_text:'Oyunu kuranda oyunun farklı bir sürümü var ({x}). Sende sürüm {v} var. Herkes aynı sürümü kullanmalı – sayfayı yenileyin ya da yeni dosyayı gönderin.', older:'eski sürüm'
 };
@@ -744,6 +754,7 @@ function renderSetup(){
   $('localBox').classList.toggle('hidden',setup.mode!=='local');
   $('onlineBox').classList.toggle('hidden',setup.mode!=='online');
   $('onName').value=setup.onlineName||setup.players[0].name||'';
+  renderHist();
   const sh=$('segHumans'); sh.innerHTML='';
   for(let i=1;i<=4;i++){const b=document.createElement('button');b.textContent=i;if(i===setup.humans)b.className='on';b.onclick=()=>{setup.humans=i;fixCpus();renderSetup();};sh.appendChild(b);}
   const sc=$('segCpu'); sc.innerHTML='';
@@ -1427,7 +1438,8 @@ $('joinBtn').onclick=async()=>{
   if(r==='peer'&&!BROKERS[code[0]]&&code[0]==='C'){ setErr(L('e_claudecode')); return; }
   if(r!=='peer'&&BROKERS[code[0]]){ setErr(L('e_htmlcode')); return; }
   if(r==='peer'&&!BROKERS[code[0]]){ setErr(L('e_badcode')); return; }
-  await doJoin(r,code,name,null);
+  const old=loadHist().find(x=>x.code===code&&x.id);
+  await doJoin(r,code,name,old?{id:old.id,seq:old.seq||0,code}:null);
 };
 async function doJoin(r,code,name,resume){
   setErr(resume?L('resuming',{c:code}):L('searching',{c:code}));
@@ -1470,8 +1482,22 @@ $('codeIn').oninput=()=>{ $('codeIn').value=$('codeIn').value.toUpperCase().repl
 const SESS_KEY='lutz_sess';
 function loadSess(){ try{ const x=JSON.parse(sessionStorage.getItem(SESS_KEY)||'null'); if(x&&Date.now()-x.ts<3*3600*1000) return x; }catch(e){} return null; }
 function saveSess(extra){ if(NET!=='peer'||!ROOM||MODE==='local')return; try{ const me=(ROOM.peers().find(p=>p.sameTab)||{}).peer;
-  sessionStorage.setItem(SESS_KEY,JSON.stringify(Object.assign({role:MODE,code:CODE,id:me,name:onlineName(),seq:actSeq,ts:Date.now()},extra||{}))); }catch(e){} }
+  sessionStorage.setItem(SESS_KEY,JSON.stringify(Object.assign({role:MODE,code:CODE,id:me,name:onlineName(),seq:actSeq,ts:Date.now()},extra||{})));
+  if(MODE==='client'&&me) saveHist({code:CODE,id:me,seq:actSeq,ts:Date.now()}); }catch(e){} }
 function clearSess(){ try{ sessionStorage.removeItem(SESS_KEY); }catch(e){} }
+/* ---- Code-Verlauf: zuletzt benutzte Spiel-Codes (merkt sich auch, welcher Spieler man war) ---- */
+function loadHist(){ try{ const h=JSON.parse(localStorage.getItem('lutz_codes')||'[]'); return Array.isArray(h)?h.filter(x=>x&&/^[A-Z0-9]{4}$/.test(x.code)&&Date.now()-x.ts<24*3600*1000):[]; }catch(e){ return []; } }
+function saveHist(e){ try{ let h=loadHist().filter(x=>x.code!==e.code); h.unshift(e); localStorage.setItem('lutz_codes',JSON.stringify(h.slice(0,5))); }catch(err){} }
+function agoText(ts){ const m=Math.floor((Date.now()-ts)/60000); if(m<1) return L('ago_now'); if(m<60) return L('ago_min',{n:m}); return L('ago_h',{n:Math.floor(m/60)}); }
+function renderHist(){
+  const box=$('codeHist'); if(!box)return; const h=loadHist().slice(0,3); box.innerHTML='';
+  if(!h.length)return;
+  const t=document.createElement('div'); t.className='hl-title'; t.textContent=L('hist_title'); box.appendChild(t);
+  const row=document.createElement('div'); row.className='chips2';
+  h.forEach(x=>{ const b=document.createElement('button'); b.textContent=x.code; const sm=document.createElement('small'); sm.textContent=agoText(x.ts); b.appendChild(sm);
+    b.onclick=()=>{ $('codeIn').value=x.code; $('joinBtn').disabled=false; $('joinBtn').click(); }; row.appendChild(b); });
+  box.appendChild(row);
+}
 function serG(){ if(!G)return null; return {gid:G.gid,players:G.players.map(p=>({color:p.color,name:p.name,cpu:p.cpu,pid:p.pid||null,pieces:p.pieces.slice(),done:!!p.done,left:!!p.left,oldPid:p.oldPid||null})),
   cur:G.cur,phase:G.phase,dice:G.dice,ranks:G.ranks.map(p=>G.players.indexOf(p)),firstWin:!!G.firstWin,ev:G.ev,evId:G.evId}; }
 function leaveOnline(){
