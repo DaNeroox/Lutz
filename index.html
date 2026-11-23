@@ -377,6 +377,7 @@ body.light .fbItem{background:rgba(0,0,0,.05)}
     </div>
     <div id="admBody" class="hidden">
       <div class="row" style="margin-top:4px"><button class="btn2" id="admStats">📊 Statistik</button><button class="btn2 prim" id="admReload">📬 Meldungen laden</button></div>
+      <div class="row" style="margin-top:8px"><button class="btn2" id="admCopyAll">📋 Alle kopieren</button></div>
       <div class="hint" id="admInfo" style="text-align:left;margin-top:10px"></div>
       <div id="admList" style="text-align:left;margin-top:8px"></div>
     </div>
@@ -395,7 +396,7 @@ body.light .fbItem{background:rgba(0,0,0,.05)}
 
 <script>
 const APP_VERSION=16;
-const BUILD='2026-11-23-1805';
+const BUILD='2026-11-23-1815';
 /* ---- Statistik (GoatCounter, nur auf der GitHub-Seite) ---- */
 const gcQueue=[]; let gcReady=false;
 function gcEvent(name){ try{ if(gcReady&&window.goatcounter&&window.goatcounter.count) window.goatcounter.count({path:name,title:name,event:true}); else if(gcQueue.length<20) gcQueue.push(name); }catch(e){} }
@@ -1863,6 +1864,21 @@ async function loadReports(){
   $('admInfo').textContent=conns?(got?`${got} neue Meldung(en) geladen.`:'Keine neuen Meldungen.'):'Server nicht erreichbar – zeige gespeicherte Meldungen.';
   renderAdmin();
 }
+function fbText(m){
+  const when=new Date(m.t).toLocaleString('de-DE',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+  const lines=['🐞 Lutz-Meldung','Datum: '+when,'Von: '+(m.name||'?')+' (Spiel auf '+(LANG_NAME[m.lang]||m.lang||'?')+(m.src&&m.src!=='?'?', geschrieben auf '+m.src.toUpperCase():'')+')',
+    'Text: '+(m.de||m.orig)];
+  if(m.de&&m.de!==m.orig) lines.push('Original: '+m.orig);
+  lines.push('Gerät: '+(m.dev||'?'),'Spiel: '+(m.ctx||'?'),'Version: '+(m.ver||'?'));
+  return lines.join('\n');
+}
+async function copyText(t){
+  try{ await navigator.clipboard.writeText(t); return true; }catch(e){}
+  try{ const ta=document.createElement('textarea'); ta.value=t; ta.setAttribute('readonly',''); ta.style.cssText='position:fixed;left:-9999px;top:0';
+    document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0,t.length); const ok=document.execCommand('copy'); ta.remove(); return ok; }catch(e){ return false; }
+}
+$('admCopyAll').onclick=async()=>{ const list=Object.values(fbStore()).sort((a,b)=>b.t-a.t); if(!list.length){ toast('Keine Meldungen'); return; }
+  toast(await copyText(list.map(fbText).join('\n\n────────\n\n'))?'📋 '+list.length+' Meldung(en) kopiert':'Kopieren hat nicht geklappt'); };
 function renderAdmin(){
   const store=fbStore(); const list=Object.values(store).sort((a,b)=>b.t-a.t); const box=$('admList'); box.innerHTML='';
   const unseen=list.filter(m=>!m.seen).length; $('admReload').textContent='📬 Meldungen laden'+(unseen?` (${unseen} neu)`:'');
@@ -1876,10 +1892,11 @@ function renderAdmin(){
     if(m.de&&m.de!==m.orig||!m.de){ const o=document.createElement('div'); o.className='orig'; o.textContent='Original: '+m.orig; d.append(o); if(!m.de){ const w=document.createElement('div'); w.className='meta'; w.textContent='(Übersetzung gerade nicht möglich – später nochmal laden)'; d.append(w); } }
     const meta=document.createElement('div'); meta.className='meta'; meta.textContent=`📱 ${m.dev||'?'}\n🎮 ${m.ctx||''}\n🏷 Version ${m.ver||'?'}`; meta.style.whiteSpace='pre-line'; d.append(meta);
     const acts=document.createElement('div'); acts.className='acts';
+    const b0=document.createElement('button'); b0.textContent='📋 Kopieren'; b0.onclick=async()=>{ toast(await copyText(fbText(m))?'📋 Kopiert – jetzt einfügen und an Claude schicken':'Kopieren hat nicht geklappt'); };
     const b1=document.createElement('button'); b1.textContent=m.seen?'↩︎ ungelesen':'✓ gelesen'; b1.onclick=()=>{ const s=fbStore(); if(s[m.id]){ s[m.id].seen=!s[m.id].seen; fbSave(s); renderAdmin(); } };
     const b2=document.createElement('button'); b2.textContent='🗑 löschen'; b2.onclick=async()=>{ const s=fbStore(); delete s[m.id]; fbSave(s); renderAdmin();
       if(await loadMqtt()) FB_BROKERS.forEach(async l=>{ try{ const cl=await mqttOnce(l); cl.publish(FB_TOPIC+m.id,'',{retain:true,qos:1},()=>{ try{cl.end();}catch(e){} }); }catch(e){} }); };
-    acts.append(b1,b2); d.append(acts); box.append(d);
+    acts.append(b0,b1,b2); d.append(acts); box.append(d);
   });
 }
 
