@@ -355,7 +355,7 @@ body.light .dice-btn .shadow{background:radial-gradient(rgba(0,0,0,.45),transpar
 
 <script>
 const APP_VERSION=16;
-const BUILD='2026-11-22-1930';
+const BUILD='2026-11-23-1520';
 /* ---- Statistik (GoatCounter, nur auf der GitHub-Seite) ---- */
 const gcQueue=[]; let gcReady=false;
 function gcEvent(name){ try{ if(gcReady&&window.goatcounter&&window.goatcounter.count) window.goatcounter.count({path:name,title:name,event:true}); else if(gcQueue.length<20) gcQueue.push(name); }catch(e){} }
@@ -429,6 +429,7 @@ de:{
   conn_lost:'Verbindung weg', host_left:'Der Gastgeber hat das Spiel verlassen.', to_start:'Zum Start',
   ai_title:'Computer-Stärke', ai_easy:'😌 Gemütlich', ai_normal:'🙂 Normal', ai_hard:'😈 Gnadenlos', aih_easy:'Der Computer spielt locker und macht Fehler – gut für Kinder und Anfänger.', aih_normal:'Der Computer spielt solide, aber nicht perfekt.', aih_hard:'Der Computer rechnet jeden Zug durch, meidet Gefahren und bringt seine Figuren zielstrebig ins Ziel.', mi_ai:'Computer: {x} (ändern)', m_ai:'Computer: {A}',
   m_six_high:'Eine 6 – zu hoch, aber du darfst nochmal würfeln 🎲',
+  host_old:'🔄 Ein Mitspieler hat eine neuere Version – bitte hier tippen zum Aktualisieren', host_old_c:'⚠️ Der Ersteller hat eine ältere Version – er sollte aktualisieren (neue Regeln fehlen sonst)',
   upd:'🔄 Neue Version da – hier tippen zum Aktualisieren',
   other_ver:'Andere Version', other_ver_text:'Der Ersteller hat eine andere Version des Spiels ({x}). Du hast Version {v}. Alle müssen dieselbe Version benutzen – Seite neu laden oder die neue Datei schicken.', older:'ältere Version'
 },
@@ -487,6 +488,7 @@ nl:{
   conn_lost:'Verbinding weg', host_left:'De maker heeft het spel verlaten.', to_start:'Naar het begin',
   ai_title:'Sterkte van de computer', ai_easy:'😌 Rustig', ai_normal:'🙂 Normaal', ai_hard:'😈 Genadeloos', aih_easy:'De computer speelt ontspannen en maakt fouten – goed voor kinderen en beginners.', aih_normal:'De computer speelt degelijk, maar niet perfect.', aih_hard:'De computer berekent elke zet, vermijdt gevaar en brengt zijn pionnen doelgericht naar huis.', mi_ai:'Computer: {x} (wijzigen)', m_ai:'Computer: {A}',
   m_six_high:'Een 6 – te hoog, maar je mag nog een keer gooien 🎲',
+  host_old:'🔄 Een medespeler heeft een nieuwere versie – tik hier om te vernieuwen', host_old_c:'⚠️ De maker heeft een oudere versie – die moet vernieuwen (anders ontbreken nieuwe regels)',
   upd:'🔄 Nieuwe versie – tik hier om te vernieuwen',
   other_ver:'Andere versie', other_ver_text:'De maker heeft een andere versie van het spel ({x}). Jij hebt versie {v}. Iedereen moet dezelfde versie gebruiken – pagina opnieuw laden of het nieuwe bestand sturen.', older:'oudere versie'
 },
@@ -545,6 +547,7 @@ en:{
   conn_lost:'Connection lost', host_left:'The host has left the game.', to_start:'Back to start',
   ai_title:'Computer strength', ai_easy:'😌 Relaxed', ai_normal:'🙂 Normal', ai_hard:'😈 Ruthless', aih_easy:'The computer plays casually and makes mistakes – good for kids and beginners.', aih_normal:'The computer plays solidly, but not perfectly.', aih_hard:'The computer calculates every move, avoids danger and drives its pieces home.', mi_ai:'Computer: {x} (change)', m_ai:'Computer: {A}',
   m_six_high:'A 6 – too high, but you may roll again 🎲',
+  host_old:'🔄 A player has a newer version – tap here to update', host_old_c:'⚠️ The host has an older version – they should update (new rules are missing otherwise)',
   upd:'🔄 New version available – tap here to update',
   other_ver:'Different version', other_ver_text:'The host has a different version of the game ({x}). You have version {v}. Everyone must use the same version – reload the page or send the new file.', older:'older version'
 }};
@@ -610,6 +613,7 @@ I18N.tr={
   conn_lost:'Bağlantı koptu', host_left:'Oyunu kuran oyundan ayrıldı.', to_start:'Başa dön',
   ai_title:'Bilgisayar seviyesi', ai_easy:'😌 Rahat', ai_normal:'🙂 Normal', ai_hard:'😈 Acımasız', aih_easy:'Bilgisayar rahat oynar ve hata yapar – çocuklar ve yeni başlayanlar için iyi.', aih_normal:'Bilgisayar sağlam oynar ama kusursuz değil.', aih_hard:'Bilgisayar her hamleyi hesaplar, tehlikeden kaçınır ve taşlarını kararlılıkla hedefe götürür.', mi_ai:'Bilgisayar: {x} (değiştir)', m_ai:'Bilgisayar: {A}',
   m_six_high:'6 geldi – fazla, ama tekrar atabilirsin 🎲',
+  host_old:'🔄 Bir oyuncuda daha yeni sürüm var – güncellemek için buraya dokun', host_old_c:'⚠️ Oyunu kuranda eski sürüm var – güncellemeli (yoksa yeni kurallar eksik)',
   upd:'🔄 Yeni sürüm var – güncellemek için buraya dokun',
   other_ver:'Farklı sürüm', other_ver_text:'Oyunu kuranda oyunun farklı bir sürümü var ({x}). Sende sürüm {v} var. Herkes aynı sürümü kullanmalı – sayfayı yenileyin ya da yeni dosyayı gönderin.', older:'eski sürüm'
 };
@@ -1201,7 +1205,8 @@ function refresh(){
   $('board').classList.toggle('manual',manual());
   if(drag){ publish(); return; }
   clearHighlight(); if(G.phase==='move'&&mine) highlight(G.moves);
-  $('netBadge').textContent=MODE==='local'?'':`🟢 Online · Code ${CODE}`;
+  const ruleShown=MODE==='client'?(G.rule||null):ruleNow();
+  $('netBadge').textContent=[MODE==='local'?'':`🟢 Code ${CODE}`, ruleShown?L('r_'+ruleShown):''].filter(Boolean).join(' · ');
   publish();
 }
 function addTarget(m){
@@ -1423,7 +1428,7 @@ $('joinBtn').onclick=async()=>{
   catch(e){ setErr(NET_ERR[e&&e.message]||NET_ERR.network); return; }
   setErr('');
   CODE=code; MODE='client'; G=null; LOBBY=null; delete $('lobbyInfo').dataset.nf; hostSeen=false; lastHostPres=null; actSeq=0;
-  ROOM.presence({r:'c',v:APP_VERSION,n:name,want:null,act:{s:0,a:''}}).catch(()=>{});
+  ROOM.presence({r:'c',v:APP_VERSION,bd:BUILD,n:name,want:null,act:{s:0,a:''}}).catch(()=>{});
   ROOM.onPeers(clientPeers); showScreen('lobby'); renderLobby(); gcEvent('online-beigetreten');
   clearTimeout(joinTimer); joinTimer=setTimeout(()=>{ if(!hostSeen&&MODE==='client') $('lobbyInfo').textContent=L('notfound_lobby',{c:CODE}); $('lobbyInfo').dataset.nf='1'; },6000);
 };
@@ -1479,9 +1484,9 @@ $('lobbyStart').onclick=()=>{
 function hostBackToLobby(){ if(G){G.token=++TOKEN;} G=null; stopConfetti(); showScreen('lobby'); renderLobby(); publish(); }
 
 /* ---- Gastgeber ---- */
-let SEQ={}, pubQueued=false, warnedVer={};
+let SEQ={}, pubQueued=false, warnedVer={}, G_oldWarned=false;
 function snap(){
-  return {g:G.gid,cur:G.cur,ph:G.phase,dv:G.dice,msg:G.msg,mk:G.msgK||null,mp:G.msgP||{},
+  return {ru:ruleNow(),bd:BUILD,g:G.gid,cur:G.cur,ph:G.phase,dv:G.dice,msg:G.msg,mk:G.msgK||null,mp:G.msgP||{},
     pl:G.players.map(p=>({c:p.color,n:p.name,cpu:p.cpu?1:0,pid:p.pid||null,pc:p.pieces.slice(),d:p.done?1:0,l:p.left?1:0})),
     mv:G.phase==='move'?G.moves.map(m=>[m.i,m.to]):[], rk:G.ranks.map(p=>G.players.indexOf(p))};
 }
@@ -1504,6 +1509,7 @@ function hostPeers(ch){
   for(const p of ch.peers){
     if(p.sameTab||p.kind!=='viewer')continue;
     const pr=p.presence||{}; if(pr.r!=='c')continue;
+    if(typeof pr.bd==='string'&&pr.bd>BUILD&&!warnedVer['b'+p.peer]){ warnedVer['b'+p.peer]=1; const ub=$('updBar'); newBuild=pr.bd; ub.textContent=L('host_old'); ub.classList.remove('hidden'); }
     if(pr.v!==APP_VERSION){ if(!warnedVer[p.peer]){ warnedVer[p.peer]=1; toast(L('t_otherver')); } continue; }
     const name=cleanName(pr.n);
     if(!G){ // Lobby
@@ -1556,6 +1562,8 @@ function clientPeers(ch){
   clearTimeout(goneTimer); $('infoOv').classList.add('hidden');
   if(!hostSeen){ hostSeen=true; renderLobby(); }
   const pr=host.presence; if(pr===lastHostPres)return; lastHostPres=pr;
+  if(typeof pr.st==='object'&&pr.st&&typeof pr.st.bd!=='string'&&!G_oldWarned){ G_oldWarned=true; toast(L('host_old_c')); }
+  else if(pr.st&&typeof pr.st.bd==='string'&&pr.st.bd<BUILD&&!G_oldWarned){ G_oldWarned=true; toast(L('host_old_c')); }
   if(pr.v!==APP_VERSION){ info(L('other_ver'),L('other_ver_text',{x:pr.v?'Version '+String(pr.v).slice(0,4):L('older'),v:APP_VERSION}),[menuItem(L('to_start'),leaveOnline,true)]); return; }
   if(pr.lb&&Array.isArray(pr.lb.seats)&&pr.lb.seats.length===4) LOBBY=pr.lb;
   if(!pr.st){
@@ -1612,6 +1620,7 @@ function applySnap(st,first){
   sortPieces();
   G.cur=Number.isInteger(st.cur)&&G.players[st.cur]?st.cur:0;
   G.phase=typeof st.ph==='string'?st.ph:'idle';
+  G.rule=RULE_KEYS.includes(st.ru)?st.ru:null; G.hostBuild=typeof st.bd==='string'?st.bd:null;
   G.dice=st.dv; G.msg=typeof st.msg==='string'?st.msg.slice(0,60):''; G.msgK=(typeof st.mk==='string'&&I18N.de[st.mk])?st.mk:null; G.msgP=(st.mp&&typeof st.mp==='object')?st.mp:{};
   G.moves=Array.isArray(st.mv)?st.mv.filter(m=>Array.isArray(m)).map(([i,to])=>({i,to:clampRel(to)})):[];
   G.ranks=Array.isArray(st.rk)?st.rk.map(i=>G.players[i]).filter(Boolean):[];
