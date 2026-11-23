@@ -355,7 +355,7 @@ body.light .dice-btn .shadow{background:radial-gradient(rgba(0,0,0,.45),transpar
 
 <script>
 const APP_VERSION=16;
-const BUILD='2026-11-23-1520';
+const BUILD='2026-11-23-1600';
 /* ---- Statistik (GoatCounter, nur auf der GitHub-Seite) ---- */
 const gcQueue=[]; let gcReady=false;
 function gcEvent(name){ try{ if(gcReady&&window.goatcounter&&window.goatcounter.count) window.goatcounter.count({path:name,title:name,event:true}); else if(gcQueue.length<20) gcQueue.push(name); }catch(e){} }
@@ -430,6 +430,7 @@ de:{
   ai_title:'Computer-Stärke', ai_easy:'😌 Gemütlich', ai_normal:'🙂 Normal', ai_hard:'😈 Gnadenlos', aih_easy:'Der Computer spielt locker und macht Fehler – gut für Kinder und Anfänger.', aih_normal:'Der Computer spielt solide, aber nicht perfekt.', aih_hard:'Der Computer rechnet jeden Zug durch, meidet Gefahren und bringt seine Figuren zielstrebig ins Ziel.', mi_ai:'Computer: {x} (ändern)', m_ai:'Computer: {A}',
   m_six_high:'Eine 6 – zu hoch, aber du darfst nochmal würfeln 🎲',
   host_old:'🔄 Ein Mitspieler hat eine neuere Version – bitte hier tippen zum Aktualisieren', host_old_c:'⚠️ Der Ersteller hat eine ältere Version – er sollte aktualisieren (neue Regeln fehlen sonst)',
+  resuming:'Verbinde wieder mit Spiel {c} …',
   upd:'🔄 Neue Version da – hier tippen zum Aktualisieren',
   other_ver:'Andere Version', other_ver_text:'Der Ersteller hat eine andere Version des Spiels ({x}). Du hast Version {v}. Alle müssen dieselbe Version benutzen – Seite neu laden oder die neue Datei schicken.', older:'ältere Version'
 },
@@ -489,6 +490,7 @@ nl:{
   ai_title:'Sterkte van de computer', ai_easy:'😌 Rustig', ai_normal:'🙂 Normaal', ai_hard:'😈 Genadeloos', aih_easy:'De computer speelt ontspannen en maakt fouten – goed voor kinderen en beginners.', aih_normal:'De computer speelt degelijk, maar niet perfect.', aih_hard:'De computer berekent elke zet, vermijdt gevaar en brengt zijn pionnen doelgericht naar huis.', mi_ai:'Computer: {x} (wijzigen)', m_ai:'Computer: {A}',
   m_six_high:'Een 6 – te hoog, maar je mag nog een keer gooien 🎲',
   host_old:'🔄 Een medespeler heeft een nieuwere versie – tik hier om te vernieuwen', host_old_c:'⚠️ De maker heeft een oudere versie – die moet vernieuwen (anders ontbreken nieuwe regels)',
+  resuming:'Opnieuw verbinden met spel {c} …',
   upd:'🔄 Nieuwe versie – tik hier om te vernieuwen',
   other_ver:'Andere versie', other_ver_text:'De maker heeft een andere versie van het spel ({x}). Jij hebt versie {v}. Iedereen moet dezelfde versie gebruiken – pagina opnieuw laden of het nieuwe bestand sturen.', older:'oudere versie'
 },
@@ -548,6 +550,7 @@ en:{
   ai_title:'Computer strength', ai_easy:'😌 Relaxed', ai_normal:'🙂 Normal', ai_hard:'😈 Ruthless', aih_easy:'The computer plays casually and makes mistakes – good for kids and beginners.', aih_normal:'The computer plays solidly, but not perfectly.', aih_hard:'The computer calculates every move, avoids danger and drives its pieces home.', mi_ai:'Computer: {x} (change)', m_ai:'Computer: {A}',
   m_six_high:'A 6 – too high, but you may roll again 🎲',
   host_old:'🔄 A player has a newer version – tap here to update', host_old_c:'⚠️ The host has an older version – they should update (new rules are missing otherwise)',
+  resuming:'Reconnecting to game {c} …',
   upd:'🔄 New version available – tap here to update',
   other_ver:'Different version', other_ver_text:'The host has a different version of the game ({x}). You have version {v}. Everyone must use the same version – reload the page or send the new file.', older:'older version'
 }};
@@ -614,6 +617,7 @@ I18N.tr={
   ai_title:'Bilgisayar seviyesi', ai_easy:'😌 Rahat', ai_normal:'🙂 Normal', ai_hard:'😈 Acımasız', aih_easy:'Bilgisayar rahat oynar ve hata yapar – çocuklar ve yeni başlayanlar için iyi.', aih_normal:'Bilgisayar sağlam oynar ama kusursuz değil.', aih_hard:'Bilgisayar her hamleyi hesaplar, tehlikeden kaçınır ve taşlarını kararlılıkla hedefe götürür.', mi_ai:'Bilgisayar: {x} (değiştir)', m_ai:'Bilgisayar: {A}',
   m_six_high:'6 geldi – fazla, ama tekrar atabilirsin 🎲',
   host_old:'🔄 Bir oyuncuda daha yeni sürüm var – güncellemek için buraya dokun', host_old_c:'⚠️ Oyunu kuranda eski sürüm var – güncellemeli (yoksa yeni kurallar eksik)',
+  resuming:'{c} oyununa yeniden bağlanılıyor …',
   upd:'🔄 Yeni sürüm var – güncellemek için buraya dokun',
   other_ver:'Farklı sürüm', other_ver_text:'Oyunu kuranda oyunun farklı bir sürümü var ({x}). Sende sürüm {v} var. Herkes aynı sürümü kullanmalı – sayfayı yenileyin ya da yeni dosyayı gönderin.', older:'eski sürüm'
 };
@@ -1342,9 +1346,9 @@ async function fastestBroker(tail){
   });
 }
 async function makeMqttRoom(code,role,pre){
-  const myId=pre?pre.myId:Math.random().toString(36).slice(2,12);
+  const myId=pre&&pre.myId?pre.myId:Math.random().toString(36).slice(2,12);
   const base=TOPIC_ROOT+code.toLowerCase()+'/';
-  const cl=pre?pre.cl:await connectBroker(code[0],base,myId);
+  const cl=pre&&pre.cl?pre.cl:await connectBroker(code[0],base,myId);
   let mine=Object.freeze({}),subs=[],closed=false;
   const pres=new Map(); // id -> {pr,t}
   const snapshot=()=>[{peer:myId,by:null,sameTab:true,isMe:true,kind:'viewer',guest:false,presence:mine},
@@ -1422,19 +1426,56 @@ $('joinBtn').onclick=async()=>{
   const r=await getRoom(); if(!r)return;
   if(r==='peer'&&!BROKERS[code[0]]&&code[0]==='C'){ setErr(L('e_claudecode')); return; }
   if(r!=='peer'&&BROKERS[code[0]]){ setErr(L('e_htmlcode')); return; }
-  setErr(L('searching',{c:code}));
   if(r==='peer'&&!BROKERS[code[0]]){ setErr(L('e_badcode')); return; }
-  try{ ROOM= r==='peer' ? await makeMqttRoom(code,'client') : await r.join('lutz-'+code.toLowerCase()); }
-  catch(e){ setErr(NET_ERR[e&&e.message]||NET_ERR.network); return; }
-  setErr('');
-  CODE=code; MODE='client'; G=null; LOBBY=null; delete $('lobbyInfo').dataset.nf; hostSeen=false; lastHostPres=null; actSeq=0;
-  ROOM.presence({r:'c',v:APP_VERSION,bd:BUILD,n:name,want:null,act:{s:0,a:''}}).catch(()=>{});
-  ROOM.onPeers(clientPeers); showScreen('lobby'); renderLobby(); gcEvent('online-beigetreten');
-  clearTimeout(joinTimer); joinTimer=setTimeout(()=>{ if(!hostSeen&&MODE==='client') $('lobbyInfo').textContent=L('notfound_lobby',{c:CODE}); $('lobbyInfo').dataset.nf='1'; },6000);
+  await doJoin(r,code,name,null);
 };
+async function doJoin(r,code,name,resume){
+  setErr(resume?L('resuming',{c:code}):L('searching',{c:code}));
+  try{ ROOM= r==='peer' ? await makeMqttRoom(code,'client',resume?{myId:resume.id}:null) : await r.join('lutz-'+code.toLowerCase()); }
+  catch(e){ setErr(NET_ERR[e&&e.message]||NET_ERR.network); if(resume) clearSess(); return; }
+  setErr('');
+  CODE=code; MODE='client'; G=null; LOBBY=null; delete $('lobbyInfo').dataset.nf; hostSeen=false; lastHostPres=null; actSeq=resume&&resume.seq?resume.seq:0;
+  ROOM.presence({r:'c',v:APP_VERSION,bd:BUILD,n:name,want:null,act:{s:actSeq,a:''}}).catch(()=>{});
+  ROOM.onPeers(clientPeers); showScreen('lobby'); renderLobby(); if(!resume) gcEvent('online-beigetreten');
+  setTimeout(()=>saveSess(),300);
+  clearTimeout(joinTimer); joinTimer=setTimeout(()=>{ if(!hostSeen&&MODE==='client'){ $('lobbyInfo').textContent=L('notfound_lobby',{c:CODE}); $('lobbyInfo').dataset.nf='1'; } },resume?15000:6000);
+}
+async function resumeHost(sess){
+  setErr(L('resuming',{c:sess.code}));
+  const r=await getRoom(); if(r!=='peer'){ clearSess(); return; }
+  try{ ROOM=await makeMqttRoom(sess.code,'host',{myId:sess.id}); }catch(e){ setErr(NET_ERR.network); clearSess(); return; }
+  setErr(''); CODE=sess.code; MODE='host'; SEQ=sess.seqs||{}; LOBBY=sess.lobby; G=null;
+  const sg=sess.g;
+  if(sg&&Array.isArray(sg.players)){
+    buildBoard();
+    G={gid:sg.gid,players:sg.players.map(p=>({...p})),cur:sg.cur,dice:sg.dice,tries:0,phase:'idle',moves:[],firstWin:sg.firstWin,paused:false,token:++TOKEN,msg:'',ev:sg.ev||[],evId:sg.evId||0};
+    G.ranks=(sg.ranks||[]).map(i=>G.players[i]).filter(Boolean);
+    buildPieces(); showScreen('game');
+    if(FACE_ROT[G.dice]) showDice(G.dice,true);
+    ROOM.onPeers(hostPeers);
+    if(sg.phase==='over'){ G.phase='over'; refresh(); showEnd(); }
+    else { refresh(); later(startTurn,1500); }      // aktueller Spieler würfelt einfach nochmal
+  } else { ROOM.onPeers(hostPeers); showScreen('lobby'); renderLobby(); }
+  publish();
+}
+// beim Laden: war man gerade in einem Spiel? -> automatisch zurück
+setTimeout(async()=>{ const sess=loadSess(); if(!sess||ROOM)return;
+  setup.mode='online'; renderSetup();
+  if(sess.role==='host') resumeHost(sess);
+  else if(sess.role==='client'){ const r=await getRoom(); if(r!=='peer'){ clearSess(); return; } doJoin(r,sess.code,sess.name,sess); }
+},400);
 $('codeIn').oninput=()=>{ $('codeIn').value=$('codeIn').value.toUpperCase().replace(/[^A-Z0-9]/g,''); };
 
+/* ---- Wieder ins Spiel nach Neuladen (nur Link/HTML-Version) ---- */
+const SESS_KEY='lutz_sess';
+function loadSess(){ try{ const x=JSON.parse(sessionStorage.getItem(SESS_KEY)||'null'); if(x&&Date.now()-x.ts<3*3600*1000) return x; }catch(e){} return null; }
+function saveSess(extra){ if(NET!=='peer'||!ROOM||MODE==='local')return; try{ const me=(ROOM.peers().find(p=>p.sameTab)||{}).peer;
+  sessionStorage.setItem(SESS_KEY,JSON.stringify(Object.assign({role:MODE,code:CODE,id:me,name:onlineName(),seq:actSeq,ts:Date.now()},extra||{}))); }catch(e){} }
+function clearSess(){ try{ sessionStorage.removeItem(SESS_KEY); }catch(e){} }
+function serG(){ if(!G)return null; return {gid:G.gid,players:G.players.map(p=>({color:p.color,name:p.name,cpu:p.cpu,pid:p.pid||null,pieces:p.pieces.slice(),done:!!p.done,left:!!p.left,oldPid:p.oldPid||null})),
+  cur:G.cur,phase:G.phase,dice:G.dice,ranks:G.ranks.map(p=>G.players.indexOf(p)),firstWin:!!G.firstWin,ev:G.ev,evId:G.evId}; }
 function leaveOnline(){
+  clearSess();
   try{ ROOM&&ROOM.leave(); }catch(e){}
   ROOM=null; MODE='local'; LOBBY=null; clearTimeout(goneTimer);
   $('infoOv').classList.add('hidden'); toSetup();
@@ -1484,7 +1525,7 @@ $('lobbyStart').onclick=()=>{
 function hostBackToLobby(){ if(G){G.token=++TOKEN;} G=null; stopConfetti(); showScreen('lobby'); renderLobby(); publish(); }
 
 /* ---- Gastgeber ---- */
-let SEQ={}, pubQueued=false, warnedVer={}, G_oldWarned=false;
+let SEQ={}, pubQueued=false, warnedVer={}, G_oldWarned=false, leaveT={};
 function snap(){
   return {ru:ruleNow(),bd:BUILD,g:G.gid,cur:G.cur,ph:G.phase,dv:G.dice,msg:G.msg,mk:G.msgK||null,mp:G.msgP||{},
     pl:G.players.map(p=>({c:p.color,n:p.name,cpu:p.cpu?1:0,pid:p.pid||null,pc:p.pieces.slice(),d:p.done?1:0,l:p.left?1:0})),
@@ -1495,16 +1536,24 @@ function publish(){
   if(MODE!=='host'||!ROOM||pubQueued)return; pubQueued=true;
   const wait=Math.max(0,200-(Date.now()-lastPub));
   setTimeout(()=>{ pubQueued=false; if(MODE!=='host'||!ROOM)return; lastPub=Date.now();
-    ROOM.presence({r:'h',v:APP_VERSION,lb:LOBBY,st:G?snap():null,ev:G?G.ev:[]}).catch(e=>console.warn('presence',e&&e.message)); },wait);
+    ROOM.presence({r:'h',v:APP_VERSION,lb:LOBBY,st:G?snap():null,ev:G?G.ev:[]}).catch(e=>console.warn('presence',e&&e.message));
+    saveSess({lobby:LOBBY,g:serG(),seqs:SEQ}); },wait);
 }
 function hostPeers(ch){
   updMyPeer(ch.peers);
   let changed=false;
   for(const p of ch.left){
-    if(LOBBY) LOBBY.seats.forEach(s=>{ if(s.pid===p.peer){ s.t='-'; s.n=''; s.pid=null; changed=true; } });
-    if(G) G.players.forEach(pl=>{ if(pl.pid===p.peer){ pl.oldPid=p.peer; pl.pid=null; pl.cpu=true; pl.left=true; changed=true;
-      say('m_gone',{n:pl.name});
-      if(cp()===pl){ if(G.phase==='roll') later(rollDice,700); else if(G.phase==='move') later(()=>doMove(cpuPick(pl,G.moves)),700); } } });
+    // kurz warten – vielleicht lädt das Handy nur neu und ist gleich wieder da
+    const peer=p.peer; clearTimeout(leaveT[peer]);
+    leaveT[peer]=setTimeout(()=>{ delete leaveT[peer]; if(MODE!=='host'||!ROOM)return;
+      if(ROOM.peers().some(x=>x.peer===peer))return;
+      let ch2=false;
+      if(LOBBY) LOBBY.seats.forEach(s=>{ if(s.pid===peer){ s.t='-'; s.n=''; s.pid=null; ch2=true; } });
+      if(G) G.players.forEach(pl=>{ if(pl.pid===peer){ pl.oldPid=peer; pl.pid=null; pl.cpu=true; pl.left=true; ch2=true;
+        say('m_gone',{n:pl.name});
+        if(cp()===pl){ if(G.phase==='roll') later(rollDice,700); else if(G.phase==='move') later(()=>doMove(cpuPick(pl,G.moves)),700); } } });
+      if(ch2){ if(G)refresh(); else renderLobby(); publish(); }
+    },12000);
   }
   for(const p of ch.peers){
     if(p.sameTab||p.kind!=='viewer')continue;
@@ -1549,14 +1598,14 @@ function handleAct(peer,a){
 /* ---- Mitspieler ---- */
 let hostSeen=false,lastHostPres=null,actSeq=0,joinTimer=null,goneTimer=null;
 let evQ=[],evBusy=false,lastEv=0,pendingSnap=null,needEnd=false;
-function sendAct(a,i,j){ actSeq++; ROOM&&ROOM.presence({act:{s:actSeq,a,i:i===undefined?-1:i,j:j?1:0}}).catch(()=>{}); }
+function sendAct(a,i,j){ actSeq++; ROOM&&ROOM.presence({act:{s:actSeq,a,i:i===undefined?-1:i,j:j?1:0}}).catch(()=>{}); saveSess(); }
 function clientPeers(ch){
   updMyPeer(ch.peers);
   const host=ch.peers.find(p=>!p.sameTab&&p.presence&&p.presence.r==='h');
   if(!host){
     if(hostSeen){ clearTimeout(goneTimer); goneTimer=setTimeout(()=>{ if(MODE!=='client')return;
       const still=ROOM&&ROOM.peers().find(p=>!p.sameTab&&p.presence&&p.presence.r==='h');
-      if(!still) info(L('conn_lost'),L('host_left'),[menuItem(L('to_start'),leaveOnline,true)]); },3500); }
+      if(!still) info(L('conn_lost'),L('host_left'),[menuItem(L('to_start'),leaveOnline,true)]); },20000); }
     return;
   }
   clearTimeout(goneTimer); $('infoOv').classList.add('hidden');
