@@ -370,9 +370,16 @@ body.light .fbItem{background:rgba(0,0,0,.05)}
 <div class="overlay hidden" id="admOv">
   <div class="modal" style="max-width:520px">
     <h2>🔒 Admin</h2>
-    <div class="row" style="margin-top:4px"><button class="btn2" id="admStats">📊 Statistik</button><button class="btn2 prim" id="admReload">📬 Meldungen laden</button></div>
-    <div class="hint" id="admInfo" style="text-align:left;margin-top:10px"></div>
-    <div id="admList" style="text-align:left;margin-top:8px"></div>
+    <div id="admLock">
+      <input type="password" id="admPw" class="inp" placeholder="Passwort" autocomplete="current-password" style="margin-top:6px">
+      <div class="err" id="admPwErr"></div>
+      <div class="row" style="margin-top:6px"><button class="btn2 prim" id="admUnlock">Entsperren</button></div>
+    </div>
+    <div id="admBody" class="hidden">
+      <div class="row" style="margin-top:4px"><button class="btn2" id="admStats">📊 Statistik</button><button class="btn2 prim" id="admReload">📬 Meldungen laden</button></div>
+      <div class="hint" id="admInfo" style="text-align:left;margin-top:10px"></div>
+      <div id="admList" style="text-align:left;margin-top:8px"></div>
+    </div>
     <div class="row"><button class="btn2" id="admClose">Schließen</button></div>
   </div>
 </div>
@@ -388,7 +395,7 @@ body.light .fbItem{background:rgba(0,0,0,.05)}
 
 <script>
 const APP_VERSION=16;
-const BUILD='2026-11-23-1720';
+const BUILD='2026-11-23-1800';
 /* ---- Statistik (GoatCounter, nur auf der GitHub-Seite) ---- */
 const gcQueue=[]; let gcReady=false;
 function gcEvent(name){ try{ if(gcReady&&window.goatcounter&&window.goatcounter.count) window.goatcounter.count({path:name,title:name,event:true}); else if(gcQueue.length<20) gcQueue.push(name); }catch(e){} }
@@ -1758,13 +1765,51 @@ function gameContext(){
   try{ if(G){ parts.push('Phase: '+G.phase,'Würfel: '+G.dice,'dran: '+(cp()?cp().name:'?')); parts.push('Stand: '+G.players.map(p=>p.color+'['+p.pieces.join(',')+']'+(p.cpu?'🤖':'')).join(' ')); } }catch(e){}
   return parts.join(' · ');
 }
+// Übersetzung ins Deutsche: erkennt die Sprache des Textes selbst (nicht die eingestellte Spielsprache)
 async function translateToGerman(text,lang){
-  const src=({vl:'nl',nl:'nl',en:'en',tr:'tr'})[lang]; if(!src) return null;
-  try{ const ctl=new AbortController(); const tm=setTimeout(()=>ctl.abort(),7000);
-    const r=await fetch('https://api.mymemory.translated.net/get?q='+encodeURIComponent(text.slice(0,480))+'&langpair='+src+'|de',{signal:ctl.signal}); clearTimeout(tm);
-    const j=await r.json(); const tx=j&&j.responseData&&j.responseData.translatedText;
-    if(j&&j.responseStatus==200&&tx&&!/MYMEMORY WARNING|QUERY LENGTH LIMIT/i.test(tx)) return tx; }catch(e){}
+  text=String(text||'').slice(0,480); if(!text) return null;
+  const timed=(url)=>{ const ctl=new AbortController(); const tm=setTimeout(()=>ctl.abort(),7000); return fetch(url,{signal:ctl.signal}).finally(()=>clearTimeout(tm)); };
+  try{ // 1) Google (automatische Spracherkennung)
+    const r=await timed('https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=de&dt=t&q='+encodeURIComponent(text));
+    const j=await r.json(); const src=j&&j[2]; const tx=j&&Array.isArray(j[0])?j[0].map(x=>x&&x[0]||'').join(''):'';
+    if(tx) return {de:src==='de'?text:tx, src:src||'?'};
+  }catch(e){}
+  const guesses=[...new Set([({vl:'nl',nl:'nl',en:'en',tr:'tr'})[lang],'nl','en','tr'].filter(Boolean))];
+  for(const src of guesses){ try{ // 2) MyMemory als Reserve
+      const r=await timed('https://api.mymemory.translated.net/get?q='+encodeURIComponent(text)+'&langpair='+src+'|de');
+      const j=await r.json(); const tx=j&&j.responseData&&j.responseData.translatedText;
+      if(j&&j.responseStatus==200&&tx&&!/MYMEMORY WARNING|QUERY LENGTH LIMIT|DISTINCT LANGUAGES/i.test(tx)&&tx.trim().toLowerCase()!==text.trim().toLowerCase()) return {de:tx,src};
+    }catch(e){} }
   return null;
+}
+/* ---- Verschlüsselung: nur wer das Admin-Passwort kennt, kann Meldungen lesen ---- */
+const FB_PUB='MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmEi5L1v7+G7HaeIjA/ag2hdOKTIzqwDtIA5zm3MRYvDYZgzWk7QdtAkoqHyqjBA4qnbgJ+nnYafHnl+eaIMAxXV40KnkbDuGYp2i7gL0bf3esWZM63ftqmcWejKKANj7BH7va8i2pSd69iFldhTjt9xFWLsSHVL2SLJhmKqOLbXjCvaHctyg3xniBObDIc/YzaJw2d4/ZP7sjCV479q7meMneZ7zzd5WOfJ2hjF37cgt0KXnYzS8afkHEoGz1t96FwQ/kHZhztSo8uHdz8H8091mhIm1unlGAjpjcfA0b7Y+Qa9QMa/fFTmwfk8Fcgkqugo8bEgRLlaBl+f8sSEuSQIDAQAB';
+const FB_PRIV={s:'lyT78SQghLWjGQTQTghbYg==',i:'/c9YBK8miuHuFqHx',d:'v1ZlOiWb62p6euxTsB3CmjOsF3CLKtkUoD6aQ38Dw/1aiGB9DNr/ge+4dzWi8hNKMd/wwsPAhRJbI+oHjb1liZ3x/OA42RdtzRWhGlGYW5izws4F3lXbmDU9i0cPNIDvo/uOEDV9vVVi758lmRIOqUg/r9T29XIvcEPCnSlk6jMNG0+VFLkf4uqa8bNC62aAlvmg/rlbuhBoqJ9/z+R2Jktg0FVzt+zMQfipf4h2CiyUj5W65lqCqZKNP6+XLFxSBTK28iOhB5nLSykzDim6h83xN0K0Q3C6E42avzg9N4NDjg/D8E+J+m92UcvjfT9d/o6WhNdo6um8LSJJaCve17+Nocs06lFKrmI1rr9WbZg+yI9DwLNAfHDnxtaepQReeHo+GKiDDWw0zuuRfB17eXnG2KCj8GBHOJAP1DHm6tKjncScxEO58jq7Nd9oVFZB5+NWsvAhTc9Qbmu/1442x84iuQnIUsrJPmf1FwEMLTTz2Y8d3GHoqNaJ8yLkoTv/q66uWbAg0m3VYgRvBazurwaZ02IJKaeD9O7TfMa4IxjqR06n3dLaEOVfe00i3H5CJkoMtt1PY1dVxh+TfUwnUdTybSzNYxKcq2lJYLTNI3f3MJ5TtimD3GbHAq7fv762wCUmuM0tuutjVSKghA/cMvDdHDseV9W40bLyqG+gPz5TuGBwCTFPGh2DD/1RhaZzSGPF5oAtzOPiAAvkS1ARzLWX5aNa1UhhnGAgWJq6Sdm/DBy6GamiErfi8JIRReVZWY/j4HWIdy9FCe360mKa4eBo2A70mO8QEArHcaZEWORGgQpy6HK7ktunibboeRtHdtD18D5HwYqEhAgPlKqvayCYUJXRSAWJSa0rJh919JT/tvzOn+2hpB1jKme6ciFxGMsfuHgXaduwmZw0zFvAZ9nL+GRmqMfdS5azzHWDe0DulF6BmYdPdtLf1tsmniyTQakWZYHb79eJ1MaGZ1kON4wSaKw/Oxpq6D72MEdhNmmc7CA6boOiJlnjhSkRuSj57ZImrBHh3dN5EdMn20npx+yce/lWwsEvrWB0YUSg7nfF5tHUq1RR3B3gndxwlmMHJr6Tv4OMggcNnMRwvQnX1gauYT+1AWN6SXR70FJoE3vg3QjNZ/iXRimm+fuVVttUuhch/nBIpiX9g6rDLeyn/gZ+1AModlaco9q7ZTIOIHQfUXxJsJNGG/MdJwVZICQwrQNuRvOPcX1mbPNGyyngp28c+NMBzxaawEq9x9HZt1YtWMZGSUjq/oaNPtvvAhjUmEDYoE68BJxGHhqWWhmM5o8nWl7OYbMj2EyksXe/R8khsNRV5z44JViZFNHdAscWSBGfSL474CnmcuWi/T9v1HzzzO3t9sz+S3fDSOhxg39b+nSWCXmBQCQSJtRcOf9e8yzp2TmFmuSoKB81/BWlgqGUqKLuaUg1JHq/f7fnxIyn/EWEpswOge07VzC1Siy3iqMnrKaziS1nmln5hu5l2YUXrMDtBPtxEJHRD0VIcaRWqFNDRyURDus03cJcbU258CmRrE3tB3nh4MS/oZemT1Yv0N4UL7ZvnvE0C2ur2ziltBPT6qs21NBtpAJP92KOywffnjNRSAh6ecuVNdQHD7W/Oz6Jbx5+PTviSA/mpA8='};
+const b64e=b=>{ let s=''; const a=new Uint8Array(b); for(let i=0;i<a.length;i++) s+=String.fromCharCode(a[i]); return btoa(s); };
+const b64d=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0));
+async function fbEncrypt(obj){
+  const sub=crypto.subtle;
+  const pub=await sub.importKey('spki',b64d(FB_PUB),{name:'RSA-OAEP',hash:'SHA-256'},false,['encrypt']);
+  const key=await sub.generateKey({name:'AES-GCM',length:256},true,['encrypt']);
+  const iv=crypto.getRandomValues(new Uint8Array(12));
+  const c=await sub.encrypt({name:'AES-GCM',iv},key,new TextEncoder().encode(JSON.stringify(obj)));
+  const k=await sub.encrypt({name:'RSA-OAEP'},pub,await sub.exportKey('raw',key));
+  return {k:b64e(k),iv:b64e(iv),c:b64e(c)};
+}
+let fbPriv=null;
+async function fbUnlock(pw){
+  const sub=crypto.subtle;
+  const base=await sub.importKey('raw',new TextEncoder().encode(pw),'PBKDF2',false,['deriveKey']);
+  const aes=await sub.deriveKey({name:'PBKDF2',salt:b64d(FB_PRIV.s),iterations:310000,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['decrypt']);
+  const pkcs8=await sub.decrypt({name:'AES-GCM',iv:b64d(FB_PRIV.i)},aes,b64d(FB_PRIV.d));   // wirft bei falschem Passwort
+  fbPriv=await sub.importKey('pkcs8',pkcs8,{name:'RSA-OAEP',hash:'SHA-256'},false,['decrypt']);
+}
+async function fbDecrypt(m){
+  const sub=crypto.subtle;
+  const raw=await sub.decrypt({name:'RSA-OAEP'},fbPriv,b64d(m.k));
+  const key=await sub.importKey('raw',raw,{name:'AES-GCM'},false,['decrypt']);
+  const p=await sub.decrypt({name:'AES-GCM',iv:b64d(m.iv)},key,b64d(m.c));
+  return JSON.parse(new TextDecoder().decode(p));
 }
 function mqttOnce(letter){ return new Promise((res,rej)=>{ let cl; try{ cl=window.mqtt.connect(BROKERS[letter],{clientId:'lutzfb_'+fbRandom(),clean:true,connectTimeout:8000,reconnectPeriod:0}); }catch(e){ rej(e); return; }
   const t=setTimeout(()=>{ try{cl.end(true);}catch(_){} rej(new Error('timeout')); },9000);
@@ -1775,22 +1820,28 @@ $('fbCancel').onclick=()=>$('fbOv').classList.add('hidden');
 $('fbSend').onclick=async()=>{
   const text=$('fbText').value.trim(); if(text.length<3){ $('fbErr').textContent=L('fb_empty'); return; }
   $('fbSend').disabled=true; $('fbErr').textContent=L('fb_sending');
-  const lang=LANG(); const de= lang==='de'?text:await translateToGerman(text,lang);
-  const msg={id:fbRandom(),t:Date.now(),name:onlineName(),lang,orig:text.slice(0,600),de:de||'',ver:APP_VERSION+' / '+BUILD,dev:deviceInfo(),ctx:gameContext()};
+  const lang=LANG(); const tr=await translateToGerman(text,lang);
+  const inner={name:onlineName(),lang,src:tr?tr.src:'',orig:text.slice(0,600),de:tr?tr.de:'',ver:APP_VERSION+' / '+BUILD,dev:deviceInfo(),ctx:gameContext()};
+  let enc; try{ enc=await fbEncrypt(inner); }catch(e){ $('fbErr').textContent=L('fb_fail'); $('fbSend').disabled=false; return; }
+  const msg=Object.assign({id:fbRandom(),t:Date.now(),e:1},enc);
   let ok=0;
   if(await loadMqtt()){
     await Promise.all(FB_BROKERS.map(async l=>{ try{ const cl=await mqttOnce(l);
       await new Promise(r=>cl.publish(FB_TOPIC+msg.id,JSON.stringify(msg),{retain:true,qos:1},()=>r())); ok++; setTimeout(()=>{ try{cl.end();}catch(e){} },300); }catch(e){} }));
   }
-  // Sicherheitskopie in deiner Statistik (GoatCounter)
-  try{ if(gcReady&&window.goatcounter) window.goatcounter.count({path:'meldung-'+msg.id,title:('['+lang+'] '+(de||text)).slice(0,250),event:true}); }catch(e){}
   if(ok){ $('fbOv').classList.add('hidden'); toast(L('fb_thanks')); gcEvent('meldung-gesendet'); }
   else { $('fbErr').textContent=L('fb_fail'); $('fbSend').disabled=false; }
 };
 /* ---- Admin-Ansicht ---- */
 function fbStore(){ try{ return JSON.parse(localStorage.getItem('lutz_fb')||'{}')||{}; }catch(e){ return {}; } }
 function fbSave(o){ try{ localStorage.setItem('lutz_fb',JSON.stringify(o)); }catch(e){} }
-function openAdmin(){ $('admOv').classList.remove('hidden'); renderAdmin(); loadReports(); }
+function openAdmin(){ $('admOv').classList.remove('hidden');
+  if(!fbPriv){ $('admLock').classList.remove('hidden'); $('admBody').classList.add('hidden'); $('admPw').value=''; $('admPwErr').textContent=''; setTimeout(()=>$('admPw').focus(),100); }
+  else { $('admLock').classList.add('hidden'); $('admBody').classList.remove('hidden'); renderAdmin(); loadReports(); } }
+$('admUnlock').onclick=async()=>{ $('admPwErr').textContent='Prüfe …';
+  try{ await fbUnlock($('admPw').value); $('admPw').value=''; $('admPwErr').textContent=''; openAdmin(); }
+  catch(e){ $('admPwErr').textContent='❌ Falsches Passwort'; buzz([40,40,40]); } };
+$('admPw').addEventListener('keydown',e=>{ if(e.key==='Enter') $('admUnlock').click(); });
 $('admClose').onclick=()=>$('admOv').classList.add('hidden');
 $('admStats').onclick=()=>{ const a=document.createElement('a'); a.href='https://neroox.goatcounter.com/'; a.target='_blank'; a.rel='noopener'; document.body.appendChild(a); a.click(); a.remove(); };
 $('admReload').onclick=()=>loadReports();
@@ -1798,13 +1849,16 @@ const LANG_NAME={de:'🇩🇪 Deutsch',nl:'🇳🇱 Niederländisch',vl:'🇧�
 async function loadReports(){
   $('admInfo').textContent='Lade Meldungen …';
   if(!await loadMqtt()){ $('admInfo').textContent='Keine Internetverbindung.'; return; }
-  const store=fbStore(); let got=0, conns=0;
+  const store=fbStore(); let got=0, conns=0; const pend={};
   await Promise.all(FB_BROKERS.map(async l=>{ try{ const cl=await mqttOnce(l); conns++;
     cl.on('message',(topic,payload)=>{ const id=topic.slice(FB_TOPIC.length); const txt=payload?payload.toString():''; if(!txt||!id||id.includes('/'))return;
-      try{ const m=JSON.parse(txt); if(!m||!m.id||m.id!==id)return; if(!store[id]){ store[id]=Object.assign(m,{seen:false}); got++; } }catch(e){} });
+      try{ const m=JSON.parse(txt); if(!m||!m.id||m.id!==id||store[id]||pend[id])return; pend[id]=m; }catch(e){} });
     cl.subscribe(FB_TOPIC+'+',{qos:1}); await sleep(3500); try{cl.end(true);}catch(e){} }catch(e){} }));
-  // fehlende Übersetzungen nachholen
-  for(const m of Object.values(store)){ if(!m.de&&m.lang&&m.lang!=='de'){ const d=await translateToGerman(m.orig,m.lang); if(d) m.de=d; } }
+  for(const [id,m] of Object.entries(pend)){
+    try{ const inner=m.e?await fbDecrypt(m):m; store[id]=Object.assign({id,t:m.t,seen:false},inner); got++; }catch(e){}   // nicht entschlüsselbar -> ignorieren
+  }
+  // fehlende Übersetzungen nachholen (Sprache wird automatisch erkannt)
+  for(const m of Object.values(store)){ if(m.orig&&(!m.de||(!m.src&&m.de===m.orig))){ const d=await translateToGerman(m.orig,m.lang); if(d){ m.de=d.de; m.src=d.src; } } }
   fbSave(store);
   $('admInfo').textContent=conns?(got?`${got} neue Meldung(en) geladen.`:'Keine neuen Meldungen.'):'Server nicht erreichbar – zeige gespeicherte Meldungen.';
   renderAdmin();
@@ -1816,10 +1870,10 @@ function renderAdmin(){
   list.forEach(m=>{
     const d=document.createElement('div'); d.className='fbItem'+(m.seen?'':' new');
     const when=new Date(m.t).toLocaleString('de-DE',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
-    const head=document.createElement('div'); head.className='meta'; head.textContent=`${m.seen?'':'🆕 '}${when} · ${m.name||'?'} · ${LANG_NAME[m.lang]||m.lang||''}`;
+    const head=document.createElement('div'); head.className='meta'; head.textContent=`${m.seen?'':'🆕 '}${when} · ${m.name||'?'} · Spiel auf ${LANG_NAME[m.lang]||m.lang||'?'}`+(m.src&&m.src!=='?'?` · geschrieben auf: ${m.src.toUpperCase()}`:'');
     const de=document.createElement('div'); de.className='de'; de.textContent=m.de||m.orig;
     d.append(head,de);
-    if(m.lang!=='de'){ const o=document.createElement('div'); o.className='orig'; o.textContent='Original: '+m.orig; d.append(o); if(!m.de){ const w=document.createElement('div'); w.className='meta'; w.textContent='(Übersetzung gerade nicht möglich – später nochmal laden)'; d.append(w); } }
+    if(m.de&&m.de!==m.orig||!m.de){ const o=document.createElement('div'); o.className='orig'; o.textContent='Original: '+m.orig; d.append(o); if(!m.de){ const w=document.createElement('div'); w.className='meta'; w.textContent='(Übersetzung gerade nicht möglich – später nochmal laden)'; d.append(w); } }
     const meta=document.createElement('div'); meta.className='meta'; meta.textContent=`📱 ${m.dev||'?'}\n🎮 ${m.ctx||''}\n🏷 Version ${m.ver||'?'}`; meta.style.whiteSpace='pre-line'; d.append(meta);
     const acts=document.createElement('div'); acts.className='acts';
     const b1=document.createElement('button'); b1.textContent=m.seen?'↩︎ ungelesen':'✓ gelesen'; b1.onclick=()=>{ const s=fbStore(); if(s[m.id]){ s[m.id].seen=!s[m.id].seen; fbSave(s); renderAdmin(); } };
