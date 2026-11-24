@@ -81,12 +81,12 @@ button{font-family:inherit;cursor:pointer}
 
 /* Game */
 #game{padding-top:max(8px,env(safe-area-inset-top));padding-bottom:max(10px,env(safe-area-inset-bottom))}
-.topbar{width:100%;max-width:600px;display:flex;align-items:center;justify-content:space-between;padding:0 10px;gap:8px}
+.topbar{width:100%;max-width:max(600px,var(--bw,600px));display:flex;align-items:center;justify-content:space-between;padding:0 10px;gap:8px}
 .topbar .ribbon .band{padding:3px 12px 5px;border-radius:8px}
 .topbar .ribbon .big{font-size:22px} .topbar .ribbon .small{font-size:12px}
 .iconbtn{width:42px;height:42px;border-radius:12px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.07);color:#fff;font-size:20px;display:grid;place-items:center}
 .netbadge{font-size:11px;color:var(--neon);text-align:center;margin-top:2px;min-height:13px}
-.chips{width:100%;max-width:600px;display:flex;gap:6px;padding:6px 10px}
+.chips{width:100%;max-width:max(600px,var(--bw,600px));display:flex;gap:6px;padding:6px 10px}
 .chip{flex:1;min-width:0;border-radius:12px;padding:5px 7px;background:rgba(255,255,255,.06);border:2px solid transparent;transition:.2s;display:flex;align-items:center;gap:6px}
 .chip .dot{width:14px;height:14px;border-radius:50%;flex:none;border:2px solid #fff}
 .chip .nm{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -95,9 +95,9 @@ button{font-family:inherit;cursor:pointer}
 .chip.active{background:rgba(255,255,255,.13)}
 .chip.done{opacity:.55}
 .chip.take{cursor:pointer;border-style:dashed;border-color:var(--neon)}
-.board-wrap{position:relative;width:min(96vw,calc(100dvh - 280px),600px);aspect-ratio:1;margin-top:2px}
-@supports not (height:100dvh){.board-wrap{width:min(96vw,calc(100vh - 280px),600px)}}
-#board{width:100%;height:100%;display:block;position:relative;z-index:1}
+.board-wrap{position:relative;width:min(96vw,calc(100dvh - 280px),900px);aspect-ratio:1;margin-top:2px}
+@supports not (height:100dvh){.board-wrap{width:min(96vw,calc(100vh - 280px),900px)}}
+#board{width:100%;height:100%;display:block;position:relative;z-index:1;overflow:visible}
 #boardCanvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 [data-col]{position:relative;overflow:hidden}
 [data-col]>canvas.dotc{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;pointer-events:none}
@@ -116,7 +116,7 @@ button{font-family:inherit;cursor:pointer}
 .target{fill:rgba(57,255,20,.15);stroke:var(--neon);stroke-width:.7;stroke-dasharray:1.4 1;pointer-events:none}
 #centerPic{cursor:pointer}
 
-.panel{flex:1;width:100%;max-width:600px;display:flex;align-items:center;justify-content:center;gap:16px;padding:6px 16px 0;min-height:140px}
+.panel{flex:1;width:100%;max-width:max(600px,var(--bw,600px));display:flex;align-items:center;justify-content:center;gap:16px;padding:6px 16px 0;min-height:140px}
 .status{flex:1;min-width:0;max-width:270px}
 .status .who{font-size:22px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .status .msg{font-size:15px;color:#c5dcc9;margin-top:2px;min-height:40px;line-height:1.35}
@@ -399,7 +399,7 @@ body.light .fbItem{background:rgba(0,0,0,.05)}
 
 <script>
 const APP_VERSION=16;
-const BUILD='2026-11-24-2130';
+const BUILD='2026-11-24-2230';
 /* ---- Statistik (GoatCounter, nur auf der GitHub-Seite) ---- */
 const gcQueue=[]; let gcReady=false;
 function gcEvent(name){ try{ if(gcReady&&window.goatcounter&&window.goatcounter.count) window.goatcounter.count({path:name,title:name,event:true}); else if(gcQueue.length<20) gcQueue.push(name); }catch(e){} }
@@ -845,6 +845,7 @@ let piecesLayer,targetLayer;
 function drawBoardCanvas(){
   const cv=$('boardCanvas'); if(!cv)return;
   const size=cv.parentElement.clientWidth||300, dpr=Math.min(window.devicePixelRatio||1,3);
+  try{ if(cv.parentElement.clientWidth) document.documentElement.style.setProperty('--bw',cv.parentElement.clientWidth+'px'); }catch(e){}
   cv.width=Math.round(size*dpr); cv.height=Math.round(size*dpr);
   const x=cv.getContext('2d'); x.setTransform(1,0,0,1,0,0); x.clearRect(0,0,cv.width,cv.height);
   const k=cv.width/112; x.scale(k,k); x.translate(1,1);
