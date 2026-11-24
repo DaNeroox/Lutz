@@ -293,6 +293,7 @@ body.light .fbItem{background:rgba(0,0,0,.05)}
         <div class="hint" data-i18n-html="online_hint"></div>
       </div>
     </div>
+    <button class="btn2 hidden" id="instBtn" style="width:100%;flex:none;margin-top:4px" data-i18n="inst_btn">📲 Als App installieren</button>
     <button class="btn2" id="fbSetupBtn" style="width:100%;flex:none;margin-top:4px" data-i18n="fb_btn">🐞 Fehler melden</button>
     <div class="hint" id="verNote" style="text-align:center;margin-top:4px;padding:10px 0" data-i18n-html="version_note"></div>
   </div>
@@ -360,6 +361,7 @@ body.light .fbItem{background:rgba(0,0,0,.05)}
 <div class="overlay hidden" id="infoOv">
   <div class="modal"><h2 id="infoTitle"></h2><p id="infoText" style="text-align:center"></p><div class="row" id="infoBtns"></div></div>
 </div>
+<div class="overlay hidden" id="instOv"><div class="modal"><h2 data-i18n="inst_title">Als App installieren</h2><div class="hint" id="instTxt" style="font-size:15px;line-height:1.5;text-align:left"></div><div class="row"><button class="btn2 prim" id="instOk">OK</button></div></div></div>
 <div class="overlay hidden" id="fbOv">
   <div class="modal">
     <h2 data-i18n="fb_title">Fehler melden</h2>
@@ -397,7 +399,7 @@ body.light .fbItem{background:rgba(0,0,0,.05)}
 
 <script>
 const APP_VERSION=16;
-const BUILD='2026-11-23-1900';
+const BUILD='2026-11-24-2100';
 /* ---- Statistik (GoatCounter, nur auf der GitHub-Seite) ---- */
 const gcQueue=[]; let gcReady=false;
 function gcEvent(name){ try{ if(gcReady&&window.goatcounter&&window.goatcounter.count) window.goatcounter.count({path:name,title:name,event:true}); else if(gcQueue.length<20) gcQueue.push(name); }catch(e){} }
@@ -474,7 +476,7 @@ de:{
   host_old:'🔄 Ein Mitspieler hat eine neuere Version – bitte hier tippen zum Aktualisieren', host_old_c:'⚠️ Der Ersteller hat eine ältere Version – er sollte aktualisieren (neue Regeln fehlen sonst)',
   resuming:'Verbinde wieder mit Spiel {c} …',
   hist_title:'Zuletzt benutzt – antippen zum Beitreten:', ago_now:'gerade eben', ago_min:'vor {n} Min.', ago_h:'vor {n} Std.',
-  fb_btn:'🐞 Fehler melden', fb_title:'Fehler melden', fb_ph:'Was ist passiert? Zum Beispiel: „Nach der 6 konnte ich nicht nochmal würfeln.“', fb_send:'Senden', fb_cancel:'Abbrechen', fb_sending:'Wird gesendet …', fb_thanks:'Danke! Deine Meldung ist angekommen ✅', fb_fail:'Senden hat nicht geklappt – bitte Internet prüfen und nochmal versuchen.', fb_empty:'Bitte kurz beschreiben, was passiert ist.',
+  inst_btn:'📲 Als App installieren', inst_title:'Als App installieren', inst_ios:'1. Unten auf <b>Teilen</b> tippen (Quadrat mit Pfeil ⬆️)<br>2. <b>„Zum Home-Bildschirm“</b> wählen<br>3. <b>Hinzufügen</b> tippen<br><br>Danach startet Lutz wie eine App – Updates kommen automatisch.', inst_and:'1. Oben rechts das <b>Browser-Menü</b> öffnen (⋮ oder ☰)<br>2. <b>„App installieren“</b> oder <b>„Zum Startbildschirm hinzufügen“</b> wählen<br><br>Danach startet Lutz wie eine App – Updates kommen automatisch.', inst_done:'✅ Installiert! Lutz ist jetzt auf deinem Startbildschirm.', fb_btn:'🐞 Fehler melden', fb_title:'Fehler melden', fb_ph:'Was ist passiert? Zum Beispiel: „Nach der 6 konnte ich nicht nochmal würfeln.“', fb_send:'Senden', fb_cancel:'Abbrechen', fb_sending:'Wird gesendet …', fb_thanks:'Danke! Deine Meldung ist angekommen ✅', fb_fail:'Senden hat nicht geklappt – bitte Internet prüfen und nochmal versuchen.', fb_empty:'Bitte kurz beschreiben, was passiert ist.',
   upd:'🔄 Neue Version da – hier tippen zum Aktualisieren',
   other_ver:'Andere Version', other_ver_text:'Der Ersteller hat eine andere Version des Spiels ({x}). Du hast Version {v}. Alle müssen dieselbe Version benutzen – Seite neu laden oder die neue Datei schicken.', older:'ältere Version'
 },
@@ -536,7 +538,7 @@ nl:{
   host_old:'🔄 Een medespeler heeft een nieuwere versie – tik hier om te vernieuwen', host_old_c:'⚠️ De maker heeft een oudere versie – die moet vernieuwen (anders ontbreken nieuwe regels)',
   resuming:'Opnieuw verbinden met spel {c} …',
   hist_title:'Laatst gebruikt – tik om mee te doen:', ago_now:'zojuist', ago_min:'{n} min. geleden', ago_h:'{n} uur geleden',
-  fb_btn:'🐞 Fout melden', fb_title:'Fout melden', fb_ph:'Wat is er gebeurd? Bijvoorbeeld: „Na de 6 kon ik niet nog een keer gooien.“', fb_send:'Versturen', fb_cancel:'Annuleren', fb_sending:'Wordt verstuurd …', fb_thanks:'Bedankt! Je melding is aangekomen ✅', fb_fail:'Versturen is mislukt – controleer het internet en probeer opnieuw.', fb_empty:'Beschrijf kort wat er gebeurd is.',
+  inst_btn:'📲 Als app installeren', inst_title:'Als app installeren', inst_ios:'1. Tik onderaan op <b>Deel</b> (vierkant met pijl ⬆️)<br>2. Kies <b>„Zet op beginscherm“</b><br>3. Tik op <b>Voeg toe</b><br><br>Daarna start Lutz als een app – updates komen automatisch.', inst_and:'1. Open rechtsboven het <b>browsermenu</b> (⋮ of ☰)<br>2. Kies <b>„App installeren“</b> of <b>„Toevoegen aan startscherm“</b><br><br>Daarna start Lutz als een app – updates komen automatisch.', inst_done:'✅ Geïnstalleerd! Lutz staat nu op je startscherm.', fb_btn:'🐞 Fout melden', fb_title:'Fout melden', fb_ph:'Wat is er gebeurd? Bijvoorbeeld: „Na de 6 kon ik niet nog een keer gooien.“', fb_send:'Versturen', fb_cancel:'Annuleren', fb_sending:'Wordt verstuurd …', fb_thanks:'Bedankt! Je melding is aangekomen ✅', fb_fail:'Versturen is mislukt – controleer het internet en probeer opnieuw.', fb_empty:'Beschrijf kort wat er gebeurd is.',
   upd:'🔄 Nieuwe versie – tik hier om te vernieuwen',
   other_ver:'Andere versie', other_ver_text:'De maker heeft een andere versie van het spel ({x}). Jij hebt versie {v}. Iedereen moet dezelfde versie gebruiken – pagina opnieuw laden of het nieuwe bestand sturen.', older:'oudere versie'
 },
@@ -598,7 +600,7 @@ en:{
   host_old:'🔄 A player has a newer version – tap here to update', host_old_c:'⚠️ The host has an older version – they should update (new rules are missing otherwise)',
   resuming:'Reconnecting to game {c} …',
   hist_title:'Recently used – tap to join:', ago_now:'just now', ago_min:'{n} min ago', ago_h:'{n} h ago',
-  fb_btn:'🐞 Report a bug', fb_title:'Report a bug', fb_ph:'What happened? For example: “After the 6 I couldn\'t roll again.”', fb_send:'Send', fb_cancel:'Cancel', fb_sending:'Sending …', fb_thanks:'Thanks! Your report has arrived ✅', fb_fail:'Sending failed – please check the internet and try again.', fb_empty:'Please briefly describe what happened.',
+  inst_btn:'📲 Install as app', inst_title:'Install as app', inst_ios:'1. Tap <b>Share</b> at the bottom (square with arrow ⬆️)<br>2. Choose <b>“Add to Home Screen”</b><br>3. Tap <b>Add</b><br><br>Lutz then starts like an app – updates arrive automatically.', inst_and:'1. Open the <b>browser menu</b> top right (⋮ or ☰)<br>2. Choose <b>“Install app”</b> or <b>“Add to Home screen”</b><br><br>Lutz then starts like an app – updates arrive automatically.', inst_done:'✅ Installed! Lutz is now on your home screen.', fb_btn:'🐞 Report a bug', fb_title:'Report a bug', fb_ph:'What happened? For example: “After the 6 I couldn\'t roll again.”', fb_send:'Send', fb_cancel:'Cancel', fb_sending:'Sending …', fb_thanks:'Thanks! Your report has arrived ✅', fb_fail:'Sending failed – please check the internet and try again.', fb_empty:'Please briefly describe what happened.',
   upd:'🔄 New version available – tap here to update',
   other_ver:'Different version', other_ver_text:'The host has a different version of the game ({x}). You have version {v}. Everyone must use the same version – reload the page or send the new file.', older:'older version'
 }};
@@ -667,7 +669,7 @@ I18N.tr={
   host_old:'🔄 Bir oyuncuda daha yeni sürüm var – güncellemek için buraya dokun', host_old_c:'⚠️ Oyunu kuranda eski sürüm var – güncellemeli (yoksa yeni kurallar eksik)',
   resuming:'{c} oyununa yeniden bağlanılıyor …',
   hist_title:'Son kullanılan – katılmak için dokun:', ago_now:'az önce', ago_min:'{n} dk önce', ago_h:'{n} sa önce',
-  fb_btn:'🐞 Hata bildir', fb_title:'Hata bildir', fb_ph:'Ne oldu? Örneğin: „6 attıktan sonra tekrar atamadım.“', fb_send:'Gönder', fb_cancel:'İptal', fb_sending:'Gönderiliyor …', fb_thanks:'Teşekkürler! Bildirimin ulaştı ✅', fb_fail:'Gönderilemedi – lütfen interneti kontrol edip tekrar dene.', fb_empty:'Lütfen ne olduğunu kısaca yaz.',
+  inst_btn:'📲 Uygulama olarak yükle', inst_title:'Uygulama olarak yükle', inst_ios:'1. Alttaki <b>Paylaş</b> simgesine dokun (oklu kare ⬆️)<br>2. <b>„Ana Ekrana Ekle“</b> seç<br>3. <b>Ekle</b> dokun<br><br>Sonra Lutz bir uygulama gibi açılır – güncellemeler otomatik gelir.', inst_and:'1. Sağ üstte <b>tarayıcı menüsünü</b> aç (⋮ veya ☰)<br>2. <b>„Uygulamayı yükle“</b> veya <b>„Ana ekrana ekle“</b> seç<br><br>Sonra Lutz bir uygulama gibi açılır – güncellemeler otomatik gelir.', inst_done:'✅ Yüklendi! Lutz artık ana ekranında.', fb_btn:'🐞 Hata bildir', fb_title:'Hata bildir', fb_ph:'Ne oldu? Örneğin: „6 attıktan sonra tekrar atamadım.“', fb_send:'Gönder', fb_cancel:'İptal', fb_sending:'Gönderiliyor …', fb_thanks:'Teşekkürler! Bildirimin ulaştı ✅', fb_fail:'Gönderilemedi – lütfen interneti kontrol edip tekrar dene.', fb_empty:'Lütfen ne olduğunu kısaca yaz.',
   upd:'🔄 Yeni sürüm var – güncellemek için buraya dokun',
   other_ver:'Farklı sürüm', other_ver_text:'Oyunu kuranda oyunun farklı bir sürümü var ({x}). Sende sürüm {v} var. Herkes aynı sürümü kullanmalı – sayfayı yenileyin ya da yeni dosyayı gönderin.', older:'eski sürüm'
 };
@@ -1918,6 +1920,31 @@ async function checkUpdate(){
 $('updBar').onclick=()=>{ try{ sessionStorage.setItem('lutz_upd',JSON.stringify({b:newBuild,t:Date.now()})); }catch(e){} location.replace(location.pathname+'?v='+encodeURIComponent(newBuild||Date.now())); };
 setTimeout(checkUpdate,2000); setInterval(checkUpdate,3*60*1000);
 document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') checkUpdate(); });
+
+
+/* ======================= App-Installation (PWA) + Service Worker ======================= */
+const IS_APP=(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone===true;
+const ON_GH=/\.github\.io$/.test(location.hostname);
+let instEvt=null;
+if(ON_GH&&'serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+function instUpdate(){
+  const b=$('instBtn'); if(!b) return;
+  const ios=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  const mobile=ios||/Android/i.test(navigator.userAgent);
+  b.classList.toggle('hidden',!(ON_GH&&!IS_APP&&(instEvt||mobile)));
+}
+addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); instEvt=e; instUpdate(); });
+addEventListener('appinstalled',()=>{ instEvt=null; $('instBtn').classList.add('hidden'); toast(L('inst_done')); gcEvent('app-installiert'); });
+$('instBtn').onclick=async()=>{
+  if(instEvt){ const e=instEvt; instEvt=null; try{ e.prompt(); const r=await e.userChoice; if(r&&r.outcome==='accepted') gcEvent('app-installiert'); }catch(x){} instUpdate(); return; }
+  const ios=/iP(hone|ad|od)/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  $('instTxt').innerHTML=L(ios?'inst_ios':'inst_and'); $('instOv').classList.remove('hidden');
+};
+$('instOk').onclick=()=>$('instOv').classList.add('hidden');
+instUpdate();
+if(IS_APP) gcEvent('start-als-app');
 
 /* ======================= Konfetti ======================= */
 let confRAF=null;
